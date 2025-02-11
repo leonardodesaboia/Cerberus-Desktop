@@ -5,6 +5,7 @@ import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+  console.log('This is a console log from App.jsx')
 
   return (
     <>
