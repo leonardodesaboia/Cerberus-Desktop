@@ -1,59 +1,62 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import Input from '../components/Input';
+import '../styles/login.css';
 
-const Login = () => {
- const [email, setEmail] = useState('');
- const [password, setPassword] = useState('');
- const navigate = useNavigate();
-
- const handleSubmit = (e) => {
-   e.preventDefault();
-   // Add login logic here
- };
-
- return (
-   <div className="login-page">
-     <div className="pattern" />
-     
-     <div className="login-container">
-       <div className="login-content">
-         <h1>Bem vindo de volta</h1>
-         <p>Preencha os campos abaixo com seus dados</p>
-
-         <form onSubmit={handleSubmit} className="login-form">
+function LoginScreen() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+  
+    const handleSubmit = (event) => {
+      event.preventDefault();
+      console.log('Email:', email);
+      console.log('Password:', password);
+    };
+  
+    return (
+      <div className="login-container">
+        {/* Header */}
+        <div className="login-header">
+          <h1>Cerberus</h1>
+        </div>
+  
+        {/* Formulário */}
+        <div className="form-container">
+          <form onSubmit={handleSubmit} className="login-form">
+            <Input 
+              label="Email" 
+              type="email" 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Digite seu email"
+            />
             
-           <div className="form-group">
-             <label>Email</label>
-             <input 
-               type="email"
-               value={email}
-               onChange={(e) => setEmail(e.target.value)}
-               placeholder="Preencha seu email"
-               required
-             />
-           </div>
-
-           <div className="form-group" id='password'>
-             <label>Password</label>
-             <input 
-               type="password"
-               value={password}
-               onChange={(e) => setPassword(e.target.value)}
-               placeholder="Preencha sua senha"
-               required
-             />
-           </div>
-
-           <button type="submit" onClick={() => navigate('/')}>Entrar</button>
-         </form>
-
-         <p className="signup-text">
-           Não possui uma conta? <span onClick={() => navigate('/Register')}>Se inscrever</span>
-         </p>
-       </div>
-     </div>
-   </div>
- );
-};
-
-export default Login;
+            <Input 
+              label="Senha" 
+              type="password" 
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Digite sua senha"
+            />
+  
+            <div className="forgot-password">
+              <a href="#">Esqueceu senha?</a>
+            </div>
+  
+            <button type="submit" className="login-button">
+              Entrar
+            </button>
+  
+            <div className="create-account">
+              <a href="#">Crie sua conta aqui</a>
+            </div>
+          </form>
+        </div>
+  
+        <div className="wave-container">
+            <img src='/Vector.png' alt='Bottom img'/>
+        </div>
+      </div>
+    );
+  }
+  
+  export default LoginScreen;

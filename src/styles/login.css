@@ -1,0 +1,126 @@
+  /* Estilos do Container Principal */
+  .login-container {
+    min-height: 100vh;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Header */
+  .login-header {
+    background-color: var(--primary-color);
+    border-radius: 0 0 24px 24px;
+    padding: 32px 24px;
+    margin-bottom: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .login-header h1 {
+    color: white;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  /* Container do Formulário */
+  .form-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column-reverse;
+    flex-wrap: nowrap;
+    align-content: space-between;
+    justify-content: space-around;
+  }
+  
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  
+  /* Estilos do Input */
+  .input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .input-label {
+    color: #333;
+    font-size: 0.875rem;
+  }
+  
+  .input-field {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: var(--light-color);
+    font-size: 1rem;
+  }
+  
+  .input-field:focus {
+    outline: none;
+    border-color: var(--tertiary-color);
+    box-shadow: 0 0 0 2px rgba(50, 109, 25, 0.2);
+  }
+  
+  /* Links */
+  .forgot-password {
+    text-align: left;
+  }
+  
+  .forgot-password a, 
+  .create-account a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 0.875rem;
+  }
+  
+  .forgot-password a:hover, 
+  .create-account a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Botão de Login */
+  .login-button {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .login-button:hover {
+    background-color: var(--tertiary-color);
+  }
+  
+  /* Container do Wave */
+  .wave-container {
+    margin-top: auto;
+  }
+  
+  .wave {
+    background-color: var(--primary-color);
+    height: 128px;
+    width: 100%;
+    border-radius: 100% 100% 0 0;
+  }
+  
+  /* Responsividade */
+  @media (max-width: 768px) {
+    .login-header {
+      padding: 24px 16px;
+    }
+  
+    .form-container {
+      padding: 0 16px;
+    }
+  }
