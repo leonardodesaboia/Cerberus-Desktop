@@ -38,9 +38,9 @@ function LoginScreen() {
               placeholder="Digite sua senha"
             />
   
-            <div className="forgot-password">
+            {/* <div className="forgot-password">
               <a href="#">Esqueceu senha?</a>
-            </div>
+            </div> */}
   
             <button type="submit" className="login-button">
               Entrar
@@ -53,7 +53,7 @@ function LoginScreen() {
         </div>
   
         <div className="wave-container">
-            <img src='/Vector.png' alt='Bottom img'/>
+            <img src='/Vector.png' alt='Bottom img'className='wave'/>
         </div>
       </div>
     );
