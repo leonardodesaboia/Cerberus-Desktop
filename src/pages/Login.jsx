@@ -8,8 +8,9 @@ const Login = () => {
 
  const handleSubmit = (e) => {
    e.preventDefault();
-   // Add login logic here
- };
+  console.log('Email:', email);
+  console.log('Password:', password);
+  };
 
  return (
    <div className="login-page">
