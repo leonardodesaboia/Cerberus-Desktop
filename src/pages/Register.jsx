@@ -34,41 +34,100 @@ function Register() {
 
     const validators = {
       email: (value) => {
-          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-          if (!value) return 'Email é obrigatório';
-          if (!emailRegex.test(value)) return 'Email inválido';
-          return '';
-      },
+        if (!value) return 'Email é obrigatório';
+    
+        // Remove espaços em branco
+        value = value.trim();
+    
+        // Verifica se tem exatamente um @
+        const atCount = (value.match(/@/g) || []).length;
+        if (atCount !== 1) return 'Email deve conter exatamente um @';
+    
+        const [localPart, domain] = value.split('@');
+    
+        // Validações da parte local (antes do @)
+        if (!localPart || localPart.length < 3) return 'Parte local do email deve ter pelo menos 3 caracteres';
+        if (localPart.length > 64) return 'Parte local do email não pode ter mais de 64 caracteres';
+    
+        // Regex para parte local mais equilibrada
+        // Permite letras, números, pontos, hífens ou underscores
+        const localPartRegex = /^[a-zA-Z0-9][a-zA-Z0-9._-]*[a-zA-Z0-9]$/;
+        if (!localPartRegex.test(localPart)) {
+            return 'Email deve começar e terminar com letra ou número';
+        }
+    
+        // Validações do domínio (depois do @)
+        if (!domain) return 'Domínio do email não pode estar vazio';
+        if (domain.length > 255) return 'Domínio do email não pode ter mais de 255 caracteres';
+        if (!domain.includes('.')) return 'Domínio deve conter pelo menos um ponto';
+    
+        // Regex mais flexível para o domínio
+        // Permite subdomínios e TLDs mais longos
+        const domainRegex = /^[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9](\.[a-zA-Z]{2,})+$/;
+        if (!domainRegex.test(domain)) {
+            return 'Formato de domínio inválido';
+        }
+    
+        // Verifica sequências de caracteres especiais
+        if (value.includes('..') || value.includes('--') || value.includes('__')) {
+            return 'Email não pode conter sequências de caracteres especiais';
+        }
+    
+        // Verifica se começa ou termina com caracteres especiais
+        if (/^[._-]|[._-]$/.test(localPart)) {
+            return 'Email não pode começar ou terminar com caracteres especiais';
+        }
+    
+        // Verificação de padrões suspeitos
+        const suspiciousPatterns = [
+            /(.)\1{4,}/,               // Mais de 4 caracteres repetidos
+            /[^a-zA-Z0-9]{3,}/         // Mais de 2 caracteres especiais seguidos
+        ];
+    
+        for (const pattern of suspiciousPatterns) {
+            if (pattern.test(value)) {
+                return 'Formato de email inválido';
+            }
+        }
+    
+        return '';
+    },
 
       cpf: (value) => {
-          const cpfRegex = /^\d{11}$/;
-          if (!value) return 'CPF é obrigatório';
-          if (!cpfRegex.test(value)) return 'CPF deve conter 11 dígitos';
-          
-          // Validação do CPF
-          const digits = value.split('').map(Number);
-          
-          // Verifica dígitos repetidos
-          if (digits.every(digit => digit === digits[0])) return 'CPF inválido';
-          
-          // Validação do primeiro dígito verificador
-          let sum = 0;
-          for (let i = 0; i < 9; i++) {
-              sum += digits[i] * (10 - i);
-          }
-          const digit1 = (sum * 10) % 11 % 10;
-          if (digit1 !== digits[9]) return 'CPF inválido';
-          
-          // Validação do segundo dígito verificador
-          sum = 0;
-          for (let i = 0; i < 10; i++) {
-              sum += digits[i] * (11 - i);
-          }
-          const digit2 = (sum * 10) % 11 % 10;
-          if (digit2 !== digits[10]) return 'CPF inválido';
-          
-          return '';
-      },
+        // Remove formatação para validar
+        const cpfClean = value.replace(/\D/g, '');
+        
+        if (!cpfClean) return 'CPF é obrigatório';
+        if (cpfClean.length !== 11) return 'CPF deve conter 11 dígitos';
+        
+        // Verifica dígitos repetidos
+        if (/^(\d)\1{10}$/.test(cpfClean)) return 'CPF inválido';
+        
+        // Validação dos dígitos verificadores
+        let sum = 0;
+        let remainder;
+        
+        // Primeiro dígito verificador
+        for (let i = 1; i <= 9; i++) {
+            sum = sum + parseInt(cpfClean.substring(i - 1, i)) * (11 - i);
+        }
+        
+        remainder = (sum * 10) % 11;
+        if (remainder === 10 || remainder === 11) remainder = 0;
+        if (remainder !== parseInt(cpfClean.substring(9, 10))) return 'CPF inválido';
+        
+        // Segundo dígito verificador
+        sum = 0;
+        for (let i = 1; i <= 10; i++) {
+            sum = sum + parseInt(cpfClean.substring(i - 1, i)) * (12 - i);
+        }
+        
+        remainder = (sum * 10) % 11;
+        if (remainder === 10 || remainder === 11) remainder = 0;
+        if (remainder !== parseInt(cpfClean.substring(10, 11))) return 'CPF inválido';
+        
+        return '';
+    },
 
       username: (value) => {
           if (!value) return 'Username é obrigatório';
@@ -131,12 +190,19 @@ function Register() {
 
   // Função para marcar campo como tocado
   const handleBlur = (field) => () => {
-      setTouched(prev => ({ ...prev, [field]: true }));
-      const validationError = field === 'confirmPassword'
-          ? validators[field](formData[field], formData.password)
-          : validators[field](formData[field]);
-      setErrors(prev => ({ ...prev, [field]: validationError }));
-  };
+    setTouched(prev => ({ ...prev, [field]: true }));
+    
+    let valueToValidate = formData[field];
+    if (field === 'cpf') {
+        valueToValidate = formData[field].replace(/\D/g, '');
+    }
+    
+    const validationError = field === 'confirmPassword'
+        ? validators[field](formData[field], formData.password)
+        : validators[field](valueToValidate);
+    
+    setErrors(prev => ({ ...prev, [field]: validationError }));
+};
 
   // Validar ao mudar a senha (para atualizar a validação da confirmação)
   useEffect(() => {
@@ -162,7 +228,7 @@ function Register() {
         // Validar todos os campos
         const newErrors = {
             email: validators.email(formData.email),
-            cpf: validators.cpf(formData.cpf.replace(/\D/g, '')),
+            cpf: validators.cpf(formData.cpf),
             username: validators.username(formData.username),
             password: validators.password(formData.password),
             confirmPassword: validators.confirmPassword(
@@ -214,13 +280,24 @@ function Register() {
                 });
 
                 setSuccessMessage('Cadastro realizado com sucesso!');
+                console.log("email:" + formData.email);
+                console.log("cpf:" + formData.cpf);
+                console.log("username:" + formData.username);
+                console.log("password:" + formData.password);
+                console.log("confirmPassword:" + formData.confirmPassword);
+
                 
             } catch (error) {
-                console.error('Erro no cadastro:', error);
+            // Tratamento específico para erros de duplicação
+            if (error.message.includes('já está cadastrado')) {
                 setApiError(error.message);
-            } finally {
-                setIsLoading(false);
+            } else {
+                setApiError('Ocorreu um erro ao realizar o cadastro. Por favor, tente novamente.');
             }
+            console.error('Erro no cadastro:', error);
+        } finally {
+            setIsLoading(false);
+        }
         }
     };
 

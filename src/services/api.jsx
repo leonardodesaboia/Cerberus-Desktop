@@ -1,8 +1,8 @@
-export const API_URL = 'http://localhost:3000/'; 
+export const API_URL = 'http://localhost:3000'; 
 
 export const registerUser = async (userData) => {
   try {
-    const response = await fetch(`${API_URL}/register`, {
+    const response = await fetch(`${API_URL}/user`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
