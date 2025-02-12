@@ -26,37 +26,19 @@
   }
   
   /* Container do Formulário */
+  .form-container-login {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 32px;
+    background-color: white;
+    border-radius: 0 0 16px 16px;
+  }
   
   .login-form {
     display: flex;
     flex-direction: column;
     gap: 32px;
-  }
-  
-  /* Estilos do Input */
-  .input-container {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  
-  .input-label {
-    color: #333;
-    font-size: 0.875rem;
-  }
-  
-  .input-field {
-    width: 100%;
-    padding: 16px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: var(--light-color);
-    font-size: 1rem;
-  }
-  
-  .input-field:focus {
-    outline: none;
-    border-color: var(--tertiary-color);
   }
   
   /* Links */
@@ -65,14 +47,14 @@
   }
   
   .forgot-password a, 
-  .create-account a {
+  .create-account-login a {
     color: var(--primary-color);
     text-decoration: none;
     font-size: 0.875rem;
   }
   
   .forgot-password a:hover, 
-  .create-account a:hover {
+  .create-account-login a:hover {
     text-decoration: underline;
   }
   
@@ -94,6 +76,17 @@
     background-color: var(--tertiary-color);
   }
   
+  /* Container do Wave */
+  .wave-container-login {
+    margin-top: auto;
+    width: 100%;
+  }
+  
+  .wave-login {
+    max-height: 250px;
+    width: 100%;
+  }
+  
   /* Responsividade */
   @media (min-width: 768px) {
     .login-container {
@@ -109,16 +102,11 @@
       border-radius: 24px 24px 0 0;
     }
   
-    .form-container {
+    .form-container-login {
       max-width: 600px;
       padding: 48px;
       background: white;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-    }
-  
-    .input-field {
-      padding: 20px;
-      font-size: 1.1rem;
     }
   
     .login-button {
@@ -127,11 +115,11 @@
     }
   
     .forgot-password a, 
-    .create-account a {
+    .create-account-login a {
       font-size: 1rem;
     }
   
-    .wave {
+    .wave-login {
       position: fixed;
       bottom: 0;
       max-height: 100px;
@@ -141,7 +129,7 @@
   
   @media (min-width: 1200px) {
     .login-header,
-    .form-container {
+    .form-container-login {
       max-width: 800px;
     }
   

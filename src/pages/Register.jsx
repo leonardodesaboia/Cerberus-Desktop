@@ -1,34 +1,38 @@
-import { useState, useEffect } from 'react'; 
+import { useState, useEffect } from 'react';
+import { registerUser } from '../services/api';
 import Input from '../components/Input';
 import '../styles/Register.css';
 
 function Register() {
-  const [formData, setFormData] = useState({
-      email: '',
-      cpf: '',
-      username: '',
-      password: '',
-      confirmPassword: ''
-  });
+    const [formData, setFormData] = useState({
+        email: '',
+        cpf: '',
+        username: '',
+        password: '',
+        confirmPassword: ''
+    });
 
-  const [errors, setErrors] = useState({
-      email: '',
-      cpf: '',
-      username: '',
-      password: '',
-      confirmPassword: ''
-  });
+    const [errors, setErrors] = useState({
+        email: '',
+        cpf: '',
+        username: '',
+        password: '',
+        confirmPassword: ''
+    });
 
-  const [touched, setTouched] = useState({
-      email: false,
-      cpf: false,
-      username: false,
-      password: false,
-      confirmPassword: false
-  });
+    const [touched, setTouched] = useState({
+        email: false,
+        cpf: false,
+        username: false,
+        password: false,
+        confirmPassword: false
+    });
 
-  // Validadores
-  const validators = {
+    const [isLoading, setIsLoading] = useState(false);
+    const [apiError, setApiError] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
+
+    const validators = {
       email: (value) => {
           const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
           if (!value) return 'Email é obrigatório';
@@ -142,38 +146,91 @@ function Register() {
       }
   }, [formData.password]);
 
-  const handleSubmit = (event) => {
-      event.preventDefault();
-      
-      // Marcar todos os campos como tocados
-      const allTouched = Object.keys(touched).reduce((acc, key) => ({ ...acc, [key]: true }), {});
-      setTouched(allTouched);
 
-      // Validar todos os campos
-      const newErrors = {
-          email: validators.email(formData.email),
-          cpf: validators.cpf(formData.cpf),
-          username: validators.username(formData.username),
-          password: validators.password(formData.password),
-          confirmPassword: validators.confirmPassword(formData.confirmPassword, formData.password)
-      };
-      setErrors(newErrors);
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        setApiError('');
+        setSuccessMessage('');
+        
+        // Marcar todos os campos como tocados
+        const allTouched = Object.keys(touched).reduce(
+            (acc, key) => ({ ...acc, [key]: true }), 
+            {}
+        );
+        setTouched(allTouched);
 
-      // Verificar se há erros
-      const hasErrors = Object.values(newErrors).some(error => error !== '');
-      if (!hasErrors) {
-          console.log('Formulário válido:', formData);
-          // Aqui você pode enviar os dados para o servidor
-      }
-  };
+        // Validar todos os campos
+        const newErrors = {
+            email: validators.email(formData.email),
+            cpf: validators.cpf(formData.cpf.replace(/\D/g, '')),
+            username: validators.username(formData.username),
+            password: validators.password(formData.password),
+            confirmPassword: validators.confirmPassword(
+                formData.confirmPassword, 
+                formData.password
+            )
+        };
+        setErrors(newErrors);
 
-  return (
+        // Verificar se há erros
+        const hasErrors = Object.values(newErrors).some(error => error !== '');
+        
+        if (!hasErrors) {
+            setIsLoading(true);
+            try {
+                const userData = {
+                    email: formData.email,
+                    cpf: formData.cpf.replace(/\D/g, ''),
+                    username: formData.username,
+                    password: formData.password
+                };
+
+                const response = await registerUser(userData);
+                console.log('Cadastro realizado com sucesso:', response);
+                
+                // Limpar formulário após sucesso
+                setFormData({
+                    email: '',
+                    cpf: '',
+                    username: '',
+                    password: '',
+                    confirmPassword: ''
+                });
+                
+                setTouched({
+                    email: false,
+                    cpf: false,
+                    username: false,
+                    password: false,
+                    confirmPassword: false
+                });
+                
+                setErrors({
+                    email: '',
+                    cpf: '',
+                    username: '',
+                    password: '',
+                    confirmPassword: ''
+                });
+
+                setSuccessMessage('Cadastro realizado com sucesso!');
+                
+            } catch (error) {
+                console.error('Erro no cadastro:', error);
+                setApiError(error.message);
+            } finally {
+                setIsLoading(false);
+            }
+        }
+    };
+
+    return (
       <div className="register-container">
           <div className="register-header">
               <h1>Cerberus</h1>
           </div>
 
-          <div className="form-container">
+          <div className="form-container-register">
               <form onSubmit={handleSubmit} className="register-form">
                   <Input 
                       label="Email" 
@@ -231,8 +288,8 @@ function Register() {
               </form>
           </div>
 
-          <div className="wave-container">
-              <img src='/Vector.png' alt='Bottom img' className='wave'/>
+          <div className="wave-container-register">
+              <img src='/Vector.png' alt='Bottom img' className='wave-register'/>
           </div>
       </div>
   );

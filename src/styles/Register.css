@@ -1,7 +1,5 @@
-  
-  /* Container Principal */
-  .register-container {
-    min-height: 85vh;
+.register-container {
+    min-height: 100vh;
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -10,7 +8,6 @@
     overflow: hidden;
   }
   
-  /* Header */
   .register-header {
     background-color: var(--primary-color);
     padding: 16px;
@@ -29,8 +26,7 @@
     margin: 0;
   }
   
-  /* Container do Formulário */
-  .form-container {
+  .form-container-register {
     width: 100%;
     max-width: 300px;
     margin: 0 auto;
@@ -39,7 +35,6 @@
     border-radius: 0 0 16px 16px;
     position: relative;
     z-index: 1;
-    margin-top: 2.5rem;
   }
   
   .register-form {
@@ -48,7 +43,6 @@
     gap: 16px;
   }
   
-  /* Estilos do Input */
   .input-container {
     display: flex;
     flex-direction: column;
@@ -69,21 +63,12 @@
     font-size: 0.875rem;
   }
   
-  
   .input-field:focus {
     outline: none;
     border-color: var(--tertiary-color);
     box-shadow: 0 0 0 2px rgba(50, 109, 25, 0.2);
   }
-
-  .error-message {
-    color: #dc3545;
-    font-size: 0.75rem;
-    margin-top: 4px;
-  }
   
-  
-  /* Links */
   .forgot-password {
     text-align: left;
   }
@@ -100,7 +85,6 @@
     text-decoration: underline;
   }
   
-  /* Botão de register */
   .register-button {
     width: 100%;
     padding: 12px;
@@ -118,30 +102,50 @@
     background-color: var(--tertiary-color);
   }
   
-  /* Responsividade */
+  .wave-container-register {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    z-index: 0;
+  }
+  
+  .wave-register {
+    width: 100%;
+    max-height: 250px;
+  }
+
+  .input-error {
+    border-color: #dc3545;
+    background-color: #fff;
+  }
+  
+  .input-error:focus {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.25);
+  }
+  
+  .error-message {
+    color: #dc3545;
+    font-size: 0.75rem;
+    margin-top: 4px;
+  }
+  
   @media (min-width: 768px) {
     .register-container {
-      margin-top: 2rem;
       justify-content: center;
-      /* background: linear-gradient(135deg, var(--primary-color) 0%, var(--tertiary-color) 100%); */
+      min-height: 100vh;
     }
   
     .register-header {
       max-width: 450px;
-      margin-bottom: 0;
       border-radius: 24px 24px 0 0;
-      position: relative;
-      z-index: 1;
     }
   
-    .form-container {
+    .form-container-register {
       max-width: 450px;
       padding: 24px;
       background: white;
-      box-shadow: 0 8px 64px rgba(0, 0, 0, 0.2);
-      position: relative;
-      z-index: 1;
-      margin-top: 0;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
     }
   
     .input-field {
@@ -154,22 +158,17 @@
       font-size: 1rem;
     }
   
-    .forgot-password a, 
-    .create-account a {
-      font-size: 1rem;
-    }
-  
-    .wave {
-      position: fixed;
+    .wave-register {
+      position: absolute;
       bottom: 0;
       max-height: 100px;
       width: 100%;
     }
   }
   
-  @media (min-width: 1100px) {
+  @media (min-width: 1024px) {
     .register-header,
-    .form-container {
+    .form-container-register {
       max-width: 500px;
     }
   

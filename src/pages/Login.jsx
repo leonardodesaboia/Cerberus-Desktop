@@ -21,7 +21,7 @@ function LoginScreen() {
         </div>
   
         {/* Formulário */}
-        <div className="form-container">
+        <div className="form-container-login">
           <form onSubmit={handleSubmit} className="login-form">
             <Input 
               label="Email" 
@@ -47,14 +47,14 @@ function LoginScreen() {
               Entrar
             </button>
   
-            <div className="create-account">
+            <div className="create-account-login">
               <a href="#">Crie sua conta aqui</a>
             </div>
           </form>
         </div>
   
-        <div className="wave-container">
-            <img src='/Vector.png' alt='Bottom img'className='wave'/>
+        <div className="wave-container-login">
+            <img src='/Vector.png' alt='Bottom img'className='wave-login'/>
         </div>
       </div>
     );
