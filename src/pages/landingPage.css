@@ -14,9 +14,9 @@ body {
 /* Navbar */
 .navbar {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
-    background-color: #0e8b02;
+    background-color: #207511;
     padding: 15px 30px;
     position: fixed;
     width: 100%;
@@ -25,7 +25,6 @@ body {
     z-index: 1000;
     border-bottom-right-radius: 30px;
     border-bottom-left-radius: 30px;
-
 }
 
 /* Logo */
@@ -48,7 +47,7 @@ body {
 .navbar-links a {
     color: white;
     text-decoration: none;
-    font-size: 1rem;
+    font-size: 20px;
     transition: color 0.3s ease;
 }
 
@@ -58,13 +57,14 @@ body {
 
 /* Botão de Login */
 .login-btn {
-    background-color: #626462;
-    color: white;
-    padding: 8px 16px;
+    background-color: #F1F1F1;
+    color: rgb(0, 0, 0);
+    padding: 10px 20px;
     border-radius: 5px;
     text-decoration: none;
     font-weight: bold;
-    transition: background 0.6s ease;
+    margin-left: 10px;
+    transition: 0.6s;
 }
 
 .login-btn:hover {
@@ -81,45 +81,95 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
-    background: linear-gradient(135deg, #666666, #333);
+    background: linear-gradient(135deg, #666666, #868686);
     color: white;
     font-size: 2rem;
     font-weight: bold;
     padding: 20px;
-    /* margin-top: 2px;  */
 }
 
 /* Slides */
 .slide {
     position: absolute;
-    width: 80%;
-    max-width: 900px;
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
-}
-/* pra colocar as imagens */
-/* .slide:nth-child(1) {
-    background-image: url('/imagens/imagem1.jpg');
-}
-
-.slide:nth-child(2) {
-    background-image: url('/imagens/imagem2.jpg');
-}
-
-.slide:nth-child(3) {
-    background-image: url('/imagens/imagem3.jpg');
-}
-
-.slide {
     width: 100%;
     height: 100%;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-} */
+}
 
 .slide.active {
     opacity: 1;
+}
+
+/* Seção Sobre Nós */
+.about-us {
+    padding: 60px 20px;
+    background-color: white;
+    text-align: center;
+    margin: 40px auto;
+    max-width: 1000px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.about-us h2 {
+    font-size: 2.5rem;
+    color: #207511;
+    margin-bottom: 20px;
+    position: relative;
+    display: inline-block;
+}
+
+.about-us h2::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background-color: #207511;
+    margin: 10px auto 0;
+    border-radius: 2px;
+}
+
+.about-us p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #555;
+    margin-top: 20px;
+    text-align: justify;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.about-us strong {
+    color: #207511;
+    font-weight: bold;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .about-us {
+        padding: 40px 15px;
+    }
+
+    .about-us h2 {
+        font-size: 2rem;
+    }
+
+    .about-us p {
+        font-size: 1rem;
+    }
+}
+
+/* Estilo para os ícones */
+.recycle-container svg {
+    width: 50px; /* Tamanho do ícone */
+    height: 50px; /* Tamanho do ícone */
+    color: #207511; /* Cor do ícone */
+    margin-bottom: 15px; /* Espaçamento abaixo do ícone */
 }
 
 /* Botões de navegação */
@@ -136,8 +186,6 @@ body {
     transition: 0.3s;
     border-radius: 50%;
 }
-
-
 
 .prev {
     left: 20px;
@@ -188,4 +236,42 @@ body {
         width: 12px;
         height: 12px;
     }
+}
+
+/* 3 rs*/
+.container {
+    display: flex;
+    justify-content: space-around;
+    margin: 40px 0;
+    padding: 0 20px;
+}
+
+.recycle-container {
+    width: 30%;
+    padding: 25px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    text-align: center;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: 0.5s;
+}
+
+.recycle-container:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(8, 197, 103, 0.2);
+    border-bottom: px solid green;
+}
+
+.recycle-container h3 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: #207511;
+}
+
+.recycle-container p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #555;
 }
