@@ -102,8 +102,7 @@ function Login() {
     };
 
     return (
-        <div className="page-container">
-            <div className="content-wrapper">
+
                 <div className="login-container">
                     <div className="login-header">
                         <h1>Cerberus</h1>
@@ -119,7 +118,7 @@ function Login() {
                         <form onSubmit={handleSubmit} className="login-form">
                             <Input 
                                 label="Email" 
-                                type="email" 
+                                type="text" 
                                 value={formData.email}
                                 onChange={handleChange('email')}
                                 onBlur={handleBlur('email')}
@@ -152,13 +151,12 @@ function Login() {
                             </div>
                         </form>
                     </div>
-                </div>
-            </div>
+                
 
             <div className="wave-container-login">
                 <img src='/Vector.png' alt='Bottom img' className='wave-login'/>
             </div>
-        </div>
+            </div>
     );
 }
 

@@ -144,15 +144,41 @@ function Register() {
       },
 
       password: (value) => {
-          if (!value) return 'Senha é obrigatória';
-          if (value.length < 8) return 'Senha deve ter no mínimo 8 caracteres';
-          if (!/[A-Z]/.test(value)) return 'Senha deve conter pelo menos uma letra maiúscula';
-          if (!/[a-z]/.test(value)) return 'Senha deve conter pelo menos uma letra minúscula';
-          if (!/[0-9]/.test(value)) return 'Senha deve conter pelo menos um número';
-          if (!/[!@#$%^&*]/.test(value)) return 'Senha deve conter pelo menos um caractere especial (!@#$%^&*)';
-          return '';
-      },
-
+        if (!value) return 'Senha é obrigatória';
+        if (value.length < 8) return 'Senha deve ter no mínimo 8 caracteres';
+        if (value.length > 32) return 'Senha deve ter no máximo 32 caracteres';
+    
+        // Verifica se há caracteres não permitidos
+        const allowedCharsRegex = /^[a-zA-Z0-9!@#$%^&*]+$/;
+        if (!allowedCharsRegex.test(value)) {
+            return 'Senha deve conter apenas letras, números e caracteres especiais (!@#$%^&*)';
+        }
+    
+        // Verifica requisitos mínimos
+        if (!/[A-Z]/.test(value)) return 'Senha deve conter pelo menos uma letra maiúscula';
+        if (!/[a-z]/.test(value)) return 'Senha deve conter pelo menos uma letra minúscula';
+        if (!/[0-9]/.test(value)) return 'Senha deve conter pelo menos um número';
+        if (!/[!@#$%^&*]/.test(value)) return 'Senha deve conter pelo menos um caractere especial (!@#$%^&*)';
+    
+        // Verifica sequências repetidas
+        if (/(.)\1{2,}/.test(value)) {
+            return 'Senha não pode conter três ou mais caracteres iguais em sequência';
+        }
+    
+        // Verifica espaços
+        if (/\s/.test(value)) {
+            return 'Senha não pode conter espaços';
+        }
+    
+        // Verifica se todos os caracteres estão dentro do range ASCII básico
+        for (let i = 0; i < value.length; i++) {
+            if (value.charCodeAt(i) > 127) {
+                return 'Senha não pode conter emojis ou caracteres especiais não permitidos';
+            }
+        }
+    
+        return '';
+    },
       confirmPassword: (value, password) => {
           if (!value) return 'Confirmação de senha é obrigatória';
           if (value !== password) return 'As senhas não coincidem';

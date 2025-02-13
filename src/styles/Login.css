@@ -15,6 +15,7 @@
     width: 100%;
     text-align: center;
     border-radius: 0 0 24px 24px;
+    z-index: 1;
 
   }
   
@@ -33,6 +34,7 @@
     padding: 32px;
     background-color: white;
     border-radius: 0 0 16px 16px;
+    z-index: 1;
   }
   
   .login-form {
@@ -80,6 +82,7 @@
   .wave-container-login {
     margin-top: auto;
     width: 100%;
+    z-index: 0;
   }
   
   .wave-login {
