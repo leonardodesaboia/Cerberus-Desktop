@@ -95,7 +95,7 @@ const handlePoints = ()=>{
             <img src={selectedProduct.image} alt={selectedProduct.name} />
             <p>Preço: {selectedProduct.price} pontos</p>
             <button onClick={handlePoints}>Trocar</button>
-            <button className="close-btn" onClick={handleClosePopUp}>Fechar</button>
+            <button className="close-btn-points" onClick={handleClosePopUp}>Fechar</button>
           </div>
         </div>
       )}
