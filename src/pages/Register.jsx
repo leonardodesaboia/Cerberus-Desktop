@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import { registerUser } from '../services/api';
 import Input from '../components/Input';
 import '../styles/Register.css';
+import { useNavigate } from 'react-router-dom';
+
+
 
 function Register() {
     const [formData, setFormData] = useState({
@@ -31,6 +34,12 @@ function Register() {
     const [isLoading, setIsLoading] = useState(false);
     const [apiError, setApiError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+    const [formSubmitted, setFormSubmitted] = useState(false);
+    const [navigationError, setNavigationError] = useState('');
+
+
+    const navigate = useNavigate();
+
 
     const validators = {
       email: (value) => {
@@ -154,6 +163,119 @@ function Register() {
       }
   };
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+        setApiError('');
+        setSuccessMessage('');
+        
+        // Marcar todos os campos como tocados
+        const allTouched = Object.keys(touched).reduce(
+            (acc, key) => ({ ...acc, [key]: true }), 
+            {}
+        );
+        setTouched(allTouched);
+
+        // Validar todos os campos
+        const newErrors = {
+            email: validators.email(formData.email),
+            cpf: validators.cpf(formData.cpf.replace(/\D/g, '')),
+            username: validators.username(formData.username),
+            password: validators.password(formData.password),
+            confirmPassword: validators.confirmPassword(
+                formData.confirmPassword, 
+                formData.password
+            )
+        };
+
+        setErrors(newErrors);
+
+        // Verificar se há erros
+        const hasErrors = Object.values(newErrors).some(error => error !== '');
+        
+        if (!hasErrors) {
+            setIsLoading(true);
+            try {
+                // const cleanCPF = formData.cpf.replace(/\D/g, '');
+                // const lastThree = cleanCPF.slice(-3);
+                const userData = {
+                    email: formData.email,
+                    cpf: formData.cpf.replace(/\D/g, ''),
+                    username: formData.username,
+                    password: formData.password,
+                    // lastThree: lastThree
+                };
+
+                const response = await registerUser(userData);
+                setFormSubmitted(true);
+                console.log('Cadastro realizado com sucesso:', response);
+                
+                // Limpar formulário após sucesso
+                setFormData({
+                    email: '',
+                    cpf: '',
+                    username: '',
+                    password: '',
+                    confirmPassword: ''
+                });
+
+                setTouched({
+                    email: false,
+                    cpf: false,
+                    username: false,
+                    password: false,
+                    confirmPassword: false
+                });
+
+                setErrors({
+                    email: '',
+                    cpf: '',
+                    username: '',
+                    password: '',
+                    confirmPassword: ''
+                });
+
+
+                console.log("email:" + formData.email);
+                console.log("cpf:" + formData.cpf);
+                console.log("username:" + formData.username);
+                console.log("password:" + formData.password);
+                console.log("confirmPassword:" + formData.confirmPassword);
+                // console.log("lastThree:" + lastThree);
+                navigate('/');
+
+                
+            } catch (error) {
+                setFormSubmitted(false);
+                
+                // Tratamento específico para erros de duplicação
+                if (error.message.includes('duplicate key error')) {
+                    if (error.message.includes('email_1')) {
+                            setApiError('Este email já está cadastrado em nossa base de dados'); 
+                    } else if (error.message.includes('cpf_1')) {
+                            setApiError('Este CPF já está cadastrado em nossa base de dados');
+                    } else {
+                            setApiError('Este registro já existe em nossa base de dados');
+                    }
+                } else {
+                        setApiError('Ocorreu um erro ao realizar o cadastro. Por favor, tente novamente.');
+                }
+                
+                console.error('Erro no cadastro:', error);
+        } finally {
+            setIsLoading(false);
+        }
+        }
+    };
+    // if (formSubmitted) {
+    //     navigate('/');
+    // } else {
+    //     setNavigationError('Por favor, preencha e envie o formulário antes de continuar');
+    //     setTimeout(() => {
+    //         setNavigationError('');
+    //     }, 5000);
+    // }
+// };
+
   const formatCPF = (value) => {
     // Remove tudo que não é número
     const cpf = value.replace(/\D/g, '');
@@ -213,93 +335,6 @@ function Register() {
   }, [formData.password]);
 
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        setApiError('');
-        setSuccessMessage('');
-        
-        // Marcar todos os campos como tocados
-        const allTouched = Object.keys(touched).reduce(
-            (acc, key) => ({ ...acc, [key]: true }), 
-            {}
-        );
-        setTouched(allTouched);
-
-        // Validar todos os campos
-        const newErrors = {
-            email: validators.email(formData.email),
-            cpf: validators.cpf(formData.cpf),
-            username: validators.username(formData.username),
-            password: validators.password(formData.password),
-            confirmPassword: validators.confirmPassword(
-                formData.confirmPassword, 
-                formData.password
-            )
-        };
-        setErrors(newErrors);
-
-        // Verificar se há erros
-        const hasErrors = Object.values(newErrors).some(error => error !== '');
-        
-        if (!hasErrors) {
-            setIsLoading(true);
-            try {
-                const userData = {
-                    email: formData.email,
-                    cpf: formData.cpf.replace(/\D/g, ''),
-                    username: formData.username,
-                    password: formData.password
-                };
-
-                const response = await registerUser(userData);
-                console.log('Cadastro realizado com sucesso:', response);
-                
-                // Limpar formulário após sucesso
-                setFormData({
-                    email: '',
-                    cpf: '',
-                    username: '',
-                    password: '',
-                    confirmPassword: ''
-                });
-                
-                setTouched({
-                    email: false,
-                    cpf: false,
-                    username: false,
-                    password: false,
-                    confirmPassword: false
-                });
-                
-                setErrors({
-                    email: '',
-                    cpf: '',
-                    username: '',
-                    password: '',
-                    confirmPassword: ''
-                });
-
-                setSuccessMessage('Cadastro realizado com sucesso!');
-                console.log("email:" + formData.email);
-                console.log("cpf:" + formData.cpf);
-                console.log("username:" + formData.username);
-                console.log("password:" + formData.password);
-                console.log("confirmPassword:" + formData.confirmPassword);
-
-                
-            } catch (error) {
-            // Tratamento específico para erros de duplicação
-            if (error.message.includes('já está cadastrado')) {
-                setApiError(error.message);
-            } else {
-                setApiError('Ocorreu um erro ao realizar o cadastro. Por favor, tente novamente.');
-            }
-            console.error('Erro no cadastro:', error);
-        } finally {
-            setIsLoading(false);
-        }
-        }
-    };
 
     return (
       <div className="register-container">
@@ -308,7 +343,24 @@ function Register() {
           </div>
 
           <div className="form-container-register">
-              <form onSubmit={handleSubmit} className="register-form">
+            {apiError && (
+                    <div className="error-message">
+                        {apiError}
+                    </div>
+                )}
+                
+                {successMessage && (
+                    <div className="success-message">
+                        {successMessage}
+                    </div>
+                )}
+
+                {navigationError && (
+                    <div className="error-message">
+                        {navigationError}
+                    </div>
+                )}
+              <form className="register-form">
                   <Input 
                       label="Email" 
                       type="email" 
@@ -359,7 +411,7 @@ function Register() {
                       placeholder="Confirme sua senha"
                   />
 
-                  <button type="submit" className="register-button">
+                  <button type="submit" className="register-button" onClick={handleSubmit}>
                       Cadastrar
                   </button>
               </form>

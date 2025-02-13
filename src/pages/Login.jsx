@@ -3,7 +3,7 @@ import Input from '../components/Input';
 import '../styles/Login.css';
 
 
-function LoginScreen() {
+function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
   
@@ -60,4 +60,4 @@ function LoginScreen() {
     );
   }
   
-  export default LoginScreen;
+  export default Login;
