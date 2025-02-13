@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './navbar.css';
+import { getUserData, editUserData } from '../services/edit';  // Importe as funções
 
 const NavBar = () => {
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
@@ -7,10 +8,25 @@ const NavBar = () => {
   const [isEditNameOpen, setIsEditNameOpen] = useState(false);
   const [isEditMailOpen, setIsEditMailOpen] = useState(false);
 
-  const [userName, setUserName] = useState('João');
+  const [userName, setUserName] = useState('');
   const [currentEmail, setCurrentEmail] = useState('');
   const [email, setEmail] = useState('');
-  const originalEmail = 'nickminaji@gmail.com';
+  const [originalEmail, setOriginalEmail] = useState('');
+
+  // Função para carregar dados do usuário
+  useEffect(() => {
+    const loadUserData = async () => {
+      try {
+        const data = await getUserData();  
+        setUserName(data.name);
+        setCurrentEmail(data.email);
+        setOriginalEmail(data.email);  // Defina o e-mail original para validação
+      } catch (error) {
+        console.error('Erro ao carregar dados do usuário:', error);
+      }
+    };
+    loadUserData();
+  }, []);  // Carregar dados uma vez ao montar o componente
 
   const toggleDropDown = () => {
     setIsDropDownOpen(!isDropDownOpen);
@@ -33,7 +49,6 @@ const NavBar = () => {
     setEmail('');
   };
 
-  
   const handleLogout = () => {
     alert('Você saiu');
   };
@@ -46,18 +61,23 @@ const NavBar = () => {
     }
   };
 
-  const saveNameChange = () => {
+  const saveNameChange = async () => {
     if (!userName.trim()) {
       alert('Por favor, insira um nome válido');
       return;
     }
-    console.log('Novo nome salvo:', userName);
-    setIsEditNameOpen(false);
+    try {
+      const updatedData = { name: userName };
+      await editUserData(updatedData);  // Chama a função para editar os dados
+      console.log('Novo nome salvo:', userName);
+      setIsEditNameOpen(false);
+    } catch (error) {
+      console.error('Erro ao salvar nome:', error);
+    }
   };
 
-
-//validação
-  const saveEmailChange = () => {
+  // Validação do e-mail
+  const saveEmailChange = async () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!currentEmail || !email) {
@@ -80,8 +100,14 @@ const NavBar = () => {
       return;
     }
 
-    console.log('Novo email salvo:', email);
-    setIsEditMailOpen(false);
+    try {
+      const updatedData = { email };
+      await editUserData(updatedData);  // Chama a função para editar os dados
+      console.log('Novo e-mail salvo:', email);
+      setIsEditMailOpen(false);
+    } catch (error) {
+      console.error('Erro ao salvar e-mail:', error);
+    }
   };
 
   return (
@@ -100,7 +126,7 @@ const NavBar = () => {
           <img src="user.png" alt="Perfil de João" />
         </div>
 
-{/* MENU */}
+        {/* MENU */}
         {isDropDownOpen && (
           <div className="dropdown-menu">
             <button onClick={toggleEditMenu} className="dropdown-item">
@@ -113,12 +139,10 @@ const NavBar = () => {
         )}
 
         {/* EDITAR NOME DE USUARIO */}
-
         {isEditOpen && (
           <div className="edit-popup">
             <div className="popup-content">
               <h3 className="edit-title">Editar Perfil</h3>
-              
               <div className="profile-info">
                 <div className="info-group">
                   <label>Nome de usuário:</label>
@@ -129,7 +153,6 @@ const NavBar = () => {
                 </div>
 
                 {/* EDITAR EMAIL */}
-
                 <div className="info-group">
                   <label>E-mail:</label>
                   <span>{originalEmail}</span>
@@ -137,25 +160,22 @@ const NavBar = () => {
                     Editar
                   </button>
                 </div>
-              <button onClick={toggleEditMenu} className="close-btn-popup">
-                Fechar
-              </button>
+                <button onClick={toggleEditMenu} className="close-btn-popup">
+                  Fechar
+                </button>
 
-              {/* EXCLUIR CONTA */}
+                {/* EXCLUIR CONTA */}
                 <div className="delete-account-popup">
                   <button onClick={handleDeleteAccount} className="delete-btn">
                     Excluir conta
                   </button>
                 </div>
               </div>
-
-
             </div>
           </div>
         )}
 
         {/* EDIÇÃO NOME */}
-
         {isEditNameOpen && (
           <div className="edit-popup">
             <div className="popup-content">
@@ -180,7 +200,6 @@ const NavBar = () => {
         )}
 
         {/* EDIÇÃO EMAIL */}
-
         {isEditMailOpen && (
           <div className="edit-popup">
             <div className="popup-content">
