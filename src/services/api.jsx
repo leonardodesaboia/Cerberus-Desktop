@@ -21,3 +21,25 @@ export const registerUser = async (userData) => {
     throw new Error(error.message || 'Erro ao conectar com o servidor');
   }
 };
+
+export const loginUser = async (userData) => {
+    try {
+        const response = await fetch(`${API_URL}/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userData)
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || 'Erro ao fazer login');
+        }
+
+        return data;
+    } catch (error) {
+        throw error;
+    }
+};

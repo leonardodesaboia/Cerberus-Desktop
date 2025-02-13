@@ -42,65 +42,62 @@ function Register() {
 
 
     const validators = {
-      email: (value) => {
-        if (!value) return 'Email é obrigatório';
-    
-        // Remove espaços em branco
-        value = value.trim();
-    
-        // Verifica se tem exatamente um @
-        const atCount = (value.match(/@/g) || []).length;
-        if (atCount !== 1) return 'Email deve conter exatamente um @';
-    
-        const [localPart, domain] = value.split('@');
-    
-        // Validações da parte local (antes do @)
-        if (!localPart || localPart.length < 3) return 'Parte local do email deve ter pelo menos 3 caracteres';
-        if (localPart.length > 64) return 'Parte local do email não pode ter mais de 64 caracteres';
-    
-        // Regex para parte local mais equilibrada
-        // Permite letras, números, pontos, hífens ou underscores
-        const localPartRegex = /^[a-zA-Z0-9][a-zA-Z0-9._-]*[a-zA-Z0-9]$/;
-        if (!localPartRegex.test(localPart)) {
-            return 'Email deve começar e terminar com letra ou número';
-        }
-    
-        // Validações do domínio (depois do @)
-        if (!domain) return 'Domínio do email não pode estar vazio';
-        if (domain.length > 255) return 'Domínio do email não pode ter mais de 255 caracteres';
-        if (!domain.includes('.')) return 'Domínio deve conter pelo menos um ponto';
-    
-        // Regex mais flexível para o domínio
-        // Permite subdomínios e TLDs mais longos
-        const domainRegex = /^[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9](\.[a-zA-Z]{2,})+$/;
-        if (!domainRegex.test(domain)) {
-            return 'Formato de domínio inválido';
-        }
-    
-        // Verifica sequências de caracteres especiais
-        if (value.includes('..') || value.includes('--') || value.includes('__')) {
-            return 'Email não pode conter sequências de caracteres especiais';
-        }
-    
-        // Verifica se começa ou termina com caracteres especiais
-        if (/^[._-]|[._-]$/.test(localPart)) {
-            return 'Email não pode começar ou terminar com caracteres especiais';
-        }
-    
-        // Verificação de padrões suspeitos
-        const suspiciousPatterns = [
-            /(.)\1{4,}/,               // Mais de 4 caracteres repetidos
-            /[^a-zA-Z0-9]{3,}/         // Mais de 2 caracteres especiais seguidos
-        ];
-    
-        for (const pattern of suspiciousPatterns) {
-            if (pattern.test(value)) {
-                return 'Formato de email inválido';
+        email: (value) => {
+            if (!value) return 'Email é obrigatório';
+        
+            // Remove espaços em branco
+            value = value.trim();
+        
+            // Verifica se tem exatamente um @
+            const atCount = (value.match(/@/g) || []).length;
+            if (atCount !== 1) return 'Email deve conter exatamente um @';
+        
+            const [localPart, domain] = value.split('@');
+        
+            // Validações da parte local (antes do @)
+            if (!localPart || localPart.length < 3) return 'Parte local do email deve ter pelo menos 3 caracteres';
+            if (localPart.length > 64) return 'Parte local do email não pode ter mais de 64 caracteres';
+        
+            // Regex para parte local
+            const localPartRegex = /^[a-zA-Z0-9][a-zA-Z0-9._-]*[a-zA-Z0-9]$/;
+            if (!localPartRegex.test(localPart)) {
+                return 'Email deve começar e terminar com letra ou número';
             }
-        }
-    
-        return '';
-    },
+        
+            // Validações do domínio (depois do @)
+            if (!domain) return 'Domínio do email não pode estar vazio';
+            if (domain.length > 255) return 'Domínio do email não pode ter mais de 255 caracteres';
+            if (!domain.includes('.')) return 'Domínio deve conter pelo menos um ponto';
+        
+            // Nova regex para o domínio - apenas letras, pontos e hífens
+            const domainRegex = /^[a-zA-Z][-a-zA-Z.]*[a-zA-Z](\.[a-zA-Z]{2,})+$/;
+            if (!domainRegex.test(domain)) {
+                return 'Domínio deve conter apenas letras, pontos e hífens';
+            }
+        
+            // Verifica sequências de caracteres especiais
+            if (value.includes('..') || value.includes('--') || value.includes('__')) {
+                return 'Email não pode conter sequências de caracteres especiais';
+            }
+        
+            // Verifica se começa ou termina com caracteres especiais
+            if (/^[._-]|[._-]$/.test(localPart)) {
+                return 'Email não pode começar ou terminar com caracteres especiais';
+            }
+        
+            // Verificação de padrões suspeitos
+            const suspiciousPatterns = [
+                /[^a-zA-Z0-9]{3,}/         // Mais de 2 caracteres especiais seguidos
+            ];
+        
+            for (const pattern of suspiciousPatterns) {
+                if (pattern.test(value)) {
+                    return 'Formato de email inválido';
+                }
+            }
+        
+            return '';
+        },
 
       cpf: (value) => {
         // Remove formatação para validar
