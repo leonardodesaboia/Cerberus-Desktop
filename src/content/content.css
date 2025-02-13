@@ -1,145 +1,294 @@
-/* General resets for the whole page */
+/* Reset padrão */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f6f9;
-    color: #333;
-    padding: 20px;
-  }
-  
-  /* Points Section Styling */
-  .points-section {
-    background: #f8f9fa;
-    padding: 3vh 5vh;
-    border-radius: 16px;
-    text-align: center;
-    max-width: 30vh;
-    margin-top: 2vh;
-    border: 2px solid #e9ecef;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-left: 25vh;
-  }
-  
-  
-  .points-section:hover {
-    border-color: #2ecc71;
-    transform: translateY(-4px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  }
-  
-  .points-label {
-    color: #6c757d;
-    font-size: 16px;
-    margin-bottom: 6px;
-  }
-  
-  .points-value {
-    font-size: 32px;
-    font-weight: bold;
-    color: #333;
-    margin-top: 8px;
-  }
-  
-  .achievements {
-    margin-top: 30px;
-  }
-  
-  .achievements h1 {
-    font-size: 24px;
-    color: #343a40;
-    margin-bottom: 16px;
-    text-align: center;
-  }
-  
-  .achievements-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
-    margin-bottom: 20px;
-  }
-  
-  .card {
-    background: #fff;
-    border-radius: 12px;
-    padding: 16px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  }
-  
-  .card img {
-    width: 70px;
-    height: 70px;
-    object-fit: contain;
-    margin-bottom: 12px;
-    border-radius: 50%; 
-  }
-  
-  .card p {
-    font-size: 14px;
-    color: #6c757d;
-    font-weight: 600;
-  }
-  
-  /* Conquistas */
-  .achievement-card {
-    background: #f1f8f7;
-    border: 2px solid #d6e7e5;
-  }
-  
-  .achievement-card p {
-    color: #333;
-  }
-  
-  /* conquistas bloqueadas */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  .blocked-card {
-    background: #f8f9fa;
-    border: 2px solid #f1c6c6;
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f6f9;
+  color: #333;
+  padding: 20px;
+}
+
+/* Container principal */
+.content-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Seção de pontos */
+.points-section {
+  background: #f8f9fa;
+  margin-top: 12vh;
+  padding: 20px;
+  border-radius: 16px;
+  text-align: center;
+  width: 100%;
+  max-width: 300px;
+  border: 2px solid #e9ecef;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.points-section:hover {
+  border-color: #2ecc71;
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.points-label {
+  color: #6c757d;
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+.points-value {
+  font-size: 32px;
+  font-weight: bold;
+  color: #333;
+  margin-top: 8px;
+}
+
+/* Estilo de títulos */
+.achievements h1,
+.achievements-block h1 {
+  font-size: 22px;
+  color: #343a40;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+/* Seção de conquistas */
+.achievements,
+.achievements-block {
+  width: 100%;
+  max-width: 800px;
+}
+
+.achievements-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+  justify-items: center;
+}
+
+/* Cartões de conquistas */
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-width: 180px;
+  cursor: pointer;
+
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  margin-bottom: 12px;
+}
+
+.card p {
+  font-size: 14px;
+  color: #6c757d;
+  font-weight: 600;
+}
+
+
+.achievement-card {
+  background: #f1f8f7;
+  border: 2px solid #d6e7e5;
+}
+
+.achievement-card p {
+  color: #333;
+}
+
+/* Conquistas bloqueadas */
+.blocked-card {
+  background: #f8f9fa;
+  border: 2px solid #f1c6c6;
+  transition: 0.4s ease;
+  cursor: pointer;
+
+}
+
+.blocked-card p {
+  color: #c71804;
+  font-style: italic;
+  font-weight: 500;
+}
+
+/* seção da loja */
+.store {
+  width: 100%;
+  max-width: 800px;
+  text-align: center;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e9ecef;
+}
+
+.store h1 {
+  font-size: 22px;
+  color: #343a40;
+  margin-bottom: 10px;
+}
+
+.store p {
+  font-size: 16px;
+  color: #6c757d;
+  margin-bottom: 15px;
+}
+
+/* Contêiner de produtos */
+.store-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+  justify-items: center;
+}
+
+/* Cartões de produtos */
+.store-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-width: 180px;
+  cursor: pointer;
+}
+
+.store-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.store-card img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  margin-bottom: 12px;
+  /* border-radius: 50%; */
+}
+
+.store-card p {
+  font-size: 14px;
+  color: #6c757d;
+  font-weight: 600;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+  .store {
+    padding: 15px;
   }
-  
-  .blocked-card p {
-    color: #e74c3c;
-    font-style: italic;
-    font-weight: 500;
+
+  .store-container {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   }
-  
-  .achievements-block {
-    margin-top: 40px;
+
+  .store-card {
+    max-width: 150px;
   }
-  
-  .achievements-block h1 {
-    font-size: 24px;
-    color: #343a40;
-    margin-bottom: 16px;
-    text-align: center;
+}
+
+
+/* Estilos do popup */
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-content {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.popup-content img {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 10px;
+}
+
+.popup-content button {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  margin-top: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.popup-content .close-btn {
+  background: #dc3545;
+}
+
+
+
+/* Seção do dashboard */
+.dashboard {
+  margin-top: 20px;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 800px;
+}
+
+.dashboard div {
+  height: 100px;
+  background-color: #e9ecef;
+  border-radius: 8px;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+  .points-section {
+    max-width: 250px;
   }
-  
-  
+
+  .achievements-container {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+
+  .card {
+    max-width: 150px;
+  }
+
   .dashboard {
-    margin-top: 40px;
-    padding: 20px;
-    background: #ffffff;
-    border-radius: 12px;
-    border: 1px solid #e9ecef;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    padding: 15px;
   }
-  
-  .dashboard div {
-    height: 100px;
-    background-color: #e9ecef;
-    border-radius: 8px;
-  }
-  
+}
