@@ -97,7 +97,7 @@
   background-color: #f5f5f5;
 }
 
-.edit-btn{
+.edit-btn {
   background-color: #495057;
 }
 
@@ -224,19 +224,19 @@
 }
 
 .save-btn {
-  background: #28a745; /* Verde */
+  background: #28a745; 
   color: white;
 }
 
 .save-btn:hover {
-  background: #218838; /* Verde mais escuro */
+  background: #218838; 
 }
 
 .cancel-btn {
-  background: #218838; /* Cinza */
+  background: #218838; 
   color: white;
 }
 
 .cancel-btn:hover {
-  background: #5a6268; /* Cinza mais escuro */
+  background: #5a6268; 
 }
