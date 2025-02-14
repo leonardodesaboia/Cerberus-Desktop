@@ -1,24 +1,25 @@
-export const isValidEmail =(email)=>{
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export const isValidEmail = (currentEmail, email, originalEmail) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!currentEmail || !email) {
+  if (!currentEmail || !email) {
       alert('Por favor, preencha todos os campos');
-      return;
-    }
+      return false;
+  }
 
-    if (!emailRegex.test(currentEmail) || !emailRegex.test(email)) {
+  if (!emailRegex.test(currentEmail) || !emailRegex.test(email)) {
       alert('Por favor, insira emails válidos');
-      return;
-    }
+      return false;
+  }
 
-    if (currentEmail !== originalEmail) {
+  if (currentEmail !== originalEmail) {
       alert('O email atual não corresponde ao email cadastrado');
-      return;
-    }
+      return false;
+  }
 
-    if (currentEmail === email) {
+  if (currentEmail === email) {
       alert('O novo email deve ser diferente do email atual');
-      return;
-    }
+      return false;
+  }
 
-}
+  return true;
+};

@@ -291,3 +291,24 @@ body {
     padding: 15px;
   }
 }
+
+.footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #d3f5d8;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  font-size: 14px;
+  color: #333;
+}
+
+footer h4 a{
+  color: #025d28;
+  text-decoration: none;
+  font-size: medium;
+}
+footer h4 a:hover{
+  color: #037f38;
+}
+

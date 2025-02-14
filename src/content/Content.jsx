@@ -50,7 +50,7 @@ const Content = () => {
         <div className="points-label">Seu saldo de pontos</div>
         <div className="points-value">{points}</div>
       </div>
-
+  
       {/* Seção de conquistas */}
       <div className="achievements">
         <h1>Suas Conquistas</h1>
@@ -61,7 +61,7 @@ const Content = () => {
           </div>
         </div>
       </div>
-
+  
       {/* Seção de conquistas bloqueadas */}
       <div className="achievements-block">
         <h1>Conquistas Bloqueadas</h1>
@@ -72,7 +72,7 @@ const Content = () => {
           </div>
         </div>
       </div>
-
+  
       {/* Seção da loja */}
       <div className="store">
         <h1>Loja de Pontos</h1>
@@ -92,7 +92,7 @@ const Content = () => {
           ))}
         </div>
       </div>
-
+  
       {/* Pop-up para detalhes do produto */}
       {selectedProduct && (
         <div className="popup">
@@ -105,11 +105,17 @@ const Content = () => {
           </div>
         </div>
       )}
-
+  
       {/* Dashboard (não implementado, mas a estrutura está aqui) */}
       <div className="dashboard">
         <div>Gráficos ficam aqui</div>
       </div>
+  
+      {/* Footer */}
+      <footer className="footer">
+        <h4> <a href="">Conheça nosso aplicativo</a></h4>
+        <p>Cerberus 2025</p>
+      </footer>
     </div>
   );
 };
