@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './content.css';
+import TrashChart from '../graphics/TrashChart';
 
 const Content = () => {
   const [points, setPoints] = useState(98);
@@ -106,9 +107,11 @@ const Content = () => {
         </div>
       )}
   
-      {/* Dashboard (não implementado, mas a estrutura está aqui) */}
+      
       <div className="dashboard">
-        <div>Gráficos ficam aqui</div>
+        <div>
+          <TrashChart/>
+        </div>
       </div>
   
       {/* Footer */}
