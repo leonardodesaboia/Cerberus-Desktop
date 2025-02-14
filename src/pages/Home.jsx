@@ -1,7 +1,15 @@
-const Home = () => {
+import Navbar from "../components/Navbar";
+import Hero from "../components/Hero";
+import Features from "../components/Features";
+
+const LandingPage = () => {
   return (
-    <div>Home</div>
+    <main className="main">
+      <Navbar />
+      <Hero />
+      <Features />
+    </main>
   )
 }
 
-export default Home
+export default LandingPage;
