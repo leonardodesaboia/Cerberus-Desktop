@@ -3,11 +3,7 @@ export const API_URL = 'http://localhost:3000';
 
 export const getUserData = async () => {
   try {
-    // const userId = localStorage.getItem('userId');  
-    // if (!userId) {
-    //   throw new Error('Usuário não autenticado');
     
-
     const response = await fetch(`${API_URL}/user/67ae3ea09bb58d716e07a9b5`, {
       method: 'GET',
       headers: {
@@ -35,12 +31,8 @@ export const getUserData = async () => {
 // Função para editar os dados do usuário
 export const editUserData = async (updatedData) => {
   try {
-    const userId = localStorage.getItem('userId');  
-    if (!userId) {
-      throw new Error('Usuário não autenticado');
-    }
-
-    const response = await fetch(`${API_URL}/user/${userId}`, {
+   
+     const response = await fetch(`${API_URL}/user/67ae3ea09bb58d716e07a9b5`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

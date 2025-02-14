@@ -20,6 +20,26 @@ body {
   gap: 20px;
 }
 
+/* nome  */
+
+/* .welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.welcome-text {
+  font-size: 20px;
+  font-weight: bold;
+  color: #fdfdfd;
+} */
+
+.user-name {
+  font-size: 20px;
+  font-weight: bold;
+  color: #000000;
+}
+
 /* Seção de pontos */
 .points-section {
   background: #f8f9fa;
@@ -239,7 +259,7 @@ body {
 }
 
 .popup-content button {
-  /* background: #28a745; */
+  background: #28a745;
   color: white;
   border: none;
   padding: 10px 15px;
@@ -247,6 +267,7 @@ body {
   margin-top: 10px;
   cursor: pointer;
   font-size: 16px;
+  margin-left: 10px;
 }
 
 .popup-content .close-btn-points button{

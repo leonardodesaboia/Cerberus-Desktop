@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import './content.css';
-import TrashChart from '../graphics/TrashChart';
+import {getUserData} from '../services/edit'
+// import TrashChart from '../graphics/TrashChart';
 
 const Content = () => {
   const [points, setPoints] = useState(98);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [products, setProducts] = useState([]); // Novo estado para armazenar os produtos
+  const [username, setUsername] = useState('');
+
 
   
   const fetchProducts = async () => {
@@ -18,13 +21,25 @@ const Content = () => {
     }
   };
 
-  // Carregar os produtos quando o componente for montado
   useEffect(() => {
-    fetchProducts(); // Chama a função de busca assim que o componente for montado
+    const fetchUserData = async () => {
+      try {
+        const userData = await getUserData();
+        setUsername(userData.username);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
   }, []);
 
   // Função para abrir o pop-up com os detalhes do produto
-  const handleOpenPopUp = (product) => {
+  const handleOpenPopUp = async (product) => {
+    const a =  getUserData
+    console.log(a)
     setSelectedProduct(product);
   };
 
@@ -46,8 +61,13 @@ const Content = () => {
 
   return (
     <div className="content-container">
+       {/* <div className="welcome">
+        <span className="welcome-text">Bem-vindo,</span>
+        <h2 className="user-name">sofya!</h2>
+      </div> */}
       {/* Seção de pontos */}
       <div className="points-section">
+        <h2 className='user-name'  >Bem vindo(a), {username}!</h2>
         <div className="points-label">Seu saldo de pontos</div>
         <div className="points-value">{points}</div>
       </div>
@@ -110,7 +130,7 @@ const Content = () => {
       
       <div className="dashboard">
         <div>
-          <TrashChart/>
+          <h4>graficos</h4>
         </div>
       </div>
   

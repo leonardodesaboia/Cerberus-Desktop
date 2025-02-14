@@ -85,10 +85,7 @@ const NavBar = () => {
       <div className="brand">
         <h1>Cerberus</h1>
       </div>
-      <div className="welcome">
-        <span className="welcome-text">Bem-vindo,</span>
-        <h2 className="user-name">{userName}!</h2>
-      </div>
+      
       <div className="profile-container">
         <div className="profile-icon" onClick={toggleDropDown}>
           <img src="user.svg" alt={`Perfil de ${userName}`} />
@@ -113,12 +110,14 @@ const NavBar = () => {
                 value={userName}
                 onChange={(e) => setUserName(e.target.value)}
               />
+
               <label>Email Atual:</label>
               <input
                 type="email"
                 value={currentEmail}
                 onChange={(e) => setCurrentEmail(e.target.value)}
               />
+
               <label>Novo Email:</label>
               <input
                 type="email"

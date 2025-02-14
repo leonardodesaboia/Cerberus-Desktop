@@ -19,7 +19,7 @@
   color: #ffffff;
   font-weight: bolder;
 }
-
+/* 
 .welcome {
   display: flex;
   flex-direction: column;
@@ -30,13 +30,13 @@
   font-size: 20px;
   font-weight: bold;
   color: #fdfdfd;
-}
+}*/
 
 .user-name {
   font-size: 20px;
   font-weight: bold;
   color: #ffffff;
-}
+} 
 
 /* Estilo do botão de perfil */
 .profile-container {
@@ -51,9 +51,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #2e6e1f;
   cursor: pointer;
-  border: 2px solid #ddd;
   transition: transform 0.3s ease;
 }
 
