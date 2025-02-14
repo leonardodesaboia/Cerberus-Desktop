@@ -26,8 +26,8 @@ const Navbar = () => {
           
           <div className="navbar-links">
             <a href="#como-funciona" className="navbar-link">Como Funciona</a>
-            <a href="#recompensas" className="navbar-link">Recompensas</a>
-            <a href="#app" className="navbar-link">App</a>
+            {/* <a href="#recompensas" className="navbar-link">Recompensas</a>
+            <a href="#app" className="navbar-link">App</a> */}
             <button className="navbar-button">Começar</button>
           </div>
 
@@ -42,7 +42,7 @@ const Navbar = () => {
           <a href="#como-funciona" className="navbar-link">Como Funciona</a>
           {/* <a href="#recompensas" className="navbar-link">Recompensas</a>
           <a href="#app" className="navbar-link">App</a> */}
-          <button className="navbar-button">Entrar</button>
+          <button className="navbar-button">Começar</button>
         </div>
       </div>
     </nav>
