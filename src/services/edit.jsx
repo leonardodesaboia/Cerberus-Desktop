@@ -4,7 +4,7 @@ export const API_URL = 'http://localhost:3000';
 export const getUserData = async () => {
   try {
     
-    const response = await fetch(`${API_URL}/user/67ae3ea09bb58d716e07a9b5`, {
+    const response = await fetch(`${API_URL}/user/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -32,7 +32,7 @@ export const getUserData = async () => {
 export const editUserData = async (updatedData) => {
   try {
    
-     const response = await fetch(`${API_URL}/user/67ae3ea09bb58d716e07a9b5`, {
+     const response = await fetch(`${API_URL}/user/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

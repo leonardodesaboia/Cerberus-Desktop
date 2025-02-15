@@ -16,6 +16,7 @@ const Navbar = () => {
   const [newEmail, setNewEmail] = useState("");
   const [originalEmail, setOriginalEmail] = useState("");
 
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
@@ -33,6 +34,37 @@ const Navbar = () => {
   };
 
 
+  const deleteUser = async(user) =>{
+    try {
+      const response = await fetch(`http://localhost:3000/delete/${id}`,{
+        method: "DELETE"
+      })
+      if(!response.ok){
+        throw new Error("Erro ao excluir perfil")
+      }
+
+      toast.success("Perfil Excluído com sucesso!")
+      setTimeout(() =>{
+        window.location.href="/"
+      },2000)
+    } catch (error) {
+      toast.error('Algo deu errado ao excluír sua conta.')
+      console.error(error.message)
+    }
+  }
+
+  useEffect(()=>{
+    const loadUserData = async()=>{
+      try{
+        const userData = await getUserData()
+        setUserId(userData.id)
+      }catch(error){
+        toast.error("Erro ao carregar dados do usuário");
+        console.error(error)
+      }
+    }
+    loadUserData()
+  },[])
 
 
   const handleSaveChanges = async () => {
@@ -135,9 +167,11 @@ const Navbar = () => {
             <label>Novo Email:</label>
             <input type="email" value={newEmail} onChange={(e) => setNewEmail(e.target.value)} />
             
-            <button onClick={() => alert('Deletar Conta')} className="delete-account-button">
+            <button onClick={() => deleteUser(user)} className="delete-account-button">
                 Deletar Conta
               </button>
+
+
             <div className="edit-buttons">
               <button onClick={handleSaveChanges} className="save-button">Salvar</button>
               <button onClick={() => setIsEditOpen(false)} className="close-button">Fechar</button>
