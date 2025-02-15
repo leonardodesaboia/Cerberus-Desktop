@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import './navbar.css';
+import { useState, useEffect } from "react";
 import { isValidEmail } from '../validations/MailValidation';
-import { getUserData, editUserData } from '../services/edit';  // Importa as funções de API
+import { getUserData, editUserData } from '../services/edit';  
+import { Menu, X, Recycle } from "lucide-react";
+import "./navbar.css";
 
-const NavBar = () => {
+const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [userName, setUserName] = useState("");
@@ -11,24 +14,17 @@ const NavBar = () => {
   const [newEmail, setNewEmail] = useState("");
   const [originalEmail, setOriginalEmail] = useState("");
 
-  const toggleDropDown = () => {
-    setIsDropDownOpen(!isDropDownOpen);
-    setIsEditOpen(false);
-  };
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
 
-  const toggleEditMenu = () => {
-    setIsEditOpen(!isEditOpen);
-  };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleLogout = () => {
     alert("Saiu");
-  };
-
-  const handleDeleteAccount = () => {
-    const confirmDelete = window.confirm("Tem certeza que deseja deletar a conta?");
-    if (confirmDelete) {
-      alert("Conta excluída!");
-    }
   };
 
   const handleSaveChanges = async () => {
@@ -51,9 +47,9 @@ const NavBar = () => {
     }
 
     try {
-      const updatedUser = await editUserData(updates);  // Chama a função para editar os dados
+      const updatedUser = await editUserData(updates);
       setUserName(updatedUser.userName);
-      setOriginalEmail(updatedUser.email); // Atualiza o email original
+      setOriginalEmail(updatedUser.email);
       alert("Perfil atualizado com sucesso!");
     } catch (error) {
       alert(error.message);
@@ -61,11 +57,10 @@ const NavBar = () => {
     setIsEditOpen(false);
   };
 
-  // Função para carregar os dados do usuário ao montar o componente
   useEffect(() => {
     const loadUserData = async () => {
       try {
-        const userData = await getUserData(); // Chama a função para buscar os dados
+        const userData = await getUserData();
         setUserName(userData.userName);
         setCurrentEmail(userData.email);
         setOriginalEmail(userData.email);
@@ -77,66 +72,72 @@ const NavBar = () => {
     loadUserData();
   }, []);
 
-
-
-  
   return (
-    <nav className="navbar">
-      <div className="brand">
-        <h1>Cerberus</h1>
-      </div>
-      
-      <div className="profile-container">
-        <div className="profile-icon" onClick={toggleDropDown}>
-          <img src="user.svg" alt={`Perfil de ${userName}`} />
-        </div>
-        {isDropDownOpen && (
-          <div className="dropdown-menu">
-            <button onClick={toggleEditMenu} className="dropdown-item">
-              Editar Perfil
-            </button>
-            <button onClick={handleLogout} className="dropdown-item delete">
-              Sair
-            </button>
+    <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
+      <div className="navbar-container">
+        <div className="navbar-content">
+          <a href="/" className="navbar-brand">
+            <Recycle className="navbar-icon" />
+            <span>EcoPoints</span>
+          </a>
+          
+          <div className="navbar-links">
+            <a href="#how-it-works" className="navbar-link">Sobre</a>
+            <a href="#rewards" className="navbar-link">Rewards</a>
+            <a href="#app" className="navbar-link">Conheça nosso app</a>
+            <div className="profile-container">
+              <div className="profile-icon" onClick={() => setIsDropDownOpen(!isDropDownOpen)}>
+                <img src="user.svg" alt={`Perfil de ${userName}`} />
+              </div>
+              {isDropDownOpen && (
+                <div className="dropdown-menu">
+                  <button onClick={() => setIsEditOpen(true)} className="dropdown-item">Editar Perfil</button>
+                  <button onClick={handleLogout} className="dropdown-item delete">Sair</button>
+                </div>
+              )}
+            </div>  
           </div>
-        )}
-        {isEditOpen && (
-          <div className="edit-popup">
-            <div className="edit-menu">
-              <h3 className="edit-title">Editar Perfil</h3>
-              <label>Nome de Usuário:</label>
-              <input
-                type="text"
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-              />
+          
+          <button className="navbar-menu-button" onClick={() => setIsOpen(!isOpen)}>
+            {isOpen ? <X className="navbar-menu-icon" /> : <Menu className="navbar-menu-icon" />}
+          </button>
+        </div>
+      </div>
 
-              <label>Email Atual:</label>
-              <input
-                type="email"
-                value={currentEmail}
-                onChange={(e) => setCurrentEmail(e.target.value)}
-              />
+      <div className={`navbar-mobile-menu ${isOpen ? "open" : "closed"}`}>
+        <div className="navbar-mobile-links">
+          <a href="#how-it-works" className="navbar-link">Sobre</a>
+          <a href="#rewards" className="navbar-link">Rewards</a>
+          <a href="#app" className="navbar-link">Conheça nosso app</a>
+          <button className="navbar-button">Get Started</button>
+        </div>
+      </div>
 
-              <label>Novo Email:</label>
-              <input
-                type="email"
-                value={newEmail}
-                onChange={(e) => setNewEmail(e.target.value)}
-              />
-              <button onClick={handleDeleteAccount} className="delete-account-button">
+      {isEditOpen && (
+        <div className="edit-popup">
+          <div className="edit-menu">
+            <h3 className="edit-title">Editar Perfil</h3>
+            <label>Nome de Usuário:</label>
+            <input type="text" value={userName} onChange={(e) => setUserName(e.target.value)} />
+            
+            <label>Email Atual:</label>
+            <input type="email" value={currentEmail} disabled />
+            
+            <label>Novo Email:</label>
+            <input type="email" value={newEmail} onChange={(e) => setNewEmail(e.target.value)} />
+            
+            <button onClick={() => alert('Deletar Conta')} className="delete-account-button">
                 Deletar Conta
               </button>
-              <div className="edit-buttons">
-                <button onClick={handleSaveChanges} className="save-button">Salvar</button>
-                <button onClick={toggleEditMenu} className="close-button">Fechar</button>
-              </div>
+            <div className="edit-buttons">
+              <button onClick={handleSaveChanges} className="save-button">Salvar</button>
+              <button onClick={() => setIsEditOpen(false)} className="close-button">Fechar</button>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </nav>
   );
 };
 
-export default NavBar;
+export default Navbar;

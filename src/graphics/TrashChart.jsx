@@ -1,55 +1,31 @@
-// import React from "react";
-// import { Doughnut } from "react-chartjs-2";
-// import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-// import useLixoData from "../hooks/useTrashData";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import "./charts.css";
 
-// ChartJS.register(ArcElement, Tooltip, Legend);
+const data = [
+  { name: 'Plastic', amount: 45 },
+  { name: 'Metal', amount: 30 },
+  { name: 'Paper', amount: 25 },
+  { name: 'Glass', amount: 15 },
+  { name: 'Organic', amount: 35 },
+];
 
-// const TrashChart = () => {
-//   const { dados, loading, error } = useLixoData();
+const TrashChart = () => {
+  return (
+    <section className="waste-stats-section">
+      <h2 className="section-title">Waste Collection Statistics</h2>
+      <div className="chart-container">
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Bar dataKey="amount" fill="#86C26D" />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+    </section>
+  );
+};
 
-//   // if (loading) return <p>Carregando dados...</p>;
-//   // if (error) return <p>Erro: {error}</p>;
-
-//   // if (!dados) return <p>Nenhum dado disponível</p>;
-
-//   // Pegando as chaves (Plástico e Metal) e os valores (quantidade descartada)
-//   const labels = Object.keys(dados); 
-//   const values = Object.values(dados); 
-
-//   const chartData = {
-//     labels,
-//     datasets: [
-//       {
-//         label: "Lixo descartado",
-//         data: values,
-//         backgroundColor: ["rgba(255, 99, 132, 0.6)", "rgba(54, 162, 235, 0.6)"],
-//         borderColor: ["rgba(255, 99, 132, 1)", "rgba(54, 162, 235, 1)"],
-//         borderWidth: 2,
-//       },
-//     ],
-//   };
-
-//   const options = {
-//     responsive: true,
-//     plugins: {
-//       legend: {
-//         position: "top",
-//       },
-//       tooltip: {
-//         callbacks: {
-//           label: (tooltipItem) => `${tooltipItem.raw} kg`,
-//         },
-//       },
-//     },
-//   };
-
-//   return (
-//     <div style={{ width: "400px", margin: "auto" }}>
-//       <h2>Distribuição do Lixo</h2>
-//       <Doughnut data={chartData} options={options} />
-//     </div>
-//   );
-// };
-
-// export default TrashChart;
+export default TrashChart;

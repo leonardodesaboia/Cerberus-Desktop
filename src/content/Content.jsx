@@ -1,34 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import './content.css';
-import {getUserData} from '../services/edit'
-// import TrashChart from '../graphics/TrashChart';
+import { getUserData } from '../services/edit';
+import Navbar from '../components/NavBar';
+import TrashChart from '../graphics/TrashChart';
 
 const Content = () => {
   const [points, setPoints] = useState(98);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [products, setProducts] = useState([]); // Novo estado para armazenar os produtos
+  const [products, setProducts] = useState([]);
   const [username, setUsername] = useState('');
-
-
-  
-  const fetchProducts = async () => {
-    try {
-      const response = await fetch('http://localhost:3000/product'); 
-      const data = await response.json();
-      setProducts(data); 
-    } catch (error) {
-      console.error('Erro ao buscar os produtos:', error);
-    }
-  };
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const userData = await getUserData();
         setUsername(userData.username);
-        setLoading(false);
       } catch (err) {
-        setError(err.message);
+        setError('Erro ao carregar dados do usuário');
+      } finally {
         setLoading(false);
       }
     };
@@ -36,110 +27,103 @@ const Content = () => {
     fetchUserData();
   }, []);
 
-  // Função para abrir o pop-up com os detalhes do produto
-  const handleOpenPopUp = async (product) => {
-    const a =  getUserData
-    console.log(a)
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/product');
+        const data = await response.json();
+        setProducts(data);
+      } catch (error) {
+        console.error('Erro ao buscar os produtos:', error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  const handleOpenPopUp = (product) => {
     setSelectedProduct(product);
   };
 
-  // Função para fechar o pop-up
   const handleClosePopUp = () => {
     setSelectedProduct(null);
   };
 
-  // Função para trocar pontos por um produto
   const handlePoints = () => {
     if (selectedProduct && points >= selectedProduct.price) {
       setPoints(points - selectedProduct.price);
-      alert(`Você trocou seus pontos por ${selectedProduct.name}`);
-      handleClosePopUp(); // Fecha o pop-up após a troca
+      handleClosePopUp();
     } else {
-      alert("Pontos insuficientes ou produto indisponível!");
+      return
     }
   };
 
+  if (loading) return <p>Carregando...</p>;
+  if (error) return <p>{error}</p>;
+
   return (
-    <div className="content-container">
-       {/* <div className="welcome">
-        <span className="welcome-text">Bem-vindo,</span>
-        <h2 className="user-name">sofya!</h2>
-      </div> */}
-      {/* Seção de pontos */}
-      <div className="points-section">
-        <h2 className='user-name'  >Bem vindo(a), {username}!</h2>
-        <div className="points-label">Seu saldo de pontos</div>
-        <div className="points-value">{points}</div>
-      </div>
-  
-      {/* Seção de conquistas */}
-      <div className="achievements">
-        <h1>Suas Conquistas</h1>
-        <div className="achievements-container">
-          <div className="card achievement-card">
-            <img src="trophy.png" alt="Troféu" />
-            <p>10 metais descartados</p>
-          </div>
-        </div>
-      </div>
-  
-      {/* Seção de conquistas bloqueadas */}
-      <div className="achievements-block">
-        <h1>Conquistas Bloqueadas</h1>
-        <div className="achievements-container">
-          <div className="card blocked-card">
-            <img src="trophy-block.png" alt="Troféu Bloqueado" />
-            <p>Descarte 10 plásticos</p>
-          </div>
-        </div>
-      </div>
-  
-      {/* Seção da loja */}
-      <div className="store">
-        <h1>Loja de Pontos</h1>
-        <p>A partir de 10 pontos</p>
-        <div className="store-container">
-          {products.map((product) => (
-            product.isActive && (
-              <div
-                key={product._id}
-                className="card store-card"
-                onClick={() => handleOpenPopUp(product)}
-              >
-                <img src={product.image} alt={product.name} />
-                <p>{product.price} pontos</p>
+    <>
+      <Navbar />
+      <div className="page-container">
+        <div className="content-wrapper">
+          <section className="welcome-section">
+            <h1 className="welcome-title">Bem vindo(a), {username}!</h1>
+            <div className="points-card">
+              <p className="points-label">Seus pontos acumulados</p>
+              <p className="points-value animate-float">{points}</p>
+            </div>
+          </section>
+
+          <section className="achievements-section">
+            <h2 className="section-title">Suas Conquistas</h2>
+            <div className="achievements-grid">
+              <div className="achievement-card">
+                <img src="trophy.png" alt="Troféu" />
+                <p>10 metais descartados</p>
               </div>
-            )
-          ))}
+              <div className="achievement-card blocked">
+                <img src="trophy-block.png" alt="Troféu Bloqueado" />
+                <p>Descarte 10 plásticos</p>
+              </div>
+            </div>
+          </section>
+
+          <section className="store-section">
+            <h2 className="section-title">Loja de pontos</h2>
+            <p className="store-subtitle">A partir de 10 pontos</p>
+            <div className="store-grid">
+              {products.map((product) => (
+                product.isActive && (
+                  <div key={product._id} className="product-card" onClick={() => handleOpenPopUp(product)}>
+                    <img src={product.image} alt={product.name} className="product-image" />
+                    <p>{product.price} pontos</p>
+                  </div>
+                )
+              ))}
+            </div>
+          </section>
+
+          <TrashChart />
+
+          {selectedProduct && (
+            <div className="modal-overlay">
+              <div className="modal-content">
+                <button onClick={handleClosePopUp} className="close-button">Fechar</button>
+                <img src={selectedProduct.image} alt={selectedProduct.name} className="modal-image" />
+                <h2>{selectedProduct.name}</h2>
+                <p>{selectedProduct.price} pontos</p>
+                <button onClick={handlePoints} className="exchange-button">Trocar</button>
+              </div>
+            </div>
+          )}
+
+          <footer className="footer">
+            <a href="#" className="footer-link">Conheça nosso aplicativo</a>
+            <p>© Cerberus 2025</p>
+          </footer>
         </div>
       </div>
-  
-      {/* Pop-up para detalhes do produto */}
-      {selectedProduct && (
-        <div className="popup">
-          <div className="popup-content">
-            <h2>{selectedProduct.name}</h2>
-            <img src={selectedProduct.image} alt={selectedProduct.name} />
-            <p>Preço: {selectedProduct.price} pontos</p>
-            <button onClick={handlePoints}>Trocar</button>
-            <button className="close-btn-points" onClick={handleClosePopUp}>Fechar</button>
-          </div>
-        </div>
-      )}
-  
-      
-      <div className="dashboard">
-        <div>
-          <h4>graficos</h4>
-        </div>
-      </div>
-  
-      {/* Footer */}
-      <footer className="footer">
-        <h4> <a href="">Conheça nosso aplicativo</a></h4>
-        <p>Cerberus 2025</p>
-      </footer>
-    </div>
+    </>
   );
 };
 

@@ -1,335 +1,275 @@
-/* Reset padrão */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+.page-container {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #f8faf6, #edf3ea);
+  padding: 6rem 1rem 2rem; /* Added top padding for navbar */
 }
 
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f4f6f9;
-  color: #333;
-  padding: 20px;
+.content-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-/* Container principal */
-.content-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-
-/* nome  */
-
-/* .welcome {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.welcome-text {
-  font-size: 20px;
-  font-weight: bold;
-  color: #fdfdfd;
-} */
-
-.user-name {
-  font-size: 20px;
-  font-weight: bold;
-  color: #000000;
-}
-
-/* Seção de pontos */
-.points-section {
-  background: #f8f9fa;
-  margin-top: 12vh;
-  padding: 20px;
-  border-radius: 16px;
+/* Welcome Section */
+.welcome-section {
   text-align: center;
-  width: 100%;
-  max-width: 300px;
-  border: 2px solid #e9ecef;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
 }
 
-.points-section:hover {
-  border-color: #2ecc71;
-  transform: translateY(-4px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+.welcome-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #174204;
+  margin-bottom: 1.5rem;
+}
+
+.points-card {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .points-label {
-  color: #6c757d;
-  font-size: 16px;
-  margin-bottom: 6px;
+  color: #666;
+  font-size: 1.125rem;
+  margin-bottom: 0.5rem;
 }
 
 .points-value {
-  font-size: 32px;
+  font-size: 3rem;
   font-weight: bold;
-  color: #333;
-  margin-top: 8px;
+  color: #174204;
 }
 
-/* Estilo de títulos */
-.achievements h1,
-.achievements-block h1 {
-  font-size: 22px;
-  color: #343a40;
-  margin-bottom: 16px;
-  text-align: center;
+/* Achievements Section */
+.achievements-section {
+  margin: 3rem 0;
 }
 
-/* Seção de conquistas */
-.achievements,
-.achievements-block {
-  width: 100%;
-  max-width: 800px;
-}
-
-.achievements-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 20px;
-  justify-items: center;
-}
-
-/* Cartões de conquistas */
-.card {
-  background: #fff;
-  border-radius: 12px;
-  padding: 16px;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  max-width: 180px;
-  cursor: pointer;
-
-}
-
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-.card img {
-  width: 70px;
-  height: 70px;
-  object-fit: contain;
-  margin-bottom: 12px;
-}
-
-.card p {
-  font-size: 14px;
-  color: #6c757d;
+.section-title {
+  font-size: 2rem;
   font-weight: 600;
+  color: #174204;
+  margin-bottom: 1.5rem;
 }
 
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
 
 .achievement-card {
-  background: #f1f8f7;
-  border: 2px solid #d6e7e5;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(134, 194, 109, 0.2);
+  transition: transform 0.2s ease;
 }
 
-.achievement-card p {
-  color: #333;
+.achievement-card:hover {
+  transform: scale(1.02);
 }
 
-/* Conquistas bloqueadas */
-.blocked-card {
-  background: #f8f9fa;
-  border: 2px solid #f1c6c6;
-  transition: 0.4s ease;
+.achievement-icon {
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 1rem;
+  color: #86C26D;
+}
+
+.achievement-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #174204;
+}
+
+.achievement-description {
+  color: #666;
+}
+
+/* Store Section */
+.store-section {
+  margin: 3rem 0;
+}
+
+.store-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.store-subtitle {
+  color: #666;
+}
+
+.store-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.product-card {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 1rem;
+  overflow: hidden;
   cursor: pointer;
-
+  transition: transform 0.2s ease;
+  border: 1px solid rgba(134, 194, 109, 0.2);
 }
 
-.blocked-card p {
-  color: #c71804;
-  font-style: italic;
+.product-card:hover {
+  transform: scale(1.02);
+}
+
+.product-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.product-info {
+  padding: 1rem;
+}
+
+.product-name {
+  color: #174204;
+  font-weight: 600;
+  font-size: 1.125rem;
+}
+
+.product-price {
+  color: #86C26D;
   font-weight: 500;
 }
 
-/* seção da loja */
-.store {
-  width: 100%;
-  max-width: 800px;
-  text-align: center;
-  padding: 20px;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e9ecef;
-}
-
-.store h1 {
-  font-size: 22px;
-  color: #343a40;
-  margin-bottom: 10px;
-}
-
-.store p {
-  font-size: 16px;
-  color: #6c757d;
-  margin-bottom: 15px;
-}
-
-/* Contêiner de produtos */
-.store-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 20px;
-  justify-items: center;
-}
-
-/* Cartões de produtos */
-.store-card {
-  background: #fff;
-  border-radius: 12px;
-  padding: 16px;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  max-width: 180px;
-  cursor: pointer;
-}
-
-.store-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-.store-card img {
-  width: 70px;
-  height: 70px;
-  object-fit: contain;
-  margin-bottom: 12px;
-  /* border-radius: 50%; */
-}
-
-.store-card p {
-  font-size: 14px;
-  color: #6c757d;
-  font-weight: 600;
-}
-
-/* Responsividade */
-@media (max-width: 600px) {
-  .store {
-    padding: 15px;
-  }
-
-  .store-container {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  }
-
-  .store-card {
-    max-width: 150px;
-  }
-}
-
-
-/* Estilos do popup */
-.popup {
+.modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 50;
 }
 
-.popup-content {
+.modal-content {
   background: white;
-  padding: 20px;
-  border-radius: 12px;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.popup-content img {
-  width: 100px;
-  height: 100px;
-  margin-bottom: 10px;
-}
-
-.popup-content button {
-  background: #28a745;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 8px;
-  margin-top: 10px;
-  cursor: pointer;
-  font-size: 16px;
-  margin-left: 10px;
-}
-
-.popup-content .close-btn-points button{
-  background: #dc3545;
-}
-
-
-/* Seção do dashboard */
-.dashboard {
-  margin-top: 20px;
-  padding: 20px;
-  background: #ffffff;
-  border-radius: 12px;
-  border: 1px solid #e9ecef;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  max-width: 32rem;
   width: 100%;
-  max-width: 800px;
+  position: relative;
 }
 
-.dashboard div {
-  height: 100px;
-  background-color: #e9ecef;
-  border-radius: 8px;
+.modal-image {
+  width: 100%;
+  height: 16rem;
+  object-fit: cover;
+  border-radius: 0.75rem;
+  margin-bottom: 1rem;
 }
 
-/* Responsividade */
-@media (max-width: 600px) {
-  .points-section {
-    max-width: 250px;
-  }
-
-  .achievements-container {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  }
-
-  .card {
-    max-width: 150px;
-  }
-
-  .dashboard {
-    padding: 15px;
-  }
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #174204;
+  margin-bottom: 0.5rem;
 }
 
+.modal-price {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #86C26D;
+  margin-bottom: 1rem;
+}
+.button-group {
+  display: flex;
+  gap: 1rem;
+}
+
+.exchange-button {
+  flex: 1;
+  background: #174204;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.exchange-button:hover {
+  background: #1f5406;
+}
+
+.close-button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  border: 1px solid #e5e5e5;
+  background: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  color: #666;
+}
+
+.close-button:hover {
+  background: #f5f5f5;
+}
+
+.cancel-button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  border: 1px solid #e5e5e5;
+  background: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.cancel-button:hover {
+  background: #f5f5f5;
+}
+
+/* Footer */
 .footer {
   text-align: center;
-  padding: 20px;
-  background-color: #d3f5d8;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  font-size: 14px;
-  color: #333;
+  padding: 2rem 0;
+  margin-top: 3rem;
 }
 
-footer h4 a{
-  color: #025d28;
+.footer-link {
+  color: #174204;
+  font-weight: 500;
   text-decoration: none;
-  font-size: medium;
-}
-footer h4 a:hover{
-  color: #037f38;
+  display: block;
+  margin-bottom: 1rem;
 }
 
+.footer-link:hover {
+  color: #326D19;
+}
+
+.footer-text {
+  color: #666;
+}
+
+/* Animations */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+} 
