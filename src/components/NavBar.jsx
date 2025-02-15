@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { isValidEmail } from '../validations/MailValidation';
 import { getUserData, editUserData } from '../services/edit';  
 import { Menu, X, Recycle } from "lucide-react";
+import {toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import "./navbar.css";
 
 const Navbar = () => {
@@ -23,9 +25,15 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+
+
+
   const handleLogout = () => {
     alert("Saiu");
   };
+
+
+
 
   const handleSaveChanges = async () => {
     const updates = {};
@@ -42,7 +50,7 @@ const Navbar = () => {
     }
 
     if (Object.keys(updates).length === 0) {
-      alert("Nenhuma alteração foi feita.");
+      toast.warn("Nenhuma alteração foi feita.");
       return;
     }
 
@@ -50,9 +58,10 @@ const Navbar = () => {
       const updatedUser = await editUserData(updates);
       setUserName(updatedUser.userName);
       setOriginalEmail(updatedUser.email);
-      alert("Perfil atualizado com sucesso!");
+      toast.success("Perfil atualizado com sucesso!");
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
+      console.error(error)
     }
     setIsEditOpen(false);
   };
@@ -65,7 +74,8 @@ const Navbar = () => {
         setCurrentEmail(userData.email);
         setOriginalEmail(userData.email);
       } catch (error) {
-        alert(error.message);
+        toast.error(error.message);
+        console.error(error)
       }
     };
 
@@ -107,7 +117,6 @@ const Navbar = () => {
       <div className={`navbar-mobile-menu ${isOpen ? "open" : "closed"}`}>
         <div className="navbar-mobile-links">
           <a href="#how-it-works" className="navbar-link">Sobre</a>
-          <a href="#rewards" className="navbar-link">Rewards</a>
           <a href="#app" className="navbar-link">Conheça nosso app</a>
           <button className="navbar-button">Get Started</button>
         </div>

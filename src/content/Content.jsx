@@ -3,6 +3,8 @@ import './content.css';
 import { getUserData } from '../services/edit';
 import Navbar from '../components/NavBar';
 import TrashChart from '../graphics/TrashChart';
+import {toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const Content = () => {
   const [points, setPoints] = useState(98);
@@ -19,6 +21,7 @@ const Content = () => {
         setUsername(userData.username);
       } catch (err) {
         setError('Erro ao carregar dados do usuário');
+        toast.error('Erro ao carregar dados do usuário')
       } finally {
         setLoading(false);
       }
@@ -35,6 +38,8 @@ const Content = () => {
         setProducts(data);
       } catch (error) {
         console.error('Erro ao buscar os produtos:', error);
+        toast.error('Erro ao carregar os produtos')
+
       }
     };
 
@@ -52,9 +57,10 @@ const Content = () => {
   const handlePoints = () => {
     if (selectedProduct && points >= selectedProduct.price) {
       setPoints(points - selectedProduct.price);
+      toast.success('Troca realizada com sucesso!');
       handleClosePopUp();
     } else {
-      return
+      toast.error('Pontos insuficientes para esta troca.');
     }
   };
 
@@ -118,7 +124,6 @@ const Content = () => {
           )}
 
           <footer className="footer">
-            <a href="#" className="footer-link">Conheça nosso aplicativo</a>
             <p>© Cerberus 2025</p>
           </footer>
         </div>
