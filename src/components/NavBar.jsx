@@ -11,10 +11,12 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [userName, setUserName] = useState("");
   const [currentEmail, setCurrentEmail] = useState("");
   const [newEmail, setNewEmail] = useState("");
   const [originalEmail, setOriginalEmail] = useState("");
+
 
 
   useEffect(() => {
@@ -28,12 +30,12 @@ const Navbar = () => {
 
 
 
-
+// implementar pra sair 
   const handleLogout = () => {
     alert("Saiu");
   };
 
-
+//deleção do usuario do banco
   const deleteUser = async(user) =>{
     try {
       const response = await fetch(`http://localhost:3000/delete/${id}`,{
@@ -53,6 +55,7 @@ const Navbar = () => {
     }
   }
 
+ //carregar dados do usuario
   useEffect(()=>{
     const loadUserData = async()=>{
       try{
@@ -65,8 +68,9 @@ const Navbar = () => {
     }
     loadUserData()
   },[])
+ 
 
-
+//salvar mudanças (user e email)
   const handleSaveChanges = async () => {
     const updates = {};
 
@@ -85,7 +89,7 @@ const Navbar = () => {
       toast.warn("Nenhuma alteração foi feita.");
       return;
     }
-
+//atualizar user e email
     try {
       const updatedUser = await editUserData(updates);
       setUserName(updatedUser.userName);
@@ -115,6 +119,7 @@ const Navbar = () => {
   }, []);
 
   return (
+    //logo
     <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
       <div className="navbar-container">
         <div className="navbar-content">
@@ -123,14 +128,16 @@ const Navbar = () => {
             <span>EcoPoints</span>
           </a>
           
+          {/* links sobre, app  */}
           <div className="navbar-links">
-            <a href="#how-it-works" className="navbar-link">Sobre</a>
-            <a href="#rewards" className="navbar-link">Rewards</a>
             <a href="#app" className="navbar-link">Conheça nosso app</a>
+
+            {/* conta popup */}
             <div className="profile-container">
               <div className="profile-icon" onClick={() => setIsDropDownOpen(!isDropDownOpen)}>
                 <img src="user.svg" alt={`Perfil de ${userName}`} />
               </div>
+              {/* dropdown */}
               {isDropDownOpen && (
                 <div className="dropdown-menu">
                   <button onClick={() => setIsEditOpen(true)} className="dropdown-item">Editar Perfil</button>
@@ -167,11 +174,11 @@ const Navbar = () => {
             <label>Novo Email:</label>
             <input type="email" value={newEmail} onChange={(e) => setNewEmail(e.target.value)} />
             
-            <button onClick={() => deleteUser(user)} className="delete-account-button">
+            <button onClick={() => setIsDeleteOpen(true)} className="delete-account-button">
                 Deletar Conta
               </button>
 
-
+{/* salvar alterações ou fechar */}
             <div className="edit-buttons">
               <button onClick={handleSaveChanges} className="save-button">Salvar</button>
               <button onClick={() => setIsEditOpen(false)} className="close-button">Fechar</button>
@@ -179,6 +186,20 @@ const Navbar = () => {
           </div>
         </div>
       )}
+
+{/* confirmação de deleção da conta (popup) */}
+        {isDeleteOpen &&(
+          <div className="modal-overlay delete-overlay">
+            <div className="modal-content delete-modal">
+              <h3>Tem certeza que deseja excluir sua conta?</h3>
+              <div className="delete-buttons">
+                <button onClick={deleteUser} className="confirm-delete">Confirmar</button>
+                <button onClick={()=> setIsDeleteOpen(false)} className="cancel-delete">Cancelar</button>
+              </div>
+            </div>
+          </div>
+        )}
+
     </nav>
   );
 };
