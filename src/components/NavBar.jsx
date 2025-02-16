@@ -18,7 +18,7 @@ const Navbar = () => {
   const [originalEmail, setOriginalEmail] = useState("");
 
 
-
+//evita vazamento de memoria (p evento nn ficar rodando de forma desnecessaria)
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
@@ -84,7 +84,7 @@ const Navbar = () => {
       }
       updates.email = newEmail;
     }
-
+//array cm tds as chaves
     if (Object.keys(updates).length === 0) {
       toast.warn("Nenhuma alteração foi feita.");
       return;

@@ -11,6 +11,7 @@ const Content = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [products, setProducts] = useState([]);
   const [achievements, setAchievents] = useState([]);
+  const [lockedAchievements, setLockedAchievements] = useState([]);
   const [username, setUsername] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -37,13 +38,21 @@ const Content = () => {
     const fetchachievements = async() =>{
       try{
         const userData = await getUserData();
-        setAchievents(userData.achievements)
+        const allAchievements = userData.achievements || []
+
+        const unlockedAchievements = allAchievements.filter(a => a.unlocked)
+        const lockedAchievements = allAchievements.filter(a => !a.unlocked)
+
+        setAchievents(unlockedAchievements)
+        setLockedAchievements(lockedAchievements)
+
       }catch(error){
         setError("Nenhuma conquista encontrada.")
       }
     }
     fetchachievements()
   },[])
+
 
   //carregar produtos da loja
   useEffect(() => {
@@ -104,20 +113,25 @@ const Content = () => {
           <section className="achievements-section">
             <h2 className="section-title">Suas Conquistas</h2>
             <div className="achievements-grid">
-              <div className="achievement-card">
-                <img src="trophy.png" alt="Troféu" />
-                <p>10 metais descartados</p>
+            {achievements.map((achievement)=>(
+              <div key={achievement.id} className="achievement-card">
+                <img src={achievement.image} alt="Troféu" />
+                <p>{achievement.name}</p>
               </div>
+            ))}
             </div>
           </section>
-
+          
+{/* conquista bloqueada */}
           <section className="achievements-section">
             <h2 className="section-title">Conquistas Bloqueadas</h2>
             <div className="achievements-grid">
-              <div className="achievement-card blocked">
-                <img src="trophy-block.png" alt="Troféu Bloqueado" />
-                <p>Descarte 10 plásticos</p>
+              {lockedAchievements.map((achievement)=>(
+                <div key={achievement.id} className="achievement-card blocked">
+                <img src={achievement.image} alt="Troféu Bloqueado" />
+                <p>{achievement.name}</p>
               </div>
+              ))}
             </div>
           </section>
 
