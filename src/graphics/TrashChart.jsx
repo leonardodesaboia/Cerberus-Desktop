@@ -1,28 +1,76 @@
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import "./charts.css";
+import {getUserData} from '../services/edit'
+import { useEffect, useState } from 'react';
 
-const data = [
-  { name: 'Plastic', amount: 45 },
-  { name: 'Metal', amount: 30 },
-  { name: 'Paper', amount: 25 },
-  { name: 'Glass', amount: 15 },
-  { name: 'Organic', amount: 35 },
-];
+const COLORS = { Plastic: "#FFBB28", Metal: "#FF8042" };
 
 const TrashChart = () => {
+  const [data, setData] = useState([])
+  const [total, setTotal] = useState(0);
+
+  useEffect(()=>{
+    const fetchData = async ()=>{
+      try{
+        const userData = await getUserData() //chaamar a func q busca os dados
+
+        //filtrar os dados especificos
+        const filterData =[
+          {name: "Plastic", amount: userData.paperDiscarted || 0},
+          {name: "Metal", amount: userData.metalDiscarted || 0}
+
+        ]
+        const totalAmount = formattedData.reduce((sum, item) => sum + item.value, 0); //calculo do lixo descart
+
+        setData(filterData)
+        setData(totalAmount)
+      }catch(error){
+        console.error("Erro ao obter dados do usuário", error)
+      }
+    }
+    fetchData()
+  },[])
+
+
   return (
     <section className="waste-stats-section">
-      <h2 className="section-title">Waste Collection Statistics</h2>
+      <h2 className="section-title">Suas estatísticas:</h2>
       <div className="chart-container">
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
+        <ResponsiveContainer width="50%" height={300}>
+          <PieChart>
+            <Pie
+              data={data}
+              dataKey="value"
+              nameKey="name"
+              cx="50%"
+              cy="50%"
+              outerRadius={100}
+              label
+            >
+              {data.map((entry) => (
+                <Cell key={entry.name} fill={COLORS[entry.name]} />
+              ))}
+            </Pie>
             <Tooltip />
-            <Bar dataKey="amount" fill="#86C26D" />
-          </BarChart>
+          </PieChart>
         </ResponsiveContainer>
+
+        {/* Legenda  */}
+        
+        <div className="legend-container">
+          {data.map((entry) => (
+            <div key={entry.name} className="legend-item">
+              <span
+                className="legend-color"
+                style={{ backgroundColor: COLORS[entry.name] }}
+              ></span>
+              {entry.name}: {entry.value} kg
+            </div>
+          ))}
+          <div className="legend-item total">
+            <strong>Total:</strong> {total} kg
+          </div>
+        </div>
       </div>
     </section>
   );
