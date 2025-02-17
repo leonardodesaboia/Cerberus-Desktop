@@ -79,11 +79,11 @@
   }
   
   .navbar-link:hover {
-    color: var(--eco-secondary);
+    color: var(--secondary-color);
   }
   
   .navbar-button {
-    background: var(--eco-success);
+    background: var(--tertiary-color);
     color: white;
     padding: 0.5rem 1.5rem;
     border-radius: 9999px;
@@ -91,7 +91,7 @@
   }
   
   .navbar-button:hover {
-    background: var(--eco-primary);
+    background: var(--secondary-color);
   }
   
   @media (min-width: 768px) {

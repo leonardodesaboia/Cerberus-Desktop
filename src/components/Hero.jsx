@@ -27,7 +27,7 @@ const Hero = () => {
         <div className="hero-showcase">
           <div className="showcase-item">
             <div className="showcase-icon">
-              <Zap className="h-6 w-6" />
+              <Zap className="h-6 w-6" style={{ color: "black" }} />
             </div>
             <div className="showcase-content">
               <h3 className="showcase-title">Tecnologia Avançada</h3>
@@ -39,7 +39,7 @@ const Hero = () => {
 
           <div className="showcase-item">
             <div className="showcase-icon">
-              <ShieldCheck className="h-6 w-6" />
+              <ShieldCheck style={{ color: "black" }}/>
             </div>
             <div className="showcase-content">
               <h3 className="showcase-title">100% Seguro</h3>
@@ -51,7 +51,7 @@ const Hero = () => {
 
           <div className="showcase-item">
             <div className="showcase-icon">
-              <TreeDeciduous className="h-6 w-6" />
+              <TreeDeciduous style={{ color: "black" }} />
             </div>
             <div className="showcase-content">
               <h3 className="showcase-title">Impacto Real</h3>
@@ -63,7 +63,7 @@ const Hero = () => {
 
           <div className="showcase-item">
             <div className="showcase-icon">
-              <Lightbulb className="h-6 w-6" />
+              <Lightbulb style={{ color: "black" }} />
             </div>
             <div className="showcase-content">
               <h3 className="showcase-title">Educação Ambiental</h3>
