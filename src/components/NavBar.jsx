@@ -60,7 +60,7 @@ const Navbar = () => {
     const loadUserData = async()=>{
       try{
         const userData = await getUserData()
-        setUserId(userData.id)
+        setUserId(id)
       }catch(error){
         toast.error("Erro ao carregar dados do usuário");
         console.error(error)
@@ -74,9 +74,9 @@ const Navbar = () => {
   const handleSaveChanges = async () => {
     const updates = {};
 
-    if (userName.trim() !== "") {
-      updates.userName = userName;
-    }
+    // if (userName.trim() !== "") {
+    //   updates.userName = userName;
+    // }
 
     if (newEmail.trim()) {
       if (!isValidEmail(currentEmail, newEmail, originalEmail)) {

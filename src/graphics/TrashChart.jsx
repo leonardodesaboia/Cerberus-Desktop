@@ -3,7 +3,7 @@ import "./charts.css";
 import {getUserData} from '../services/edit'
 import { useEffect, useState } from 'react';
 
-const COLORS = { Plastic: "#FFBB28", Metal: "#FF8042" };
+const COLORS = { Plástico: "#FFBB28", Metal: "#FF8042" };
 
 const TrashChart = () => {
   const [data, setData] = useState([])
@@ -13,17 +13,19 @@ const TrashChart = () => {
     const fetchData = async ()=>{
       try{
         const userData = await getUserData() //chaamar a func q busca os dados
-
+        
         //filtrar os dados especificos
         const filterData =[
-          {name: "Plastic", amount: userData.paperDiscarted || 0},
+          {name: "Plástico", amount: userData.plasticDiscarted || 0},
           {name: "Metal", amount: userData.metalDiscarted || 0}
 
         ]
-        const totalAmount = formattedData.reduce((sum, item) => sum + item.value, 0); //calculo do lixo descart
-
+       
+        const totalAmount = userData.plasticDiscarted + userData.metalDiscarted; //calculo do lixo descart
+        //const totalAmount = formattedData.reduce((sum, item) => sum + item.value, 0); //calculo do lixo descart
+        
         setData(filterData)
-        setData(totalAmount)
+        setTotal(totalAmount)
       }catch(error){
         console.error("Erro ao obter dados do usuário", error)
       }
@@ -40,7 +42,7 @@ const TrashChart = () => {
           <PieChart>
             <Pie
               data={data}
-              dataKey="value"
+              dataKey="amount"
               nameKey="name"
               cx="50%"
               cy="50%"
@@ -64,11 +66,11 @@ const TrashChart = () => {
                 className="legend-color"
                 style={{ backgroundColor: COLORS[entry.name] }}
               ></span>
-              {entry.name}: {entry.value} kg
+              {entry.name}: {entry.amount} Descartados
             </div>
           ))}
           <div className="legend-item total">
-            <strong>Total:</strong> {total} kg
+            <strong>Total:</strong> {total} Descartados
           </div>
         </div>
       </div>

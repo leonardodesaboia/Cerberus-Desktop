@@ -4,7 +4,7 @@ export const API_URL = 'http://localhost:3000';
 export const getUserData = async () => {
   try {
     
-    const response = await fetch(`${API_URL}/user/${id}`, {
+    const response = await fetch(`${API_URL}/user/67b36bb2f5f5a0d4dea71eb3`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -28,11 +28,39 @@ export const getUserData = async () => {
   }
 };
 
+
+
+// pontos
+export const editPoints = async () => {
+  try {
+    //67b36bb2f5f5a0d4dea71eb3
+    const response = await fetch(`${API_URL}/log`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }); 
+
+    const data = await response.json();
+    console.log(data.points)
+
+    
+    if (!response.ok) {
+      throw new Error(data.message || 'Erro ao obter os pontos do usuário');
+    }
+
+    return data;
+  } catch (error) {
+    throw new Error(error.message || 'Erro ao obter os pontos do usuário');
+  }
+};
+
+//fazer essse !!!!!!!
 // Função para editar os dados do usuário
 export const editUserData = async (updatedData) => {
   try {
    
-     const response = await fetch(`${API_URL}/user/${id}`, {
+     const response = await fetch(`${API_URL}/user/67b36bb2f5f5a0d4dea71eb3`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
