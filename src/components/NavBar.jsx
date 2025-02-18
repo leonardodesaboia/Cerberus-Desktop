@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { isValidEmail } from '../validations/MailValidation';
-import { getUserData, editUserData,updateUserPoints } from '../services/edit';  
+import { getUserData, editUserData} from '../services/edit';  
 import { Menu, X, Recycle } from "lucide-react";
 import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -60,9 +60,9 @@ const Navbar = () => {
     const loadUserData = async()=>{
       try{
         const userData = await getUserData()
-        setUserId(id)
-        setUserName(userData.userName)
-        setCurrentEmail(userData.email)
+        setUserName(userData.userName || "");  // Garante que userName nunca seja undefined
+      setCurrentEmail(userData.email || ""); // Garante que email nunca seja undefined
+      setOriginalEmail(userData.email || "");
       }catch(error){
         toast.error("Erro ao carregar dados do usuário");
         console.error(error)
@@ -76,9 +76,9 @@ const Navbar = () => {
   const handleSaveChanges = async () => {
     const updates = {};
 
-    // if (userName.trim() !== "") {
-    //   updates.userName = userName;
-    // }
+    if (userName.trim()) {
+      updates.userName = userName;
+    }
 
     if (newEmail.trim()) {
       if (!isValidEmail(currentEmail, newEmail, originalEmail)) {
@@ -86,6 +86,7 @@ const Navbar = () => {
       }
       updates.email = newEmail;
     }
+    console.log(updates)
 //array cm tds as chaves
     if (Object.keys(updates).length === 0) {
       toast.warn("Nenhuma alteração foi feita.");
@@ -97,6 +98,7 @@ const Navbar = () => {
       const updatedUser = await editUserData(updates);
       setUserName(updatedUser.userName);
       setOriginalEmail(updatedUser.email);
+      console.log("usuario:"+updatedUser+"\n")
       
       toast.success("Perfil atualizado com sucesso!");
     } catch (error) {
@@ -171,7 +173,7 @@ const Navbar = () => {
           <div className="edit-menu">
             <h3 className="edit-title">Editar Perfil</h3>
             <label>Nome de Usuário:</label>
-            <input type="text" value={userName} onChange={(e) => setUserName(e.target.value)} />
+            <input type="text" value={userName || ""} onChange={(e) => setUserName(e.target.value)} />
             
             <label>Email Atual:</label>
             <input type="email" value={currentEmail} disabled />

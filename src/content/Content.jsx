@@ -5,6 +5,7 @@ import Navbar from '../components/NavBar';
 import TrashChart from '../graphics/TrashChart';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { updateUserPoints } from '../services/edit'
 
 const Content = () => {
   const [points, setPoints] = useState("");
@@ -109,13 +110,14 @@ const Content = () => {
     }
   
     try {
-      await updateUserPoints(newPoints); // `userId` precisa ser salvo no estado
+      await updateUserPoints(newPoints); 
       setPoints(newPoints);
+      console.log("fucionouuuw")
       toast.success('Troca realizada com sucesso!');
       handleClosePopUp();
     } catch (error) {
       console.error('Erro ao atualizar pontos:', error);
-      toast.error('Erro ao atualizar pontos no banco de dados.');
+      
     }
   };
 

@@ -8,7 +8,7 @@ export const products = async (userData) => {
     const response = await fetch(`${API_URL}/product?`, {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       }
     });
 

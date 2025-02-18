@@ -32,8 +32,8 @@ export const getUserData = async () => {
 
 
 // pontos
-export const updateUserPoints = async (userId, newPoints) => {
-  const response = await fetch(`http://localhost:3000/user/67b36bb2f5f5a0d4dea71eb3/points`, {
+export const updateUserPoints = async (newPoints) => {
+  const response = await fetch(`http://localhost:3000/user/67b36bb2f5f5a0d4dea71eb3`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ points: newPoints }),
