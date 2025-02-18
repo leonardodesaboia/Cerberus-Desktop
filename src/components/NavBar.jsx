@@ -60,8 +60,8 @@ const Navbar = () => {
     const loadUserData = async()=>{
       try{
         const userData = await getUserData()
-        setUserName(userData.userName || "");  // Garante que userName nunca seja undefined
-      setCurrentEmail(userData.email || ""); // Garante que email nunca seja undefined
+        setUserName(userData.userName || "");
+      setCurrentEmail(userData.email || ""); 
       setOriginalEmail(userData.email || "");
       }catch(error){
         toast.error("Erro ao carregar dados do usuário");
@@ -77,7 +77,7 @@ const Navbar = () => {
     const updates = {};
 
     if (userName.trim()) {
-      updates.userName = userName;
+      updates.username = userName;
     }
 
     if (newEmail.trim()) {
@@ -169,7 +169,7 @@ const Navbar = () => {
 
 {/* editar nome e email popup */}
       {isEditOpen && (
-        <div className="edit-popup">
+        <div className="edit-popup" style={{zIndex : "0"}}>
           <div className="edit-menu">
             <h3 className="edit-title">Editar Perfil</h3>
             <label>Nome de Usuário:</label>
@@ -198,7 +198,7 @@ const Navbar = () => {
 
 {/* confirmação de deleção da conta (popup) */}
         {isDeleteOpen &&(
-          <div className="modal-overlay delete-overlay">
+          <div className="modal-overlay delete-overlay" style={{zIndex : '1'}}>
             <div className="modal-content delete-modal">
               <h3>Tem certeza que deseja excluir sua conta?</h3>
               <div className="delete-buttons">

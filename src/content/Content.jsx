@@ -1,45 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import './content.css';
-import { getUserData } from '../services/edit';
-import Navbar from '../components/NavBar';
-import TrashChart from '../graphics/TrashChart';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { updateUserPoints } from '../services/edit'
+import React, { useState, useEffect } from "react";
+import "./content.css";
+import { getUserData, updateUserPoints } from "../services/edit";
+import Navbar from "../components/NavBar";
+import TrashChart from "../graphics/TrashChart";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Content = () => {
-  const [points, setPoints] = useState("");
+  const [points, setPoints] = useState(0);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [products, setProducts] = useState([]);
-  const [achievements, setAchievements] = useState([]);
-  const [lockedAchievements, setLockedAchievements] = useState([
-    { id: 1, name: '10 Plásticos Reciclados', threshold: 10, type: 'plastic', image: 'trophy.svg' },
-    { id: 2, name: '20 Metais Reciclados', threshold: 20, type: 'metal', image: 'trophy.svg' },
-    { id: 3, name: '120 Plásticos Reciclados', threshold: 120, type: 'plastic', image: 'trophy.svg' },
-    { id: 4, name: '140 Metais Reciclados', threshold: 140, type: 'metal', image: 'trophy.svg' },
-  ]);
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(true);
-  const [trashStats, setTrashStats] = useState({ plastic: 0, metal: 0 });
   const [error, setError] = useState(null);
-  
+  const [trashStats, setTrashStats] = useState({ plastic: 0, metal: 0 });
+  const [unlockedAchievementIds, setUnlockedAchievementIds] = useState([]);
 
-  // Carregar dados do usuário
+  // Lista conquistas
+  const allAchievements = [
+    { id: 1, name: "10 Plásticos Reciclados", threshold: 10, type: "plastic", image: "trophy.svg" },
+    { id: 2, name: "20 Metais Reciclados", threshold: 20, type: "metal", image: "trophy.svg" },
+    { id: 3, name: "110 Plásticos Reciclados", threshold: 110, type: "plastic", image: "trophy.svg" },
+    { id: 4, name: "140 Metais Reciclados", threshold: 140, type: "metal", image: "trophy.svg" },
+  ];
+
+  // carregar dados do usuário
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const userData = await getUserData();
         setUsername(userData.username);
-        setPoints(userData.points)
-        
-//leva as conquistas p local correto
+        setPoints(userData.points);
+
         setTrashStats({
           plastic: userData.plasticDiscarted || 0,
           metal: userData.metalDiscarted || 0,
-        })
+        });
       } catch (err) {
-        setError('Erro ao carregar dados do usuário');
-        toast.error('Erro ao carregar dados do usuário');
+        setError("Erro ao carregar dados do usuário");
+        toast.error("Erro ao carregar dados do usuário");
       } finally {
         setLoading(false);
       }
@@ -48,40 +47,39 @@ const Content = () => {
     fetchUserData();
   }, []);
 
-
-  // Conquistas(bugando)
+  // att conquistas desbloqueadas
   useEffect(() => {
-    const unlocked = [];
-    const remaining = [];
+    const newUnlockedIds = allAchievements
+      .filter((achievement) => {
+        if (achievement.type === "plastic") {
+          return trashStats.plastic >= achievement.threshold;
+        } else if (achievement.type === "metal") {
+          return trashStats.metal >= achievement.threshold;
+        }
+        return false;
+      })
+      .map((achievement) => achievement.id);
 
-    lockedAchievements.forEach((achievement) => {
-      switch (achievement.type) {
-        case 'plastic':
-          
-          trashStats.plastic >= achievement.threshold ? unlocked.push(achievement) : remaining.push(achievement);
-          break;
-        case 'metal':
-          trashStats.metal >= achievement.threshold ? unlocked.push(achievement) : remaining.push(achievement);
-          break;
-        default:
-          remaining.push(achievement);
-      }
-    });
-
-    setAchievements(unlocked);
-    setLockedAchievements(remaining);
+    setUnlockedAchievementIds(newUnlockedIds);
   }, [trashStats]);
 
- 
+  // separar conquistas desbloqueadas e bloqueadas
+  const unlockedAchievements = allAchievements.filter((achievement) =>
+    unlockedAchievementIds.includes(achievement.id)
+  );
+  const lockedAchievements = allAchievements.filter(
+    (achievement) => !unlockedAchievementIds.includes(achievement.id)
+  );
+
   // Carregar produtos da loja
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('http://localhost:3000/product');
+        const response = await fetch("http://localhost:3000/product");
         const data = await response.json();
         setProducts(data);
       } catch (error) {
-        console.error('Erro ao buscar os produtos:', error);
+        console.error("Erro ao buscar os produtos:", error);
       }
     };
 
@@ -98,34 +96,30 @@ const Content = () => {
     setSelectedProduct(null);
   };
 
-   // Decrementar os pontos quando trocados/ att no db (problema)
-   const handlePoints = async () => {
+  // Decrementar os pontos ao trocar por um produto
+  const handlePoints = async () => {
     if (!selectedProduct) return;
-    
+
     const newPoints = parseInt(points, 10) - selectedProduct.price;
-  
+
     if (newPoints < 0) {
-      toast.error('Pontos insuficientes para esta troca.');
+      toast.error("Pontos insuficientes para esta troca.");
       return;
     }
-  
+
     try {
-      await updateUserPoints(newPoints); 
+      await updateUserPoints(newPoints);
       setPoints(newPoints);
-      console.log("fucionouuuw")
-      toast.success('Troca realizada com sucesso!');
+      toast.success("Troca realizada com sucesso!");
       handleClosePopUp();
     } catch (error) {
-      console.error('Erro ao atualizar pontos:', error);
-      
+      console.error("Erro ao atualizar pontos:", error);
+      toast.error("Erro ao atualizar pontos.");
     }
   };
 
-  
- 
   if (loading) return <p>Carregando...</p>;
   if (error) return <p>{error}</p>;
-
 
   return (
     <>
@@ -145,17 +139,17 @@ const Content = () => {
           {/* Conquistas desbloqueadas do usuário */}
           <div>
             <h2>Suas Conquistas</h2>
-            <div class="achievements-grid">
-              {achievements.map((achievement) => (
+            <div className="achievements-grid">
+              {unlockedAchievements.map((achievement) => (
                 <div key={achievement.id} className="achievement-card">
                   <img src={achievement.image} alt="Troféu" />
                   <p>{achievement.name}</p>
                 </div>
               ))}
             </div>
+
             <h2>Conquistas Bloqueadas</h2>
-            <div class="achievements-grid">
-          
+            <div className="achievements-grid">
               {lockedAchievements.map((achievement) => (
                 <div key={achievement.id} className="achievement-card blocked">
                   <img src={achievement.image} alt="Troféu Bloqueado" />
@@ -177,11 +171,7 @@ const Content = () => {
                       className="product-card"
                       onClick={() => handleOpenPopUp(product)}
                     >
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        className="product-image"
-                      />
+                      <img src={product.image} alt={product.name} className="product-image" />
                       <p>{product.price} pontos</p>
                     </div>
                   )
@@ -199,11 +189,7 @@ const Content = () => {
                 <button onClick={handleClosePopUp} className="close-button">
                   Fechar
                 </button>
-                <img
-                  src={selectedProduct.image}
-                  alt={selectedProduct.name}
-                  className="modal-image"
-                />
+                <img src={selectedProduct.image} alt={selectedProduct.name} className="modal-image" />
                 <h2>{selectedProduct.name}</h2>
                 <p>{selectedProduct.price} pontos</p>
                 <button onClick={handlePoints} className="exchange-button">

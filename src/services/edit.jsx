@@ -56,7 +56,7 @@ export const editUserData = async (updatedData) => {
       },
       body: JSON.stringify(updatedData),
     });
-
+    console.log(JSON.stringify(updatedData))
     const data = await response.json();
 
     if (!response.ok) {
