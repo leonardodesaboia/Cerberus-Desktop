@@ -16,7 +16,7 @@ const Content = () => {
   const [trashStats, setTrashStats] = useState({ plastic: 0, metal: 0 });
   const [unlockedAchievementIds, setUnlockedAchievementIds] = useState([]);
 
-  // Lista conquistas
+  // Lista fixa de conquistas
   const allAchievements = [
     { id: 1, name: "10 Plásticos Reciclados", threshold: 10, type: "plastic", image: "trophy.svg" },
     { id: 2, name: "20 Metais Reciclados", threshold: 20, type: "metal", image: "trophy.svg" },
@@ -24,7 +24,7 @@ const Content = () => {
     { id: 4, name: "140 Metais Reciclados", threshold: 140, type: "metal", image: "trophy.svg" },
   ];
 
-  // carregar dados do usuário
+  // Carregar dados do usuário
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -47,7 +47,7 @@ const Content = () => {
     fetchUserData();
   }, []);
 
-  // att conquistas desbloqueadas
+  // Atualizar conquistas desbloqueadas
   useEffect(() => {
     const newUnlockedIds = allAchievements
       .filter((achievement) => {
@@ -63,7 +63,7 @@ const Content = () => {
     setUnlockedAchievementIds(newUnlockedIds);
   }, [trashStats]);
 
-  // separar conquistas desbloqueadas e bloqueadas
+  //  conquistas desbloqueadas e bloqueadas
   const unlockedAchievements = allAchievements.filter((achievement) =>
     unlockedAchievementIds.includes(achievement.id)
   );
@@ -171,13 +171,17 @@ const Content = () => {
                       className="product-card"
                       onClick={() => handleOpenPopUp(product)}
                     >
-                      <img src={product.image} alt={product.name} className="product-image" />
+                      <img src={product.img} alt={product.name} className="product-image" />
                       <p>{product.price} pontos</p>
                     </div>
                   )
               )}
             </div>
           </section>
+
+{/* 
+      */}
+
 
           {/* Gráficos */}
           <TrashChart />
