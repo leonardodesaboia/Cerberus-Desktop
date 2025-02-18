@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { isValidEmail } from '../validations/MailValidation';
-import { getUserData, editUserData } from '../services/edit';  
+import { getUserData, editUserData,updateUserPoints } from '../services/edit';  
 import { Menu, X, Recycle } from "lucide-react";
 import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -91,12 +91,13 @@ const Navbar = () => {
       toast.warn("Nenhuma alteração foi feita.");
       return;
     }
-//atualizar user e email
+
+//atualizar user e email (user nn mostra na tela)
     try {
       const updatedUser = await editUserData(updates);
       setUserName(updatedUser.userName);
       setOriginalEmail(updatedUser.email);
-      setNewEmail("")
+      
       toast.success("Perfil atualizado com sucesso!");
     } catch (error) {
       toast.error(error.message);
@@ -164,6 +165,7 @@ const Navbar = () => {
         </div>
       </div>
 
+{/* editar nome e email popup */}
       {isEditOpen && (
         <div className="edit-popup">
           <div className="edit-menu">

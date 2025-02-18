@@ -15,7 +15,7 @@ const Content = () => {
     { id: 1, name: '10 Plásticos Reciclados', threshold: 10, type: 'plastic', image: 'trophy.svg' },
     { id: 2, name: '20 Metais Reciclados', threshold: 20, type: 'metal', image: 'trophy.svg' },
     { id: 3, name: '120 Plásticos Reciclados', threshold: 120, type: 'plastic', image: 'trophy.svg' },
-    { id: 4, name: '150 Metais Reciclados', threshold: 150, type: 'metal', image: 'trophy.svg' },
+    { id: 4, name: '140 Metais Reciclados', threshold: 140, type: 'metal', image: 'trophy.svg' },
   ]);
   const [username, setUsername] = useState('');
   const [loading, setLoading] = useState(true);
@@ -48,7 +48,7 @@ const Content = () => {
   }, []);
 
 
-  // Conquistas
+  // Conquistas(bugando)
   useEffect(() => {
     const unlocked = [];
     const remaining = [];
@@ -56,7 +56,6 @@ const Content = () => {
     lockedAchievements.forEach((achievement) => {
       switch (achievement.type) {
         case 'plastic':
-          // amount exportar da outra pagina??????
           
           trashStats.plastic >= achievement.threshold ? unlocked.push(achievement) : remaining.push(achievement);
           break;
@@ -98,21 +97,25 @@ const Content = () => {
     setSelectedProduct(null);
   };
 
-   // Decrementar os pontos quando trocados/ att no db
+   // Decrementar os pontos quando trocados/ att no db (problema)
    const handlePoints = async () => {
-    if (selectedProduct && points >= selectedProduct.price) {
-      const newPoints = points - selectedProduct.price;
+    if (!selectedProduct) return;
+    
+    const newPoints = parseInt(points, 10) - selectedProduct.price;
   
-      try {
-        await updateUserPoints(userData._id, newPoints);
-        setPoints(newPoints);
-        toast.success('Troca realizada com sucesso!');
-        handleClosePopUp();
-      } catch (error) {
-        toast.error('Erro ao atualizar pontos no banco de dados.');
-      }
-    } else {
+    if (newPoints < 0) {
       toast.error('Pontos insuficientes para esta troca.');
+      return;
+    }
+  
+    try {
+      await updateUserPoints(newPoints); // `userId` precisa ser salvo no estado
+      setPoints(newPoints);
+      toast.success('Troca realizada com sucesso!');
+      handleClosePopUp();
+    } catch (error) {
+      console.error('Erro ao atualizar pontos:', error);
+      toast.error('Erro ao atualizar pontos no banco de dados.');
     }
   };
 
