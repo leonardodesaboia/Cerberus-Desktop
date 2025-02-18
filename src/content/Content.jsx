@@ -47,20 +47,6 @@ const Content = () => {
     fetchUserData();
   }, []);
 
-  // pegar pontos 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const userData = await getUserData();
-        setPoints(userData.points);
-      } catch (err) {
-        setError('Erro ao carregar pontos do usuário');
-      }
-    };
-
-    fetchUserData();
-  }, []);
-
 
   // Conquistas
   useEffect(() => {
@@ -112,18 +98,26 @@ const Content = () => {
     setSelectedProduct(null);
   };
 
-
-  // Decrementar os pontos quando trocados
-  const handlePoints = () => {
+   // Decrementar os pontos quando trocados/ att no db
+   const handlePoints = async () => {
     if (selectedProduct && points >= selectedProduct.price) {
-      setPoints(points - selectedProduct.price);
-      toast.success('Troca realizada com sucesso!');
-      handleClosePopUp();
+      const newPoints = points - selectedProduct.price;
+  
+      try {
+        await updateUserPoints(userData._id, newPoints);
+        setPoints(newPoints);
+        toast.success('Troca realizada com sucesso!');
+        handleClosePopUp();
+      } catch (error) {
+        toast.error('Erro ao atualizar pontos no banco de dados.');
+      }
     } else {
       toast.error('Pontos insuficientes para esta troca.');
     }
   };
 
+  
+ 
   if (loading) return <p>Carregando...</p>;
   if (error) return <p>{error}</p>;
 
@@ -131,6 +125,7 @@ const Content = () => {
   return (
     <>
       <Navbar />
+
       {/* Bem-vindo e pontos */}
       <div className="page-container">
         <div className="content-wrapper">

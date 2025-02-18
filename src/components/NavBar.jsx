@@ -61,6 +61,8 @@ const Navbar = () => {
       try{
         const userData = await getUserData()
         setUserId(id)
+        setUserName(userData.userName)
+        setCurrentEmail(userData.email)
       }catch(error){
         toast.error("Erro ao carregar dados do usuário");
         console.error(error)
@@ -94,6 +96,7 @@ const Navbar = () => {
       const updatedUser = await editUserData(updates);
       setUserName(updatedUser.userName);
       setOriginalEmail(updatedUser.email);
+      setNewEmail("")
       toast.success("Perfil atualizado com sucesso!");
     } catch (error) {
       toast.error(error.message);
@@ -178,6 +181,7 @@ const Navbar = () => {
                 Deletar Conta
               </button>
 
+
 {/* salvar alterações ou fechar */}
             <div className="edit-buttons">
               <button onClick={handleSaveChanges} className="save-button">Salvar</button>
@@ -186,6 +190,7 @@ const Navbar = () => {
           </div>
         </div>
       )}
+
 
 {/* confirmação de deleção da conta (popup) */}
         {isDeleteOpen &&(
@@ -199,8 +204,8 @@ const Navbar = () => {
             </div>
           </div>
         )}
-
     </nav>
+
   );
 };
 
