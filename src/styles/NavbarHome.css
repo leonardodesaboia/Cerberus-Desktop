@@ -1,0 +1,324 @@
+/* navabar */
+.navbar {
+  position: fixed;
+  width: 100%;
+  z-index: 50;
+  transition: all 0.3s;
+}
+
+.navbar.scrolled {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.navbar-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 4rem;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #174204;
+  text-decoration: none;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.navbar-icon {
+  width: 2rem;
+  height: 2rem;
+}
+
+.navbar-links {
+  display: none;
+}
+
+.navbar-menu-button {
+  display: block;
+  padding: 0.5rem;
+  color: #174204;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.navbar-menu-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.navbar-menu-button:hover {
+  color: #86C26D;
+}
+
+/* responsivo */
+.navbar-mobile-menu {
+  transition: all 0.3s;
+  overflow: hidden;
+}
+
+.navbar-mobile-menu.open {
+  height: 16rem;
+  opacity: 1;
+}
+
+.navbar-mobile-menu.closed {
+  height: 0;
+  opacity: 0;
+}
+
+.navbar-mobile-links {
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+}
+
+/* links */
+.navbar-link {
+  display: block;
+  padding: 0.75rem;
+  color: #174204;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.navbar-link:hover {
+  color: #86C26D;
+}
+
+.navbar-button {
+  background: #118B01;
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 9999px;
+  transition: background-color 0.3s;
+  border: none;
+  cursor: pointer;
+}
+
+.navbar-button:hover {
+  background: #174204;
+}
+
+/* responsividade */
+@media (min-width: 768px) {
+  .navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .navbar-menu-button {
+    display: none;
+  }
+
+  .navbar-mobile-menu {
+    display: none;
+  }
+}
+
+/* Menu Dropdown */
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: 120%;
+  width: 200px;
+  margin-right: 1.5%;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 8px 0;
+  z-index: 1001;
+}
+
+.dropdown-item {
+  width: 100%;
+  padding: 10px 16px;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #f5f5f5;
+}
+
+.delete {
+  color: red;
+}
+
+/* Popup de Edição */
+.edit-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1001;
+}
+
+.edit-menu {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
+  position: relative;
+}
+
+.edit-title {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.edit-menu label {
+  display: block;
+  font-weight: bold;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.edit-menu input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+/* Botões de ação */
+.edit-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+}
+
+.save-button, .close-button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.save-button {
+  background: #28a745;
+  color: white;
+}
+
+.save-button:hover {
+  background: #218838;
+}
+
+.close-button {
+  background: #6c757d;
+  color: white;
+}
+
+.close-button:hover {
+  background: #5a6268;
+}
+
+/* Botão Deletar Conta  */
+.delete-account-button {
+  display: block;
+  margin: 1rem auto 0;
+  padding: 0.5rem;
+  background: none;
+  color: red;
+  border: none;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.delete-account-button:hover {
+  text-decoration: underline;
+}
+
+/* Overlay para escurecer o fundo */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9998; /* Apenas um nível abaixo do modal */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Modal de exclusão */
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 9999; 
+  text-align: center;
+}
+
+
+/* Container dos botões */
+.delete-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+  margin-left: 5rem;
+  margin-right: 5rem;
+}
+
+/* Botão de confirmação */
+.confirm-delete {
+  background-color: rgb(102, 102, 102);
+  border: none;
+  height: 4vh;
+  width: 8vh;
+  border-radius: 5px;
+  color: #f5f5f5;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.confirm-delete:hover {
+  background-color: #535353;
+}
+
+/* Botão de cancelamento */
+.cancel-delete {
+  background-color: green;
+  border: none;
+  height: 4vh;
+  width: 8vh;
+  border-radius: 5px;
+  color: #f5f5f5;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.cancel-delete:hover {
+  background-color: #046118;
+}

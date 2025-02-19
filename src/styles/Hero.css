@@ -1,0 +1,128 @@
+.hero {
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom right, rgba(23, 66, 4, 0.1), rgba(134, 194, 109, 0.1));
+  }
+  
+  .hero-content {
+    position: relative;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 8rem 1rem 4rem;
+  }
+  
+  .hero-main {
+    text-align: center;
+    animation: fadeIn 0.5s ease-out;
+  }
+  
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(134, 194, 109, 0.1);
+    color: var(--eco-primary);
+    padding: 0.375rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 2rem;
+  }
+  
+  .hero-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--eco-primary);
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+  }
+  
+  .hero-description {
+    max-width: 36rem;
+    margin: 0 auto 2rem;
+    color: #666;
+    font-size: 1.125rem;
+  }
+  
+  .hero-showcase {
+    margin-top: 4rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 4rem auto 0;
+  }
+  
+  .showcase-item {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 1rem;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    transition: transform 0.3s;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  }
+  
+  .showcase-item:hover {
+    transform: translateX(10px);
+  }
+  
+  .showcase-icon {
+    background: var(--eco-secondary);
+    color: white;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  
+  .showcase-content {
+    text-align: left;
+  }
+  
+  .showcase-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--eco-primary);
+    margin-bottom: 0.5rem;
+  }
+  
+  .showcase-description {
+    color: #666;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @media (min-width: 640px) {
+    .hero-title {
+      font-size: 3.75rem;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .hero-showcase {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }

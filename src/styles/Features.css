@@ -1,0 +1,114 @@
+.features {
+    padding: 5rem 0;
+    background: var(--eco-light);
+  }
+  
+  .features-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  
+  .features-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+  
+  .features-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+  }
+  
+  .features-description {
+    color: #666;
+    max-width: 36rem;
+    margin: 0 auto;
+  }
+  
+  .features-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .feature-card {
+    background: white;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+  }
+  
+  .feature-card:hover {
+    transform: translateY(-0.25rem);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .feature-icon {
+    width: 4rem;
+    height: 4rem;
+    background: rgba(134, 194, 109, 0.1);
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+  }
+  
+  .feature-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+  
+  .feature-description {
+    color: #666;
+    text-align: center;
+  }
+  
+  .features-cta {
+    margin-top: 4rem;
+    text-align: center;
+  }
+  
+  .features-cta-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--eco-primary);
+    margin-bottom: 1.5rem;
+  }
+  
+  .features-cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--tertiary-color);
+    color: white;
+    padding: 0.75rem 2rem;
+    border-radius: 50px;
+    transition: background-color 0.3s;
+  }
+  
+  .features-cta-button:hover {
+    background: var(--secondary-color);
+  }
+  
+  @media (min-width: 768px) {
+    .features-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  
+    .features-title {
+      font-size: 2.5rem;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .features-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }

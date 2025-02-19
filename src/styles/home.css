@@ -1,0 +1,305 @@
+/* Estilo geral da página */
+.home-page-container {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #f8faf6, #edf3ea);
+  padding: 6rem 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Deixa o conteúdo começar no topo */
+  align-items: center; /* Centraliza horizontalmente */
+}
+
+.home-content-wrapper {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Bem-vindo */
+.home-welcome-section {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.home-welcome-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #174204;
+  margin-bottom: 1.5rem;
+  display: inline-block; /* Evita que o título se expanda completamente */
+}
+
+.home-points-card {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  width: 20rem;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 0 auto; /* Centraliza o card de pontos */
+}
+
+.home-points-label {
+  color: #666;
+  font-size: 1.125rem;
+  margin-bottom: 0.5rem;
+}
+
+.home-points-value {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #174204;
+}
+
+/* Conquistas */
+.home-achievements-section {
+  margin: 3rem 0;
+}
+
+.home-section-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #174204;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-achievements-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Centraliza os cards de conquistas */
+  gap: 1.5rem;
+}
+
+.home-achievement-card {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  border-radius: 1rem;
+  padding: 2rem;
+  margin-top: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(134, 194, 109, 0.2);
+  height: 60px;
+  width: 20vh;
+  transition: transform 0.2s ease;
+}
+
+.home-achievement-card:hover {
+  transform: scale(1.02);
+}
+
+.home-trophy {
+  width: 65px;
+  height: auto;
+}
+
+.home-achievement-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #174204;
+}
+
+.home-achievement-description {
+  color: #666;
+}
+
+/* Loja */
+.home-store-section {
+  margin: 3rem 0;
+}
+
+.home-store-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.home-store-subtitle {
+  color: #666;
+}
+
+.home-store-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  justify-items: center; /* Garante que os cards sejam centralizados */
+}
+
+.home-product-card {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 1rem;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  border: 1px solid rgba(134, 194, 109, 0.2);
+}
+
+.home-product-card:hover {
+  transform: scale(1.02);
+}
+
+.home-product-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.home-product-info {
+  padding: 1rem;
+}
+
+.home-product-name {
+  color: #174204;
+  font-weight: 600;
+  font-size: 1.125rem;
+}
+
+.home-product-price {
+  color: #86C26D;
+  font-weight: 500;
+}
+
+/* Modal de Troca */
+.home-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 50;
+}
+
+.home-modal-content {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  max-width: 32rem;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centraliza o conteúdo dentro do modal */
+}
+
+.home-modal-image {
+  width: 8rem;
+  height: 8rem;
+  object-fit: cover;
+  border-radius: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.home-modal-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #174204;
+  margin-bottom: 1rem;
+}
+
+.home-modal-price {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #86C26D;
+  margin-bottom: 1rem;
+}
+
+.home-button-group {
+  display: flex;
+  gap: 1rem;
+}
+
+.home-exchange-button {
+  flex: 1;
+  background: #174204;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.home-exchange-button:hover {
+  background: #1f5406;
+}
+
+.home-close-button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  border: 1px solid #e5e5e5;
+  background: white;
+  margin-right: 2rem;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  color: #000000;
+}
+
+.home-close-button:hover {
+  background: #f5f5f5;
+}
+
+.home-cancel-button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  border: 1px solid #e5e5e5;
+  background: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.home-cancel-button:hover {
+  background: #f5f5f5;
+}
+
+/* Footer */
+.home-footer {
+  text-align: center;
+  padding: 2rem 0;
+  margin-top: 3rem;
+}
+
+.home-footer-link {
+  color: #174204;
+  font-weight: 500;
+  text-decoration: none;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.home-footer-link:hover {
+  color: #326D19;
+}
+
+.home-footer-text {
+  color: #666;
+}
+
+/* Animations */
+@keyframes home-float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.home-animate-float {
+  animation: home-float 6s ease-in-out infinite;
+}
+
+.home-achievements-title{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
