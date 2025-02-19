@@ -142,7 +142,7 @@ const Content = () => {
             <div className="achievements-grid">
               {unlockedAchievements.map((achievement) => (
                 <div key={achievement.id} className="achievement-card">
-                  <img src={achievement.image} alt="Troféu" className="trophy golden" />
+                  <img src={'./public/trophy_unblocked.png'} alt="Troféu" className="trophy" />
                   <p>{achievement.name}</p>
                 </div>
               ))}
@@ -152,7 +152,7 @@ const Content = () => {
             <div className="achievements-grid">
               {lockedAchievements.map((achievement) => (
                 <div key={achievement.id} className="achievement-card blocked">
-                  <img src={achievement.image} alt="Troféu Bloqueado"  className="trophy"/>
+                  <img src={'./public/blocked_trophy.png'} alt="Troféu Bloqueado"  className="trophy"/>
                   <p>{achievement.name}</p>
                 </div>
               ))}
@@ -187,12 +187,12 @@ const Content = () => {
           {selectedProduct && (
             <div className="modal-overlay">
               <div className="modal-content">
+                <img src={selectedProduct.img} alt={selectedProduct.name} className="modal-image" />
+                <h2>{selectedProduct.name}</h2>
+                <p>{selectedProduct.price} pontos</p>
                 <button onClick={handleClosePopUp} className="close-button">
                   Fechar
                 </button>
-                <img src={selectedProduct.image} alt={selectedProduct.name} className="modal-image" />
-                <h2>{selectedProduct.name}</h2>
-                <p>{selectedProduct.price} pontos</p>
                 <button onClick={handlePoints} className="exchange-button">
                   Trocar
                 </button>

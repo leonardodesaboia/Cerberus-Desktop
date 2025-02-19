@@ -66,7 +66,7 @@
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(8px);
   border-radius: 1rem;
-  padding: 1.5rem;
+  padding: 2rem;
   margin-top: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(134, 194, 109, 0.2);
@@ -79,36 +79,28 @@
   transform: scale(1.02);
 }
 
-.achievement-icon {
+/* .achievement-icon {
   width: 1rem;
   height: 3rem;
   margin-bottom: 1rem;
   color: #86C26D;
-}
+} */
 
-.trophy-image {
+/* .trophy-image {
   width: 65px;
   height: auto;
-}
-.trophy {
-  width: 50px; /* Ajuste conforme necessário */
+} */
+
+ .trophy {
+  width: 65px; 
   height: auto;
-  filter: grayscale(100%);
-  transition: filter 0.3s ease-in-out;
 }
-
-.golden {
-  filter: grayscale(0%) drop-shadow(0 0 5px gold);
-  fill: gold;
-}
-
-
 
 
 .achievement-title {
   font-size: 1.25rem;
   font-weight: 600;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
   color: #174204;
 }
 
@@ -195,8 +187,8 @@
 }
 
 .modal-image {
-  width: 100%;
-  height: 16rem;
+  width: 8rem;
+  height: 8rem;
   object-fit: cover;
   border-radius: 0.75rem;
   margin-bottom: 1rem;
@@ -206,7 +198,7 @@
   font-size: 1.5rem;
   font-weight: bold;
   color: #174204;
-  margin-bottom: 0.5rem;
+  margin-bottom:1rem;
 }
 
 .modal-price {
@@ -242,6 +234,8 @@
   font-weight: 500;
   border: 1px solid #e5e5e5;
   background: white;
+  margin-right: 2rem;
+  margin-top: 10px;
   cursor: pointer;
   transition: background-color 0.2s ease;
   color: #000000;
