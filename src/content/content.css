@@ -90,6 +90,18 @@
   width: 65px;
   height: auto;
 }
+.trophy {
+  width: 50px; /* Ajuste conforme necessário */
+  height: auto;
+  filter: grayscale(100%);
+  transition: filter 0.3s ease-in-out;
+}
+
+.golden {
+  filter: grayscale(0%) drop-shadow(0 0 5px gold);
+  fill: gold;
+}
+
 
 
 
@@ -103,6 +115,7 @@
 .achievement-description {
   color: #666;
 }
+
 
 /* Loja */
 .store-section {

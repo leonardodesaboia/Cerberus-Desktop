@@ -18,10 +18,10 @@ const Content = () => {
 
   // Lista fixa de conquistas
   const allAchievements = [
-    { id: 1, name: "10 Plásticos Reciclados", threshold: 10, type: "plastic", image: "trophy.svg" },
-    { id: 2, name: "20 Metais Reciclados", threshold: 20, type: "metal", image: "trophy.svg" },
-    { id: 3, name: "110 Plásticos Reciclados", threshold: 110, type: "plastic", image: "trophy.svg" },
-    { id: 4, name: "140 Metais Reciclados", threshold: 140, type: "metal", image: "trophy.svg" },
+    { id: 1, name: "10 Plásticos Reciclados", threshold: 10, type: "plastic" },
+    { id: 2, name: "20 Metais Reciclados", threshold: 20, type: "metal" },
+    { id: 3, name: "110 Plásticos Reciclados", threshold: 110, type: "plastic" },
+    { id: 4, name: "140 Metais Reciclados", threshold: 140, type: "metal" },
   ];
 
   // Carregar dados do usuário
@@ -142,7 +142,7 @@ const Content = () => {
             <div className="achievements-grid">
               {unlockedAchievements.map((achievement) => (
                 <div key={achievement.id} className="achievement-card">
-                  <img src={achievement.image} alt="Troféu" />
+                  <img src={achievement.image} alt="Troféu" className="trophy golden" />
                   <p>{achievement.name}</p>
                 </div>
               ))}
@@ -152,7 +152,7 @@ const Content = () => {
             <div className="achievements-grid">
               {lockedAchievements.map((achievement) => (
                 <div key={achievement.id} className="achievement-card blocked">
-                  <img src={achievement.image} alt="Troféu Bloqueado" />
+                  <img src={achievement.image} alt="Troféu Bloqueado"  className="trophy"/>
                   <p>{achievement.name}</p>
                 </div>
               ))}
@@ -178,9 +178,6 @@ const Content = () => {
               )}
             </div>
           </section>
-
-{/* 
-      */}
 
 
           {/* Gráficos */}
