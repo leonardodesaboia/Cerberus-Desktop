@@ -16,14 +16,12 @@
   max-width: 1280px;
   margin: 0 auto;
   padding: 0 1rem;
-}
-
-.navbar-content {
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 4rem;
 }
+
 
 .navbar-brand {
   display: flex;
@@ -31,17 +29,32 @@
   gap: 0.5rem;
   color: #174204;
   text-decoration: none;
-  font-size: 1.25rem;
+  font-size: 2rem;
   font-weight: 600;
 }
 
-.navbar-icon {
-  width: 2rem;
-  height: 2rem;
+.navbar-container {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  width: 100%; 
+  padding: 0 1rem; 
+}
+
+.navbar-container span {
+  margin-right: auto;
+}
+
+.icon-navbar {
+  width: 40px;
+  height: 40px;
+  margin-left: 1rem; 
 }
 
 .navbar-links {
-  display: none;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem; 
 }
 
 .navbar-menu-button {

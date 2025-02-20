@@ -1,6 +1,6 @@
 /* container da pagina principal */
 .page-container {
-  min-height: 100vh;
+  min-height: 10vh;
   background: linear-gradient(to bottom, #f8faf6, #edf3ea);
   padding: 6rem 1rem 2rem; /* Added top padding for navbar */
 }
@@ -17,30 +17,42 @@
 }
 
 .welcome-title {
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: bold;
   color: #174204;
   margin-bottom: 1.5rem;
+  margin-right: 33rem;
 }
 /* card de pontos */
 .points-card {
   background: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(10px);
   border-radius: 1rem;
-  width: 20rem;
+  width: 50rem;
   padding: 2rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+}
+
+.coin-points {
+  width: 5vh;
+  height: 5vh;
+  margin-left: 30vh; /* Empurra para a direita */
 }
 
 .points-label {
   color: #666;
   font-size: 1.125rem;
   margin-bottom: 0.5rem;
+  text-align: left;
 }
 
 .points-value {
   font-size: 3rem;
   font-weight: bold;
+  text-align: left;
   color: #174204;
 }
 
@@ -49,16 +61,11 @@
   margin: 3rem 0;
 }
 
-.section-title {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #174204;
-  margin-bottom: 1.5rem;
-}
+
 
 .achievements-grid {
   display: flex;
-  flex-wrap: wrap;
+  /* flex-wrap: ; */
   gap: 1.5rem;
 }
 
@@ -70,8 +77,8 @@
   margin-top: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(134, 194, 109, 0.2);
-  height: 60px;
-  width: 20vh;
+  height: 10vh;
+  width: 10vh;
   transition: transform 0.2s ease;
 }
 
@@ -97,9 +104,11 @@
 }
 
 
-.achievement-title {
-  font-size: 1.25rem;
+.achievements-title {
+  font-size: 1.5rem;
   font-weight: 600;
+  margin-top: 15px;
+  margin-left: 18vh;
   margin-bottom: 1rem;
   color: #174204;
 }
@@ -111,15 +120,26 @@
 
 /* Loja */
 .store-section {
-  margin: 3rem 0;
+  margin: 2rem 0;
 }
 
+.section-title {
+  font-size: 1rem;
+  /* margin-right: 20vh; */
+  font-weight: 600;      
+  color: #174204;
+  margin-top: 3.5rem;
+  margin-bottom: 3.5rem;
+}
 .store-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
+  align-items: left;
+  margin-bottom: 1rem;
 }
+
+
+
 
 .store-subtitle {
   color: #666;
@@ -151,7 +171,7 @@
 }
 
 .product-info {
-  padding: 1rem;
+  padding: 2rem;
 }
 
 .product-name {

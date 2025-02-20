@@ -88,11 +88,13 @@ const Navbar = () => {
   return (
     <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
       <div className="navbar-container">
-        <div className="navbar-content">
-          <a href="/" className="navbar-brand">
-            <Recycle className="navbar-icon" />
+        <div className="navbar-name-icon">
+           <a href="/" className="navbar-brand">
+            <Recycle className="icon-navbar"/>
             <span>EcoPoints</span>
           </a>
+        </div>
+         
           <div className="navbar-links">
             <a href="#app" className="navbar-link">Conheça nosso app</a>
             <div className="profile-container">
@@ -106,7 +108,6 @@ const Navbar = () => {
                 </div>
               )}
             </div>
-          </div>
           <button className="navbar-menu-button" onClick={() => setIsOpen(!isOpen)}>
             {isOpen ? <X className="navbar-menu-icon" /> : <Menu className="navbar-menu-icon" />}
           </button>

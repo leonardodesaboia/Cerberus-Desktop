@@ -18,10 +18,18 @@ const Content = () => {
 
   // Lista fixa de conquistas
   const allAchievements = [
-    { id: 1, name: "10 Plásticos Reciclados", threshold: 10, type: "plastic" },
-    { id: 2, name: "20 Metais Reciclados", threshold: 20, type: "metal" },
-    { id: 3, name: "110 Plásticos Reciclados", threshold: 110, type: "plastic" },
-    { id: 4, name: "140 Metais Reciclados", threshold: 140, type: "metal" },
+    { id: 1, name: "5 Plásticos Reciclados", threshold: 5, type: "plastic" },
+    { id: 2, name: "10 Metais Reciclados", threshold: 10, type: "metal" },
+    { id: 3, name: "20 Plásticos Reciclados", threshold: 20, type: "plastic" },
+    { id: 4, name: "35 Metais Reciclados", threshold: 35, type: "metal" },
+    { id: 5, name: "40 Plásticos Reciclados", threshold: 40, type: "plastic" },
+    { id: 6, name: "55 Metais Reciclados", threshold: 55, type: "metal" },
+    { id: 7, name: "65 Plásticos Reciclados", threshold: 65, type: "plastic" },
+    { id: 8, name: "70 Metais Reciclados", threshold: 70, type: "metal" },
+    { id: 9, name: "100 Metais Reciclados", threshold: 100, type: "plastic" },
+    { id: 10, name: "150 Metais Reciclados", threshold: 150, type: "metal" },
+
+
   ];
 
   // Carregar dados do usuário
@@ -131,14 +139,17 @@ const Content = () => {
           <section className="welcome-section">
             <h1 className="welcome-title">Bem-vindo(a), {username}!</h1>
             <div className="points-card">
-              <p className="points-label">Seus pontos acumulados</p>
-              <p className="points-value animate-float">{points}</p>
+              <div>
+                <p className="points-label">Seus pontos acumulados</p>
+                <p className="points-value animate-float">{points}</p>
+              </div>
+              <img src="./public/coin.png" alt="pontos" className="coin-points" />
             </div>
           </section>
 
           {/* Conquistas desbloqueadas do usuário */}
           <div>
-            <h2>Suas Conquistas</h2>
+            <h2 className="achievements-title">Suas Conquistas</h2>
             <div className="achievements-grid">
               {unlockedAchievements.map((achievement) => (
                 <div key={achievement.id} className="achievement-card">
@@ -148,7 +159,7 @@ const Content = () => {
               ))}
             </div>
 
-            <h2>Conquistas Bloqueadas</h2>
+            <h2 className="achievements-title">Conquistas Bloqueadas</h2>
             <div className="achievements-grid">
               {lockedAchievements.map((achievement) => (
                 <div key={achievement.id} className="achievement-card blocked">
