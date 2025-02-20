@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../styles/home.css"
-import { getUserData, updateUserPoints } from "../services/api";
+import { getUserData, updateUserPoints, fetchProducts } from "../services/api";
 import Navbar from "../components/NavbarHome";
 import TrashChart from "../components/TrashChart";
 import { toast } from "react-toastify";
@@ -73,17 +73,16 @@ const Home = () => {
 
   // Carregar produtos da loja
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3000/product");
-        const data = await response.json();
-        setProducts(data);
-      } catch (error) {
-        console.error("Erro ao buscar os produtos:", error);
-      }
-    };
+        const data = await fetchProducts();  // Agora `await` é usado dentro de uma função `async`
 
-    fetchProducts();
+        setProducts(data);  // Atualiza o estado com os dados
+      } catch (error) {
+        console.error("Erro ao carregar os produtos:", error);
+        toast.error("Erro ao carregar os produtos.");
+      }}   
+    fetchData()
   }, []);
 
   // Abrir popup dos produtos
@@ -99,16 +98,17 @@ const Home = () => {
   // Decrementar os pontos ao trocar por um produto
   const handlePoints = async () => {
     if (!selectedProduct) return;
-
+    console.log("a")
     const newPoints = parseInt(points, 10) - selectedProduct.price;
 
     if (newPoints < 0) {
       toast.error("Pontos insuficientes para esta troca.");
       return;
     }
-
+    console.log("b")
     try {
-      await updateUserPoints(newPoints);
+      console.log("awe")
+      await updateUserPoints(selectedProduct);
       setPoints(newPoints);
       toast.success("Troca realizada com sucesso!");
       handleClosePopUp();
@@ -133,6 +133,8 @@ const Home = () => {
             <div className="home-points-card">
               <p className="home-points-label">Seus pontos acumulados</p>
               <p className="home-points-value animate-float">{points}</p>
+              <img src="./coin.png" alt="" className="coin-points" />
+
             </div>
           </section>
     

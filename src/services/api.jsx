@@ -40,15 +40,82 @@ export const loginUser = async (userData) => {
     return data;
 };
 
-export const products = async (userData) => {
+// pegar dados o user
+export const getUserData = async () => {
   try {
-    // Convertendo o objeto userData para query string
-    const queryString = new URLSearchParams(userData).toString();
+    
+    const response = await fetch(`${API_URL}/user/${localStorage.getItem("userId")}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `${localStorage.getItem("token")}`
+      },
+    }); 
+
+    const data = await response.json();
+
+    
+    if (!response.ok) {
+      throw new Error(data.message || 'Erro ao obter os dados do usuário');
+    }
+    
+    return data;
+  } catch (error) {
+    throw new Error(error.message || 'Erro ao obter os dados do usuário');
+  }
+};
+
+// Função para editar os dados do usuário
+export const editUserData = async (updatedData) => {
+  try {
+   
+    const response = await fetch(`${API_URL}/user/${localStorage.getItem("userId")}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `${localStorage.getItem("token")}`
+      },
+      body: JSON.stringify(updatedData),
+    });
+    console.log(JSON.stringify(updatedData))
+    const data = await response.json();
+    
+    if (!response.ok) {
+      throw new Error(data.message || 'Erro ao editar os dados do usuário');
+    }
+    
+    return data;
+  } catch (error) {
+    throw new Error(error.message || 'Erro ao editar os dados do usuário');
+  }
+};
+
+// pontos
+export const updateUserPoints = async (product) => {
+  const response = await fetch(`${API_URL}/log`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json',
+               'Authorization': `${localStorage.getItem("token")}`
+    },
+    body: JSON.stringify({
+      user: `${localStorage.getItem("userId")}`,
+      product: product._id,
+      points: (product.price * -1)
+    }),
+  });
+  if (!response.ok) {
+    throw new Error('Erro ao atualizar pontos.', response);
+  }
+};
+
+export const fetchProducts = async () => {
+  try {
     
     const response = await fetch(`${API_URL}/product?`, {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `${localStorage.getItem("token")}`
       }
     });
 
@@ -61,66 +128,5 @@ export const products = async (userData) => {
     return data;
   } catch (error) {
     throw new Error(error.message || 'Erro ao obter produtos');
-  }
-};
-
-// pegar dados o user
-export const getUserData = async () => {
-  try {
-    
-    const response = await fetch(`${API_URL}/user/${localStorage.getItem("userId")}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }); 
-
-    const data = await response.json();
-
-    
-    if (!response.ok) {
-      throw new Error(data.message || 'Erro ao obter os dados do usuário');
-    }
-
-    return data;
-  } catch (error) {
-    throw new Error(error.message || 'Erro ao obter os dados do usuário');
-  }
-};
-
-// pontos
-export const updateUserPoints = async (newPoints) => {
-  const response = await fetch(`http://localhost:3000/user/67b36bb2f5f5a0d4dea71eb3`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ points: newPoints }),
-  });
-
-  if (!response.ok) {
-    throw new Error('Erro ao atualizar pontos.');
-  }
-};
-
-// Função para editar os dados do usuário
-export const editUserData = async (updatedData) => {
-  try {
-   
-     const response = await fetch(`${API_URL}/user/67b36bb2f5f5a0d4dea71eb3`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updatedData),
-    });
-    console.log(JSON.stringify(updatedData))
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.message || 'Erro ao editar os dados do usuário');
-    }
-
-    return data;
-  } catch (error) {
-    throw new Error(error.message || 'Erro ao editar os dados do usuário');
   }
 };

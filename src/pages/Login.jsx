@@ -79,11 +79,11 @@ function Login() {
                 const data = await loginUser(formData);
 
                 // Salva o token
+                const token = data.token;
                 const arrayToken = data.token.split('.');
                 const tokenPayload = JSON.parse(atob(arrayToken[1]))
-                console.log(tokenPayload.id)
+                localStorage.setItem('token', token)
                 localStorage.setItem('userId', tokenPayload.id)
-                console.log(localStorage.getItem("userId"))
                 localStorage.setItem('user', await getUserData());
                 
                 navigate('/home');
@@ -153,9 +153,9 @@ function Login() {
                     </div>
                 
 
-            <div className="wave-container-login">
+            {/* <div className="wave-container-login">
                 <img src='/Vector.png' alt='Bottom img' className='wave-login'/>
-            </div>
+            </div> */}
             </div>
     );
 }

@@ -1,19 +1,14 @@
-/* Estilo geral da página */
+/* container da página principal */
 .home-page-container {
   min-height: 100vh;
-  background: linear-gradient(to bottom, #f8faf6, #edf3ea);
-  padding: 6rem 1rem 2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start; /* Deixa o conteúdo começar no topo */
-  align-items: center; /* Centraliza horizontalmente */
+  background: linear-gradient(to bottom, #c8ff916d, #c8ff916d);
+  padding: 6rem 1rem 2rem; 
 }
 
 .home-content-wrapper {
   max-width: 1200px;
-  width: 100%;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 1rem; /* Para evitar que o conteúdo fique colado nas bordas */
 }
 
 /* Bem-vindo */
@@ -23,21 +18,30 @@
 }
 
 .home-welcome-title {
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: bold;
   color: #174204;
   margin-bottom: 1.5rem;
-  display: inline-block; /* Evita que o título se expanda completamente */
+  margin-right: 0; /* Ajuste para remover o deslocamento */
 }
 
 .home-points-card {
-  background: rgba(255, 255, 255, 0.6);
+  background: #f3f3f3;
   backdrop-filter: blur(10px);
   border-radius: 1rem;
-  width: 20rem;
+  width: 100%;
+  max-width: 50rem; /* Limitar a largura */
   padding: 2rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  margin: 0 auto; /* Centraliza o card de pontos */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto; /* Centralizar */
+}
+
+.home-coin-points {
+  width: 5vh;
+  height: 5vh;
 }
 
 .home-points-label {
@@ -46,10 +50,20 @@
   margin-bottom: 0.5rem;
 }
 
+.home-points-value p {
+  font-size: 20px;
+}
+
 .home-points-value {
   font-size: 3rem;
   font-weight: bold;
+  text-align: left;
   color: #174204;
+}
+
+.coin-points {
+  width: 7vh;
+  height: 7vh;
 }
 
 /* Conquistas */
@@ -57,24 +71,18 @@
   margin: 3rem 0;
 }
 
-.home-section-title {
-  font-size: 24px;
-  font-weight: 600;
-  color: #174204;
-  margin-bottom: 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .home-achievements-grid {
+  /* display: grid; */
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center; /* Centraliza os cards de conquistas */
+  justify-content: center;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Responsividade */
   gap: 1.5rem;
 }
 
 .home-achievement-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(8px);
   border-radius: 1rem;
@@ -82,9 +90,9 @@
   margin-top: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(134, 194, 109, 0.2);
-  height: 60px;
-  width: 20vh;
+  text-align: center;
   transition: transform 0.2s ease;
+  height: 10vh;
 }
 
 .home-achievement-card:hover {
@@ -94,29 +102,35 @@
 .home-trophy {
   width: 65px;
   height: auto;
+  margin-bottom: 1rem;
 }
 
-.home-achievement-title {
-  font-size: 1.25rem;
+.home-achievements-title {
+  font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 1rem;
   color: #174204;
-}
-
-.home-achievement-description {
-  color: #666;
+  text-align: center;
 }
 
 /* Loja */
 .home-store-section {
-  margin: 3rem 0;
+  margin: 2rem 0;
+}
+
+.home-section-title {
+  font-size: 1.5rem; /* Tamanho de fonte ajustado */
+  font-weight: 600;      
+  color: #174204;
+  margin-top: 3.5rem;
+  margin-bottom: 1rem;
 }
 
 .home-store-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .home-store-subtitle {
@@ -125,9 +139,8 @@
 
 .home-store-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 1.5rem;
-  justify-items: center; /* Garante que os cards sejam centralizados */
 }
 
 .home-product-card {
@@ -150,7 +163,7 @@
 }
 
 .home-product-info {
-  padding: 1rem;
+  padding: 2rem;
 }
 
 .home-product-name {
@@ -164,7 +177,7 @@
   font-weight: 500;
 }
 
-/* Modal de Troca */
+/* Modal */
 .home-modal-overlay {
   position: fixed;
   inset: 0;
@@ -184,9 +197,6 @@
   max-width: 32rem;
   width: 100%;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Centraliza o conteúdo dentro do modal */
 }
 
 .home-modal-image {
@@ -286,7 +296,7 @@
   color: #666;
 }
 
-/* Animations */
+/* Animações */
 @keyframes home-float {
   0% { transform: translateY(0px); }
   50% { transform: translateY(-10px); }
@@ -296,10 +306,3 @@
 .home-animate-float {
   animation: home-float 6s ease-in-out infinite;
 }
-
-.home-achievements-title{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
