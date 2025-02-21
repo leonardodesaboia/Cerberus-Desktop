@@ -98,14 +98,14 @@ const Home = () => {
   // Decrementar os pontos ao trocar por um produto
   const handlePoints = async () => {
     if (!selectedProduct) return;
-    console.log("a")
+    // console.log("a")
     const newPoints = parseInt(points, 10) - selectedProduct.price;
 
     if (newPoints < 0) {
       toast.error("Pontos insuficientes para esta troca.");
       return;
     }
-    console.log("b")
+    // console.log("b")
     try {
       console.log("awe")
       await updateUserPoints(selectedProduct);
@@ -174,7 +174,7 @@ const Home = () => {
                       onClick={() => handleOpenPopUp(product)}
                     >
                       <img src={product.img} alt={product.name} className="home-product-image" />
-                      <p>{product.price} pontos</p>
+                      <p className="home-product-pricee">{product.price} pontos</p>
                     </div>
                   )
               )}
