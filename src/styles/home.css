@@ -25,7 +25,7 @@
 .home-content-wrapper {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem; /* Para evitar que o conteúdo fique colado nas bordas */
+  padding: 0 1rem; 
 }
 
 /* Bem-vindo */
@@ -53,7 +53,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 0 auto; /* Centralizar */
+  margin: 0 auto; 
 }
 
 .home-coin-points {
@@ -138,7 +138,7 @@
 }
 
 .home-section-title {
-  font-size: 1.5rem; /* Tamanho de fonte ajustado */
+  font-size: 1.5rem; 
   font-weight: 600;      
   color: #174204;
   margin-top: 3.5rem;
@@ -270,10 +270,10 @@
   background: #1f5406;
 }
 
-
+/* responsividade */
 @media (max-width: 768px) {
   .home-modal-content {
-    width: 90%; /* Ocupa mais espaço em telas pequenas */
+    width: 90%; 
     padding: 1rem;
   }
 
@@ -283,7 +283,7 @@
   }
 
   .home-button-group {
-    flex-direction: column; /* Empilha os botões em telas pequenas */
+    flex-direction: column; 
     gap: 0.5rem;
   }
 
