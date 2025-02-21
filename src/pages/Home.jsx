@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../styles/home.css"
+import "../styles/home.css";
 import { getUserData, updateUserPoints, fetchProducts } from "../services/api";
 import Navbar from "../components/NavbarHome";
 import TrashChart from "../components/TrashChart";
@@ -18,10 +18,12 @@ const Home = () => {
 
   // Lista fixa de conquistas
   const allAchievements = [
-    { id: 1, name: "10 Plásticos Reciclados", threshold: 10, type: "plastic" },
-    { id: 2, name: "20 Metais Reciclados", threshold: 20, type: "metal" },
-    { id: 3, name: "110 Plásticos Reciclados", threshold: 110, type: "plastic" },
-    { id: 4, name: "140 Metais Reciclados", threshold: 140, type: "metal" },
+    { id: 1, name: "25 Plásticos Reciclados", threshold: 25, type: "plastic" },
+    { id: 2, name: "50 Plásticos Reciclados", threshold: 50, type: "plastic" },
+    { id: 3, name: "100 Plásticos Reciclados", threshold: 100, type: "plastic" },
+    { id: 4, name: "25 Metais Reciclados", threshold: 25, type: "metal" },
+    { id: 5, name: "50 Metais Reciclados", threshold: 50, type: "metal" },
+    { id: 6, name: "100 Metais Reciclados", threshold: 100, type: "metal" }
   ];
 
   // Carregar dados do usuário
@@ -31,7 +33,6 @@ const Home = () => {
         const userData = await getUserData();
         setUsername(userData.username);
         setPoints(userData.points);
-
         setTrashStats({
           plastic: userData.plasticDiscarted || 0,
           metal: userData.metalDiscarted || 0,
@@ -63,7 +64,7 @@ const Home = () => {
     setUnlockedAchievementIds(newUnlockedIds);
   }, [trashStats]);
 
-  //  conquistas desbloqueadas e bloqueadas
+  // Filtrar conquistas desbloqueadas e bloqueadas
   const unlockedAchievements = allAchievements.filter((achievement) =>
     unlockedAchievementIds.includes(achievement.id)
   );
@@ -75,14 +76,14 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await fetchProducts();  // Agora `await` é usado dentro de uma função `async`
-
-        setProducts(data);  // Atualiza o estado com os dados
+        const data = await fetchProducts();
+        setProducts(data);
       } catch (error) {
         console.error("Erro ao carregar os produtos:", error);
         toast.error("Erro ao carregar os produtos.");
-      }}   
-    fetchData()
+      }
+    };
+    fetchData();
   }, []);
 
   // Abrir popup dos produtos
@@ -98,16 +99,14 @@ const Home = () => {
   // Decrementar os pontos ao trocar por um produto
   const handlePoints = async () => {
     if (!selectedProduct) return;
-    // console.log("a")
-    const newPoints = parseInt(points, 10) - selectedProduct.price;
 
+    const newPoints = parseInt(points, 10) - selectedProduct.price;
     if (newPoints < 0) {
       toast.error("Pontos insuficientes para esta troca.");
       return;
     }
-    // console.log("b")
+
     try {
-      console.log("awe")
       await updateUserPoints(selectedProduct);
       setPoints(newPoints);
       toast.success("Troca realizada com sucesso!");
@@ -125,7 +124,6 @@ const Home = () => {
     <>
       <Navbar />
 
-      {/* Bem-vindo e pontos */}
       <div className="home-page-container">
         <div className="home-content-wrapper">
           <section className="home-welcome-section">
@@ -134,73 +132,47 @@ const Home = () => {
               <p className="home-points-label">Seus pontos acumulados</p>
               <p className="home-points-value animate-float">{points}</p>
               <img src="./coin.png" alt="" className="coin-points" />
-
             </div>
           </section>
-    
-          {/* Conquistas desbloqueadas do usuário */}
-          <div>
-            <h2 className="home-achievements-title">Suas Conquistas</h2>
-            <div className="home-achievements-grid">
-              {unlockedAchievements.map((achievement) => (
-                <div key={achievement.id} className="home-achievement-card">
-                  <img src={'./public/trophy_unblocked.png'} alt="Troféu" className="home-trophy" />
-                  <p>{achievement.name}</p>
-                </div>
-              ))}
-            </div>
 
-            <h2 className="home-achievements-title">Conquistas Bloqueadas</h2>
-            <div className="home-achievements-grid">
-              {lockedAchievements.map((achievement) => (
-                <div key={achievement.id} className="home-achievement-card blocked">
-                  <img src={'./public/blocked_trophy.png'} alt="Troféu Bloqueado"  className="home-trophy"/>
-                  <p>{achievement.name}</p>
-                </div>
-              ))}
-            </div>
+          {/* Conquistas desbloqueadas */}
+          <h2 className="home-achievements-title">Suas Conquistas</h2>
+          <div className="home-achievements-grid">
+            {unlockedAchievements.map((achievement) => (
+              <div key={achievement.id} className="home-achievement-card">
+                <img src={'./public/trophy_unblocked.png'} alt="Troféu" className="home-trophy" />
+                <p>{achievement.name}</p>
+              </div>
+            ))}
           </div>
 
-          {/* Loja de pontos */}
-          <section className="home-store-section">
-            <h2 className="home-section-title">Loja de pontos</h2>
-            <div className="home-store-grid">
-              {products.map(
-                (product) =>
-                  product.isActive && (
-                    <div
-                      key={product._id}
-                      className="home-product-card"
-                      onClick={() => handleOpenPopUp(product)}
-                    >
-                      <img src={product.img} alt={product.name} className="home-product-image" />
-                      <p className="home-product-pricee">{product.price} pontos</p>
-                    </div>
-                  )
-              )}
-            </div>
-          </section>
+          {/* Conquistas Bloqueadas com Barra de Progresso */}
+          <h2 className="home-achievements-title">Conquistas Bloqueadas</h2>
+          <div className="home-achievements-grid">
+            {lockedAchievements.map((achievement) => {
+              // calculo da porcentagem
+              const progress = achievement.type === "plastic"
+                ? (trashStats.plastic / achievement.threshold) * 100
+                : (trashStats.metal / achievement.threshold) * 100;
 
+              return (
+                //pega pelo id 
+                <div key={achievement.id} className="home-achievement-card blocked">
+                  <img src={'./public/blocked_trophy.png'} alt="Troféu Bloqueado" className="home-trophy" />
+                  <p>{achievement.name}</p>
 
-          {/* Gráficos */}
+                  {/* Barra de progresso */}
+                  <div className="progress-bar-container">
+                    <div className="progress-bar" style={{ width: `${progress}%` }}></div>
+                  </div>
+                  {/* calculo tb */}
+                  <p>{Math.min(progress, 100).toFixed(0)}%</p>
+                </div>
+              );
+            })}
+          </div>
+
           <TrashChart />
-
-          {/* Popup de troca de pontos */}
-          {selectedProduct && (
-            <div className="home-modal-overlay">
-              <div className="home-modal-content">
-                <img src={selectedProduct.img} alt={selectedProduct.name} className="home-modal-image" />
-                <h2>{selectedProduct.name}</h2>
-                <p>{selectedProduct.price} pontos</p>
-                <button onClick={handleClosePopUp} className="home-close-button">
-                  Fechar
-                </button>
-                <button onClick={handlePoints} className="home-exchange-button">
-                  Trocar
-                </button>
-              </div>
-            </div>
-          )}
 
           {/* Footer */}
           <footer className="home-footer">
