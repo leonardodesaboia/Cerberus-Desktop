@@ -26,6 +26,14 @@ const Home = () => {
     { id: 6, name: "100 Metais Reciclados", threshold: 100, type: "metal" }
   ];
 
+  // trofeus 
+  const getTrophyImage = (threshold) => {
+    if (threshold === 25) return "./public/trophys/bronze_trophy.png";
+    if (threshold === 50) return "./public/trophys/silver_trophy.png";
+    if (threshold === 100) return "./public/trophys/gold_trophy.png";
+    return "./public/trophys/locked_trophy.png"; // fallback
+  };
+
   // Carregar dados do usuário
   useEffect(() => {
     const fetchUserData = async () => {
@@ -92,7 +100,7 @@ const Home = () => {
   };
 
   // Fechar popup dos produtos
-  const handleClosePopUp = () => {
+  const  handleClosePopUp = () => {
     setSelectedProduct(null);
   };
 
@@ -120,6 +128,7 @@ const Home = () => {
   if (loading) return <p>Carregando...</p>;
   if (error) return <p>{error}</p>;
 
+
   return (
     <>
       <Navbar />
@@ -129,7 +138,7 @@ const Home = () => {
           <section className="home-welcome-section">
             <h1 className="home-welcome-title">Bem-vindo(a), {username}!</h1>
             <div className="home-points-card">
-              <p className="home-points-label">Seus pontos acumulados</p>
+              <p className="home-points-label">Seus pontos acumulados:</p>
               <p className="home-points-value animate-float">{points}</p>
               <img src="./coin.png" alt="" className="coin-points" />
             </div>
@@ -140,7 +149,7 @@ const Home = () => {
           <div className="home-achievements-grid">
             {unlockedAchievements.map((achievement) => (
               <div key={achievement.id} className="home-achievement-card">
-                <img src={'./public/trophy_unblocked.png'} alt="Troféu" className="home-trophy" />
+               <img src={getTrophyImage(achievement.threshold)} alt="Troféu" className="home-trophy" />
                 <p>{achievement.name}</p>
               </div>
             ))}
@@ -158,7 +167,7 @@ const Home = () => {
               return (
                 //pega pelo id 
                 <div key={achievement.id} className="home-achievement-card blocked">
-                  <img src={'./public/blocked_trophy.png'} alt="Troféu Bloqueado" className="home-trophy" />
+                  <img src={'./public/trophys/locked_trophy.png'} alt="Troféu Bloqueado" className="home-trophy" />
                   <p>{achievement.name}</p>
 
                   {/* Barra de progresso */}
@@ -172,7 +181,44 @@ const Home = () => {
             })}
           </div>
 
+          {/* Loja de pontos */}
+          <section className="home-store-section">
+            <h2 className="home-section-title">Loja de pontos</h2>
+            <div className="home-store-grid">
+              {products.map(
+                (product) =>
+                  product.isActive && (
+                    <div
+                      key={product._id}
+                      className="home-product-card"
+                      onClick={() => handleOpenPopUp(product)}
+                    >
+                      <img src={product.img} alt={product.name} className="home-product-image" />
+                      <p className="home-product-pricee">{product.price} pontos</p>
+                    </div>
+                  )
+              )}
+            </div>
+          </section>
+
           <TrashChart />
+          {/* Popup de troca de pontos */}
+          {selectedProduct && (
+            <div className="home-modal-overlay">
+              <div className="home-modal-content">
+                <img src={selectedProduct.img} alt={selectedProduct.name} className="home-modal-image" />
+                <h2>{selectedProduct.name}</h2>
+                <p>{selectedProduct.price} pontos</p>
+                <button onClick={handleClosePopUp} className="home-close-button">
+                  Fechar
+                </button>
+                <button onClick={handlePoints} className="home-exchange-button">
+                  Trocar
+                </button>
+              </div>
+            </div>
+          )}
+
 
           {/* Footer */}
           <footer className="home-footer">

@@ -18,6 +18,23 @@ const Navbar = () => {
   const [currentEmail, setCurrentEmail] = useState("");
   const [newEmail, setNewEmail] = useState("");
   const [originalEmail, setOriginalEmail] = useState("");
+  const [userId, setUserId] = useState("")
+
+  useEffect(() => {
+    const loadUserData = async () => {
+      try {
+        const userData = await getUserData();
+        setUsername(userData.username || "");
+        setCurrentEmail(userData.email || ""); 
+        setOriginalEmail(userData.email || "");
+        setUserId(userData.id)
+      } catch (error) {
+        toast.error("Erro ao carregar dados do usuário");
+        console.error(error);
+      }
+    };
+    loadUserData();
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,37 +49,38 @@ const Navbar = () => {
     navigate("/")
   };
 
+ 
+
   // deletar conta 
   const deleteUser = async () => {
+    const userId = localStorage.getItem("userId")
+    console.log(localStorage.getItem("userId"))
+    if (!userId) {
+      console.log("chegou na linha 57")
+      return;
+    }
     try {
-      const response = await fetch(`http://localhost:3000/delete/${id}`, {
-        method: "DELETE"
+      const response = await fetch(`http://localhost:3000/user/${userId}`, { 
+        method: "DELETE",
+        headers: { 'Content-Type': 'application/json',
+          //'Authorization': `${localStorage.getItem("token")}`
+        },
+        
       });
+  
       if (!response.ok) {
         throw new Error("Erro ao excluir perfil");
+  
       }
+  
+      toast.success("Conta excluída com sucesso!");
       setTimeout(() => {
-        window.location.href = "/";
+        navigate("/");
       }, 2000);
     } catch (error) {
-      console.error(error.message);
+      console.error(error);
     }
   };
-
-  useEffect(() => {
-    const loadUserData = async () => {
-      try {
-        const userData = await getUserData();
-        setUsername(userData.username || "");
-        setCurrentEmail(userData.email || ""); 
-        setOriginalEmail(userData.email || "");
-      } catch (error) {
-        toast.error("Erro ao carregar dados do usuário");
-        console.error(error);
-      }
-    };
-    loadUserData();
-  }, []);
 
   const handleSaveChanges = async () => {
     const updates = {};
@@ -78,7 +96,6 @@ const Navbar = () => {
       const updatedUser = await editUserData(updates);
       setUsername(updatedUser.username);
       setOriginalEmail(updatedUser.email);
-      toast.success("Perfil atualizado com sucesso!");
     } catch (error) {
       toast.error(error.message);
       console.error(error);

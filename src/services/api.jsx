@@ -90,6 +90,7 @@ export const editUserData = async (updatedData) => {
   }
 };
 
+
 // pontos
 export const updateUserPoints = async (product) => {
   const response = await fetch(`${API_URL}/log`, {
