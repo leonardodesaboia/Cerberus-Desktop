@@ -32,6 +32,7 @@ const Navbar = () => {
     navigate("/")
   };
 
+  // deletar conta 
   const deleteUser = async () => {
     try {
       const response = await fetch(`http://localhost:3000/delete/${id}`, {
@@ -40,12 +41,10 @@ const Navbar = () => {
       if (!response.ok) {
         throw new Error("Erro ao excluir perfil");
       }
-      toast.success("Perfil Excluído com sucesso!");
       setTimeout(() => {
         window.location.href = "/";
       }, 2000);
     } catch (error) {
-      toast.error('Algo deu errado ao excluír sua conta.');
       console.error(error.message);
     }
   };
@@ -146,6 +145,24 @@ const Navbar = () => {
             <div className="edit-buttons">
               <button onClick={handleSaveChanges} className="save-button">Salvar</button>
               <button onClick={() => setIsEditOpen(false)} className="close-button">Fechar</button>
+            </div>
+             {/* Botão para abrir o pop-up de confirmação */}
+             <button onClick={() => setIsDeleteOpen(true)} className="delete-account-button">
+              Deletar conta
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Pop-up de confirmação de exclusão */}
+      {isDeleteOpen && (
+        <div className="confirm-delete-popup">
+          <div className="confirm-delete-menu">
+            <h3>Tem certeza que deseja excluir sua conta?</h3>
+            <p>Essa ação não pode ser desfeita.</p>
+            <div className="confirm-buttons">
+              <button onClick={deleteUser} className="confirm-button">Confirmar</button>
+              <button onClick={() => setIsDeleteOpen(false)} className="cancel-button">Cancelar</button>
             </div>
           </div>
         </div>
