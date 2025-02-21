@@ -4,6 +4,7 @@ import { getUserData, editUserData } from '../services/api.jsx';
 import { Menu, X, Recycle } from "lucide-react";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+ 
 import "../styles/NavbarHome.css";
 import { useNavigate } from 'react-router-dom';
 
@@ -141,7 +142,8 @@ const Navbar = () => {
 
             {isDropDownOpen && (
               <div className="dropdown-menu">
-                <button onClick={() => setIsEditOpen(true)} className="dropdown-item">Editar Perfil</button>
+                <button onClick={() => setIsEditOpen(true)} className="dropdown-item">Meu cadastro</button>
+                <button  className="dropdown-item">Resgates</button>
                 <button onClick={handleLogout} className="dropdown-item delete">Sair</button>
               </div>
             )}

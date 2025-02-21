@@ -4,12 +4,14 @@
   width: 100%;
   z-index: 50;
   transition: all 0.3s;
+  background: #c8ff916d;
+
 }
 
 .navbar.scrolled {
-  background: rgba(255, 255, 255, 0.8);
+  background: #c8ff916d;
   backdrop-filter: blur(8px);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.041);
 }
 
 .navbar-container {
@@ -130,24 +132,22 @@
   .navbar-brand{
     margin-right: 2rem;
   }
-/* 
-  .dropdown-menu{
-    margin-right: 9%;
-  } */
+
 }
 
 /* Menu Dropdown */
 .dropdown-menu {
   position: absolute;
   right: 0;
-  /* top: 120%; */
+  top: 120%;
   width: 200px;
-  margin-right: 8.5%;
+  margin-right: 18%;
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 8px 0;
   z-index: 1001;
+  display: block;
 }
 
 .dropdown-item {

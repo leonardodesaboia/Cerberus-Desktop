@@ -1,7 +1,11 @@
 /* container da página principal */
+
+
+
+
 .home-page-container {
   min-height: 100vh;
-  background: linear-gradient(to bottom, #c8ff916d, #c8ff916d);
+  background: #f2f2f2;
   padding: 6rem 1rem 2rem; 
 }
 /* Estilos gerais */
@@ -43,7 +47,7 @@
 }
 
 .home-points-card {
-  background: #f3f3f3;
+  background: #fbfbfb;
   backdrop-filter: blur(10px);
   border-radius: 1rem;
   width: 100%;
@@ -95,7 +99,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.8);
+  background: #fbfbfb;
   backdrop-filter: blur(8px);
   border-radius: 1rem;
   padding: 2rem;
@@ -121,6 +125,7 @@
 .home-achievements-title {
   font-size: 1.5rem;
   font-weight: 600;
+  margin-top: 2.5rem;
   margin-bottom: 1rem;
   color: #174204;
   text-align: left;
@@ -178,6 +183,7 @@
   cursor: pointer;
   transition: transform 0.2s ease;
   border: 1px solid rgba(134, 194, 109, 0.2);
+  margin-bottom: 2rem;
 }
 
 .home-product-card:hover {

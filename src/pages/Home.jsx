@@ -3,7 +3,8 @@ import "../styles/home.css";
 import { getUserData, updateUserPoints, fetchProducts } from "../services/api";
 import Navbar from "../components/NavbarHome";
 import TrashChart from "../components/TrashChart";
-import { toast } from "react-toastify";
+import { FaArrowRight } from "react-icons/fa6";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Home = () => {
@@ -119,14 +120,16 @@ const Home = () => {
       setPoints(newPoints);
       toast.success("Troca realizada com sucesso!");
       handleClosePopUp();
+      Toast.success("Pontos trocados com sucesso!")
     } catch (error) {
       console.error("Erro ao atualizar pontos:", error);
-      toast.error("Erro ao atualizar pontos.");
+      
     }
   };
 
   if (loading) return <p>Carregando...</p>;
   if (error) return <p>{error}</p>;
+
 
 
   return (
@@ -184,6 +187,7 @@ const Home = () => {
           {/* Loja de pontos */}
           <section className="home-store-section">
             <h2 className="home-section-title">Loja de pontos</h2>
+            <a href="" className="">Ver mais <FaArrowRight/> </a>
             <div className="home-store-grid">
               {products.map(
                 (product) =>
