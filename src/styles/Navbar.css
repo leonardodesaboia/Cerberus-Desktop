@@ -1,18 +1,3 @@
-/* navabar */
-.navbar {
-  position: fixed;
-  width: 100%;
-  z-index: 50;
-  transition: all 0.3s;
-  background: rgba(255, 255, 255, 0.8);
-
-}
-
-.navbar.scrolled {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(8px);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
 
 .navbar-container {
   max-width: 1280px;

@@ -1,36 +1,29 @@
-/* container da página principal */
+/* Container da página principal */
 .home-page-container {
   min-height: 100vh;
   background: #f2f2f2;
-  padding: 6rem 1rem 2rem; 
+  padding: 6rem 1rem 2rem;
 }
+
 /* Estilos gerais */
 .home-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start; /* Alinhar à esquerda */
   padding: 20px;
   max-width: 1200px;
-  margin: auto;
-}
-
-
-.home-achievements-grid, .home-store-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
-  width: 100%;
 }
 
 .home-content-wrapper {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem; 
+  padding: 0 1rem;
+  text-align: left; /* Alinhar texto à esquerda */
 }
 
 /* Bem-vindo */
 .home-welcome-section {
-  text-align: center;
+  text-align: left; /* Alinhar à esquerda */
   margin-bottom: 2rem;
 }
 
@@ -39,43 +32,6 @@
   font-weight: bold;
   color: #174204;
   margin-bottom: 1.5rem;
-  text-align: left;
-}
-
-.home-points-card {
-  background: #fbfbfb;
-  backdrop-filter: blur(10px);
-  border-radius: 1rem;
-  width: 100%;
-  max-width: 50rem; /* Limitar a largura */
-  padding: 2rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 0 auto; 
-}
-
-.home-points-label {
-  color: #666;
-  font-size: 1.125rem;
-  margin-bottom: 0.5rem;
-}
-
-.home-points-value p {
-  font-size: 20px;
-}
-
-.home-points-value {
-  font-size: 3rem;
-  font-weight: bold;
-  text-align: left;
-  color: #174204;
-}
-
-.coin-points {
-  width: 7vh;
-  height: 7vh;
 }
 
 /* Conquistas */
@@ -84,10 +40,8 @@
 }
 
 .home-achievements-grid {
-  /* display: grid; */
   display: flex;
-  justify-content: center;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Responsividade */
+  justify-content: flex-start; /* Alinhar à esquerda */
   gap: 1.5rem;
 }
 
@@ -130,7 +84,6 @@
 .progress-bar-container {
   width: 100%;
   height: 10px;
-  /* background-color: #ddd; */
   border-radius: 5px;
   overflow: hidden;
   margin-top: 5px;
@@ -148,11 +101,11 @@
 }
 
 .home-section-title {
-  font-size: 1.5rem; 
-  font-weight: 600;      
+  font-size: 1.5rem;
+  font-weight: 600;
   color: #174204;
-  margin-top: 3.5rem;
-  margin-bottom: 1rem;
+  margin-top: 1rem;
+  text-align: left;
 }
 
 .home-store-header {
@@ -160,6 +113,14 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
+}
+
+.store-link {
+  border: none;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  margin-left: 1.5px;
 }
 
 .home-store-subtitle {
@@ -170,6 +131,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1.5rem;
+  justify-items: start; /* Alinhar itens à esquerda */
 }
 
 .home-product-card {
@@ -186,8 +148,8 @@
   transform: scale(1.02);
 }
 
-.home-product-pricee{
-  font-weight: 600px;
+.home-product-pricee {
+  font-weight: 600;
   text-align: center;
   color: #081a01;
   margin-top: 10px;
@@ -235,7 +197,7 @@
   max-width: 32rem;
   width: 40%;
   position: relative;
-  text-align: center; 
+  text-align: center;
 }
 
 .home-modal-image {
@@ -281,83 +243,9 @@
   background: #1f5406;
 }
 
-/* responsividade */
-@media (max-width: 768px) {
-  .home-modal-content {
-    width: 90%; 
-    padding: 1rem;
-  }
-
-  .home-modal-image {
-    width: 6rem;
-    height: 6rem;
-  }
-
-  .home-button-group {
-    flex-direction: column; 
-    gap: 0.5rem;
-  }
-
-  .home-exchange-button {
-    padding: 0.5rem 1rem;
-  }
-
-  .home-points-label{
-   font-size: 15px;
-   color: black;
-  }
-  .coin-points {
-    width: 4vh;
-    height: 4vh;
-    margin-left: 2rem;
-  }
-
-  .home-points-value {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-right: 10px;
-    color: #174204;
-  }
-
-}
-
-
-
-
-.home-close-button {
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  font-weight: 500;
-  border: 1px solid #e5e5e5;
-  background: white;
-  margin-right: 2rem;
-  margin-top: 10px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  color: #000000;
-}
-
-.home-close-button:hover {
-  background: #f5f5f5;
-}
-
-.home-cancel-button {
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  font-weight: 500;
-  border: 1px solid #e5e5e5;
-  background: white;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.home-cancel-button:hover {
-  background: #f5f5f5;
-}
-
 /* Footer */
 .home-footer {
-  text-align: center;
+  text-align: left; /* Alinhar à esquerda */
   padding: 2rem 0;
   margin-top: 3rem;
 }
@@ -378,17 +266,10 @@
   color: #666;
 }
 
-/* Animações */
-@keyframes home-float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
-}
-
-
-
+/* Responsividade */
 @media (max-width: 768px) {
-  .home-achievements-grid, .home-store-grid {
+  .home-achievements-grid,
+  .home-store-grid {
     display: flex;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
@@ -396,21 +277,23 @@
     padding-bottom: 10px;
   }
 
-  .home-achievements-grid::-webkit-scrollbar, 
+  .home-achievements-grid::-webkit-scrollbar,
   .home-store-grid::-webkit-scrollbar {
     display: none;
   }
 
-  .home-achievement-card, .home-product-card {
+  .home-achievement-card,
+  .home-product-card {
     min-width: 80%;
     scroll-snap-align: center;
   }
-  .home-achievement-card{
+
+  .home-achievement-card {
     width: 20vh;
     height: 20vh;
   }
 
-  /*  carrossel */
+  /* Carrossel */
   .carousel-indicators {
     display: flex;
     justify-content: center;
@@ -429,5 +312,41 @@
   .carousel-indicators .active {
     background-color: #333;
   }
-}
 
+  .home-modal-content {
+    width: 90%;
+    padding: 1rem;
+  }
+
+  .home-modal-image {
+    width: 6rem;
+    height: 6rem;
+  }
+
+  .home-button-group {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .home-exchange-button {
+    padding: 0.5rem 1rem;
+  }
+
+  .home-points-label {
+    font-size: 15px;
+    color: black;
+  }
+
+  .coin-points {
+    width: 4vh;
+    height: 4vh;
+    margin-left: 2rem;
+  }
+
+  .home-points-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-right: 10px;
+    color: #174204;
+  }
+}

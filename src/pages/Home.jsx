@@ -7,12 +7,12 @@ import { FaArrowRight } from "react-icons/fa6";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
+import CardPoints from "../components/CardPoints";
 
 const Home = () => {
   const [points, setPoints] = useState(0);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [products, setProducts] = useState([]);
-  const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [trashStats, setTrashStats] = useState({ plastic: 0, metal: 0 });
@@ -25,10 +25,10 @@ const Home = () => {
     { id: 3, name: "100 Plásticos Reciclados", threshold: 100, type: "plastic" },
     { id: 4, name: "25 Metais Reciclados", threshold: 25, type: "metal" },
     { id: 5, name: "50 Metais Reciclados", threshold: 50, type: "metal" },
-    { id: 6, name: "100 Metais Reciclados", threshold: 100, type: "metal" }
+    { id: 6, name: "100 Metais Reciclados", threshold: 100, type: "metal" },
   ];
 
-  // trofeus 
+  // Troféus
   const getTrophyImage = (threshold) => {
     if (threshold === 25) return "./public/trophys/bronze_trophy.png";
     if (threshold === 50) return "./public/trophys/silver_trophy.png";
@@ -41,8 +41,6 @@ const Home = () => {
     const fetchUserData = async () => {
       try {
         const userData = await getUserData();
-        setUsername(userData.username);
-        setPoints(userData.points);
         setTrashStats({
           plastic: userData.plasticDiscarted || 0,
           metal: userData.metalDiscarted || 0,
@@ -102,7 +100,7 @@ const Home = () => {
   };
 
   // Fechar popup dos produtos
-  const  handleClosePopUp = () => {
+  const handleClosePopUp = () => {
     setSelectedProduct(null);
   };
 
@@ -121,39 +119,33 @@ const Home = () => {
       setPoints(newPoints);
       toast.success("Troca realizada com sucesso!");
       handleClosePopUp();
-      Toast.success("Pontos trocados com sucesso!")
     } catch (error) {
       console.error("Erro ao atualizar pontos:", error);
-      
+      toast.error("Erro ao realizar a troca.");
     }
   };
+
+  const navigate = useNavigate();
 
   if (loading) return <p>Carregando...</p>;
   if (error) return <p>{error}</p>;
 
-
-
   return (
     <>
       <Navbar />
-
       <div className="home-page-container">
+        <CardPoints />
         <div className="home-content-wrapper">
-          <section className="home-welcome-section">
-            <h1 className="home-welcome-title">Bem-vindo(a), {username}!</h1>
-            <div className="home-points-card">
-              <p className="home-points-label">Seus pontos acumulados:</p>
-              <p className="home-points-value animate-float">{points}</p>
-              <img src="./coin.png" alt="" className="coin-points" />
-            </div>
-          </section>
-
           {/* Conquistas desbloqueadas */}
           <h2 className="home-achievements-title">Suas Conquistas</h2>
           <div className="home-achievements-grid">
             {unlockedAchievements.map((achievement) => (
               <div key={achievement.id} className="home-achievement-card">
-               <img src={getTrophyImage(achievement.threshold)} alt="Troféu" className="home-trophy" />
+                <img
+                  src={getTrophyImage(achievement.threshold)}
+                  alt="Troféu"
+                  className="home-trophy"
+                />
                 <p>{achievement.name}</p>
               </div>
             ))}
@@ -163,22 +155,25 @@ const Home = () => {
           <h2 className="home-achievements-title">Conquistas Bloqueadas</h2>
           <div className="home-achievements-grid">
             {lockedAchievements.map((achievement) => {
-              // calculo da porcentagem
-              const progress = achievement.type === "plastic"
-                ? (trashStats.plastic / achievement.threshold) * 100
-                : (trashStats.metal / achievement.threshold) * 100;
+              // Cálculo da porcentagem
+              const progress =
+                achievement.type === "plastic"
+                  ? (trashStats.plastic / achievement.threshold) * 100
+                  : (trashStats.metal / achievement.threshold) * 100;
 
               return (
-                //pega pelo id 
                 <div key={achievement.id} className="home-achievement-card blocked">
-                  <img src={'./public/trophys/locked_trophy.png'} alt="Troféu Bloqueado" className="home-trophy" />
+                  <img
+                    src="./public/trophys/locked_trophy.png"
+                    alt="Troféu Bloqueado"
+                    className="home-trophy"
+                  />
                   <p>{achievement.name}</p>
 
                   {/* Barra de progresso */}
                   <div className="progress-bar-container">
                     <div className="progress-bar" style={{ width: `${progress}%` }}></div>
                   </div>
-                  {/* calculo tb */}
                   <p>{Math.min(progress, 100).toFixed(0)}%</p>
                 </div>
               );
@@ -187,11 +182,9 @@ const Home = () => {
 
           {/* Loja de pontos */}
           <section className="home-store-section">
-            <h2 className="home-section-title">Loja de pontos  </h2>
-
-{/* mudar p */}
-            <button className="store-link" onClick={() => navigate('/store')}>
-            Ver mais <FaArrowRight />
+            <h2 className="home-section-title">Loja de pontos</h2>
+            <button className="store-link" onClick={() => navigate("/store")}>
+              Ver mais <FaArrowRight />
             </button>
 
             <div className="home-store-grid">
@@ -212,6 +205,7 @@ const Home = () => {
           </section>
 
           <TrashChart />
+
           {/* Popup de troca de pontos */}
           {selectedProduct && (
             <div className="home-modal-overlay">
@@ -229,10 +223,9 @@ const Home = () => {
             </div>
           )}
 
-
           {/* Footer */}
           <footer className="home-footer">
-            <p>© Cerberus 2025</p>
+            <p>© EcoPoints | Cerberus 2025</p>
           </footer>
         </div>
       </div>
