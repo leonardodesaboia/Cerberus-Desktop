@@ -28,7 +28,6 @@ const CardPoints = () => {
       <div className="welcome-container">
         <h1 className="welcome-text">Bem Vindo(a), {username}!</h1>
         <div className="points-card">
-          
             <section>
                 <p className="points-label">Seus pontos acumulados:</p>
                 <p className="points-value animated-float">{points}</p>

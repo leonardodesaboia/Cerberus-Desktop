@@ -1,20 +1,24 @@
+/* Container Principal */
 .register-container {
   min-height: 100vh;
-  background-color: white;
+  background-color: #fbfbfb;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center; /* Centraliza verticalmente */
   position: relative;
   overflow: hidden;
+  padding: 1rem; /* Adiciona espaçamento interno */
 }
 
+/* Header */
 .register-header {
   background-color: var(--primary-color);
   padding: 16px;
-  margin-bottom: 0;
   width: 100%;
+  max-width: 450px; /* Largura máxima */
   text-align: center;
-  border-radius: 0 0 24px 24px;
+  border-radius: 24px 24px 0 0;
   position: relative;
   z-index: 1;
 }
@@ -26,13 +30,14 @@
   margin: 0;
 }
 
+/* Container do Formulário */
 .form-container-register {
   width: 100%;
-  max-width: 300px;
-  margin: 0 auto;
-  padding: 20px;
+  max-width: 450px; /* Largura máxima */
+  padding: 24px;
   background-color: white;
-  border-radius: 0 0 16px 16px;
+  border-radius: 0 0 24px 24px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
   position: relative;
   z-index: 1;
 }
@@ -43,6 +48,7 @@
   gap: 16px;
 }
 
+/* Inputs */
 .input-container {
   display: flex;
   flex-direction: column;
@@ -69,22 +75,7 @@
   box-shadow: 0 0 0 2px rgba(50, 109, 25, 0.2);
 }
 
-.forgot-password {
-  text-align: left;
-}
-
-.forgot-password a, 
-.create-account a {
-  color: var(--primary-color);
-  text-decoration: none;
-  font-size: 0.875rem;
-}
-
-.forgot-password a:hover, 
-.create-account a:hover {
-  text-decoration: underline;
-}
-
+/* Botão de Registro */
 .register-button {
   width: 100%;
   padding: 12px;
@@ -102,60 +93,42 @@
   background-color: var(--tertiary-color);
 }
 
-.wave-container-register {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  z-index: 0;
-}
-
-.wave-register {
-  width: 100%;
-  max-height: 250px;
-}
-
-.input-error {
-  border-color: #dc3545;
-  background-color: #fff;
-}
-
-.input-error:focus {
-  border-color: #dc3545;
-  box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.25);
-}
-
-.input-error {
-  border-color: #dc3545;
-  background-color: #fff;
-}
-
-.input-error:focus {
-  border-color: #dc3545;
-  box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.25);
-}
-
+/* Mensagens de Erro e Sucesso */
 .error-message {
   color: #dc3545;
   font-size: 0.75rem;
   margin-top: 4px;
 }
 
+.success-message {
+  color: #28a745;
+  font-size: 0.75rem;
+  margin-top: 4px;
+}
+.logo {
+  filter: brightness(0) invert(1); /* Transforma a logo em branco */
+  width: 30px; 
+  height: auto; 
+}
+
+.account{
+  text-decoration: none;
+  color: #023b0f;
+}
+
+.account:hover{
+  text-decoration:underline;
+}
+
+/* Responsividade */
 @media (min-width: 768px) {
-  .register-container {
-    justify-content: center;
-    min-height: 100vh;
-  }
-
-  .register-header {
-    max-width: 450px;
-    border-radius: 24px 24px 0 0;
-  }
-
+  .register-header,
   .form-container-register {
-    max-width: 450px;
-    padding: 24px;
-    background: white;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    max-width: 500px; /* Ajusta a largura para telas maiores */
+  }
+
+  .register-header h1 {
+    font-size: 2.5rem;
   }
 
   .input-field {
@@ -166,23 +139,5 @@
   .register-button {
     padding: 14px;
     font-size: 1rem;
-  }
-
-  .wave-register {
-    position: absolute;
-    bottom: 0;
-    max-height: 100px;
-    width: 100%;
-  }
-}
-
-@media (min-width: 1024px) {
-  .register-header,
-  .form-container-register {
-    max-width: 500px;
-  }
-
-  .register-header h1 {
-    font-size: 2.5rem;
   }
 }

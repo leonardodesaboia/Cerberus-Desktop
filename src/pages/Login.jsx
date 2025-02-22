@@ -105,7 +105,8 @@ function Login() {
 
                 <div className="login-container">
                     <div className="login-header">
-                        <h1>Cerberus</h1>
+                        
+                        <h1> <img src="../public/recycle.png" alt='' className='logo-acc'/> EcoPoints</h1>
                     </div>
 
                     <div className="form-container-login">
@@ -151,11 +152,6 @@ function Login() {
                             </div>
                         </form>
                     </div>
-                
-
-            {/* <div className="wave-container-login">
-                <img src='/Vector.png' alt='Bottom img' className='wave-login'/>
-            </div> */}
             </div>
     );
 }

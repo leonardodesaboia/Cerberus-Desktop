@@ -2,7 +2,6 @@
 .home-page-container {
   min-height: 100vh;
   background: #f2f2f2;
-  padding: 6rem 1rem 2rem;
 }
 
 /* Estilos gerais */
@@ -21,18 +20,9 @@
   text-align: left; /* Alinhar texto à esquerda */
 }
 
-/* Bem-vindo */
-.home-welcome-section {
-  text-align: left; /* Alinhar à esquerda */
-  margin-bottom: 2rem;
-}
 
-.home-welcome-title {
-  font-size: 2.2rem;
-  font-weight: bold;
-  color: #174204;
-  margin-bottom: 1.5rem;
-}
+
+
 
 /* Conquistas */
 .home-achievements-section {

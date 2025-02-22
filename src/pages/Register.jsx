@@ -372,91 +372,76 @@ function Register() {
 
 
 
-    return (
-      <div className="register-container">
-          <div className="register-header">
-              <h1>Cerberus</h1>
-          </div>
-
-          <div className="form-container-register">
-            {apiError && (
-                    <div className="error-message">
-                        {apiError}
-                    </div>
-                )}
-                
-                {successMessage && (
-                    <div className="success-message">
-                        {successMessage}
-                    </div>
-                )}
-
-                {navigationError && (
-                    <div className="error-message">
-                        {navigationError}
-                    </div>
-                )}
-              <form className="register-form">
-                  <Input 
-                      label="Email" 
-                      type="email" 
-                      value={formData.email}
-                      onChange={handleChange('email')}
-                      onBlur={handleBlur('email')}
-                      error={errors.email}
-                      placeholder="Digite seu email"
-                  />
-
-                  <Input 
-                      label="CPF" 
-                      type="text" 
-                      value={formData.cpf}
-                      onChange={handleChange('cpf')}
-                      onBlur={handleBlur('cpf')}
-                      error={errors.cpf}
-                      placeholder="Digite o seu CPF"
-                  />  
-
-                  <Input
-                      label="Username" 
-                      type="text" 
-                      value={formData.username}
-                      onChange={handleChange('username')}
-                      onBlur={handleBlur('username')}
-                      error={errors.username}
-                      placeholder="Digite o seu nome de usuário"
-                  />
-                  
-                  <Input 
-                      label="Senha" 
-                      type="password" 
-                      value={formData.password}
-                      onChange={handleChange('password')}
-                      onBlur={handleBlur('password')}
-                      error={errors.password}
-                      placeholder="Digite sua senha"
-                  />
-
-                  <Input 
-                      label="Confirmar senha" 
-                      type="password" 
-                      value={formData.confirmPassword}
-                      onChange={handleChange('confirmPassword')}
-                      onBlur={handleBlur('confirmPassword')}
-                      error={errors.confirmPassword}
-                      placeholder="Confirme sua senha"
-                  />
-
-                  <button type="submit" className="register-button" onClick={handleSubmit}>
-                      Cadastrar
-                  </button>
-              </form>
-          </div>
-
-          <div className="wave-container-register">
-              <img src='/Vector.png' alt='Bottom img' className='wave-register'/>
-          </div>
+  return (
+    <div className="register-container">
+      <div className="register-header">
+       
+        <h1>  <img src="../public/recycle.png" alt="" className='logo'/>    EcoPoints</h1>
       </div>
+  
+      <div className="form-container-register">
+        {apiError && <div className="error-message">{apiError}</div>}
+        {successMessage && <div className="success-message">{successMessage}</div>}
+        {navigationError && <div className="error-message">{navigationError}</div>}
+  
+        <form className="register-form">
+          <Input
+            label="Email"
+            type="email"
+            value={formData.email}
+            onChange={handleChange('email')}
+            onBlur={handleBlur('email')}
+            error={errors.email}
+            placeholder="Digite seu email"
+          />
+  
+          <Input
+            label="CPF"
+            type="text"
+            value={formData.cpf}
+            onChange={handleChange('cpf')}
+            onBlur={handleBlur('cpf')}
+            error={errors.cpf}
+            placeholder="Digite o seu CPF"
+          />
+  
+          <Input
+            label="Username"
+            type="text"
+            value={formData.username}
+            onChange={handleChange('username')}
+            onBlur={handleBlur('username')}
+            error={errors.username}
+            placeholder="Digite o seu nome de usuário"
+          />
+  
+          <Input
+            label="Senha"
+            type="password"
+            value={formData.password}
+            onChange={handleChange('password')}
+            onBlur={handleBlur('password')}
+            error={errors.password}
+            placeholder="Digite sua senha"
+          />
+  
+          <Input
+            label="Confirmar senha"
+            type="password"
+            value={formData.confirmPassword}
+            onChange={handleChange('confirmPassword')}
+            onBlur={handleBlur('confirmPassword')}
+            error={errors.confirmPassword}
+            placeholder="Confirme sua senha"
+          />
+          <a href="./login" className='account'>Já tem uma conta? clique aqui</a>
+  
+          <button type="submit" className="register-button" onClick={handleSubmit}>
+            Cadastrar
+          </button>
+        </form>
+      </div>
+    </div>
   );
 }
 

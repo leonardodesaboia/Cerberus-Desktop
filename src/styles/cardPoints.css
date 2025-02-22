@@ -1,19 +1,15 @@
-.welcome-container{
-  
-}
-
 .points-card {
   background: #fbfbfb;
   backdrop-filter: blur(10px);
   border-radius: 1rem;
-  width: 100%;
-  max-width: 60rem; /* Aumentei a largura máxima */
+  width: 90%; /* Ajuste a largura para ser responsiva */
+  max-width: 60rem; /* Largura máxima */
   padding: 2rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Alinha os itens com espaço entre eles */
-  margin: 0 auto;
+  justify-content: space-between;
+  margin: 1.5rem auto 0; /* Centraliza o card e adiciona margem no topo */
 }
 
 .points-label {
@@ -34,6 +30,63 @@
   height: 7vh;
   margin-left: auto; /* Move a moeda para o final */
 }
-.welcome-text{
-  text-align: left;
+
+.welcome-text {
+  text-align: center;
+  margin-right: 0; /* Remove a margem direita fixa */
+  margin-bottom: 1rem; /* Adiciona margem inferior para espaçamento */
+}
+
+/* Media Queries para responsividade */
+
+/* Para tablets */
+@media (max-width: 768px) {
+  .points-card {
+    flex-direction: column; /* Altera a direção do flex para empilhar os itens */
+    align-items: flex-start; /* Alinha os itens à esquerda */
+    padding: 1.5rem;
+  }
+
+  .points-value {
+    font-size: 2.5rem; /* Reduz o tamanho da fonte */
+  }
+
+  .coin-points {
+    width: 6vh;
+    height: 6vh;
+    margin-left: 0; /* Remove a margem esquerda */
+    margin-top: 1rem; /* Adiciona margem superior */
+  }
+
+  .welcome-text {
+    
+    margin-right: 0; 
+  }
+}
+
+/* Para celulares */
+@media (max-width: 480px) {
+  .points-card {
+    width: 100%; /* Ocupa toda a largura da tela */
+    padding: 1rem;
+    border-radius: 0.5rem; /* Reduz o border-radius */
+  }
+
+  .points-label {
+    font-size: 1rem; /* Reduz o tamanho da fonte */
+  }
+
+  .points-value {
+    font-size: 2rem; /* Reduz o tamanho da fonte */
+  }
+
+  .coin-points {
+    width: 5vh;
+    height: 5vh;
+  }
+
+  .welcome-text {
+    font-size: 1.2rem;
+
+  }
 }
