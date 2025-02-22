@@ -5,6 +5,7 @@ import Navbar from "../components/NavbarHome";
 import TrashChart from "../components/TrashChart";
 import { FaArrowRight } from "react-icons/fa6";
 import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 
 const Home = () => {
@@ -186,8 +187,13 @@ const Home = () => {
 
           {/* Loja de pontos */}
           <section className="home-store-section">
-            <h2 className="home-section-title">Loja de pontos</h2>
-            <a href="" className="">Ver mais <FaArrowRight/> </a>
+            <h2 className="home-section-title">Loja de pontos  </h2>
+
+{/* mudar p */}
+            <button className="store-link" onClick={() => navigate('/store')}>
+            Ver mais <FaArrowRight />
+            </button>
+
             <div className="home-store-grid">
               {products.map(
                 (product) =>

@@ -1,11 +1,9 @@
-/* navabar */
 .navbar {
   position: fixed;
   width: 100%;
   z-index: 50;
   transition: all 0.3s;
   background: #c8ff916d;
-
 }
 
 .navbar.scrolled {
@@ -25,24 +23,20 @@
   align-items: center;
   justify-content: space-between;
   height: 4rem;
+  padding: 0 1rem;
 }
 
 .navbar-brand {
   display: flex;
   align-items: center;
-  /* gap: 0.5rem; */
+  gap: 0.75rem;
   color: #174204;
   text-decoration: none;
   font-size: 1.25rem;
   font-weight: 600;
-  margin-left: 2.3rem;
 }
 
-.navbar-icon {
-  width: 2rem;
-  height: 2rem;
-}
-
+/* links mobile */
 .navbar-links {
   display: none;
 }
@@ -54,37 +48,38 @@
   background: none;
   border: none;
   cursor: pointer;
-}
-
-.navbar-menu-icon {
-  width: 1.5rem;
-  height: 1.5rem;
+  transition: color 0.3s;
 }
 
 .navbar-menu-button:hover {
   color: #86C26D;
 }
 
-/* responsivo */
+/* Mobile menu */
 .navbar-mobile-menu {
-  transition: all 0.3s;
+  position: absolute;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  transition: all 0.3s ease-in-out;
   overflow: hidden;
 }
 
 .navbar-mobile-menu.open {
-  height: 16rem;
+  max-height: 200px;
   opacity: 1;
 }
 
 .navbar-mobile-menu.closed {
-  height: 0;
+  max-height: 0;
   opacity: 0;
 }
 
 .navbar-mobile-links {
-  padding: 0.5rem;
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(8px);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
 }
 
 /* links */
@@ -94,6 +89,7 @@
   color: #174204;
   text-decoration: none;
   transition: color 0.3s;
+  font-weight: 500;
 }
 
 .navbar-link:hover {
@@ -103,19 +99,24 @@
 .navbar-button {
   background: #118B01;
   color: white;
-  padding: 0.5rem 1.5rem;
+  padding: 0.75rem 1.5rem;
   border-radius: 9999px;
-  transition: background-color 0.3s;
   border: none;
   cursor: pointer;
+  transition: background-color 0.3s;
+  font-weight: 500;
 }
 
 .navbar-button:hover {
   background: #174204;
 }
 
-/* responsividade */
+/* Responsividade menu */
 @media (min-width: 768px) {
+  .navbar-content {
+    padding: 0 2rem;
+  }
+
   .navbar-links {
     display: flex;
     align-items: center;
@@ -129,25 +130,39 @@
   .navbar-mobile-menu {
     display: none;
   }
-  .navbar-brand{
-    margin-right: 2rem;
-  }
 
+  .navbar-link {
+    padding: 0.5rem 1rem;
+  }
 }
 
-/* Menu Dropdown */
+@media (min-width: 1024px) {
+  .navbar-content {
+    padding: 0 4rem;
+  }
+
+  .navbar-links {
+    gap: 3rem;
+  }
+}
+
+/* Dropdown Menu */
 .dropdown-menu {
   position: absolute;
   right: 0;
-  top: 120%;
+  top: 100%;
   width: 200px;
-  margin-right: 18%;
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 8px 0;
   z-index: 1001;
-  display: block;
+}
+
+@media (min-width: 768px) {
+  .dropdown-menu {
+    margin-right: 18%;
+  }
 }
 
 .dropdown-item {
@@ -170,7 +185,7 @@
   color: red;
 }
 
-/* Popup de Edição */
+/* Editar popup */
 .edit-popup {
   position: fixed;
   top: 0;
@@ -188,7 +203,7 @@
   background: white;
   padding: 2rem;
   border-radius: 8px;
-  width: 100%;
+  width: 90%;
   max-width: 400px;
   position: relative;
 }
@@ -215,11 +230,12 @@
   font-size: 1rem;
 }
 
-/* Botões de ação */
+/* btn de ação */
 .edit-buttons {
   display: flex;
   justify-content: space-between;
   margin-top: 1.5rem;
+  gap: 1rem;
 }
 
 .save-button, .close-button {
@@ -228,6 +244,7 @@
   border-radius: 4px;
   cursor: pointer;
   font-size: 0.9rem;
+  flex: 1;
 }
 
 .save-button {
@@ -248,7 +265,7 @@
   background: #5a6268;
 }
 
-/* Botão Deletar Conta  */
+/* Deletar conta */
 .delete-account-button {
   display: block;
   margin: 1rem auto 0;
@@ -264,73 +281,7 @@
   text-decoration: underline;
 }
 
-/* Overlay para escurecer o fundo */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 9998; /* Apenas um nível abaixo do modal */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Modal de exclusão */
-.modal-content {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  z-index: 9999; 
-  text-align: center;
-}
-
-
-/* Container dos botões */
-.delete-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 20px;
-  margin-left: 5rem;
-  margin-right: 5rem;
-}
-
-/* Botão de confirmação */
-.confirm-delete {
-  background-color: rgb(102, 102, 102);
-  border: none;
-  height: 4vh;
-  width: 8vh;
-  border-radius: 5px;
-  color: #f5f5f5;
-  transition: 0.2s;
-  cursor: pointer;
-}
-
-.confirm-delete:hover {
-  background-color: #535353;
-}
-
-/* Botão de cancelamento */
-.cancel-delete {
-  background-color: green;
-  border: none;
-  height: 4vh;
-  width: 8vh;
-  border-radius: 5px;
-  color: #f5f5f5;
-  transition: 0.2s;
-  cursor: pointer;
-}
-
-.cancel-delete:hover {
-  background-color: #046118;
-}
-
+/* confirmar deleção */
 .confirm-delete-popup {
   position: fixed;
   top: 0;
@@ -341,48 +292,58 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1002; /* Maior que o pop-up de edição */
+  z-index: 1002;
 }
 
-/* Modal de exclusão */
 .confirm-delete-menu {
   background: white;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   text-align: center;
-  width: 350px;
-  z-index: 1003; /* Para garantir que fique acima de tudo */
+  width: 90%;
+  max-width: 350px;
+  z-index: 1003;
 }
 
-.confirm-button{
+.confirm-button, .cancel-button {
+  width: 4.5rem;
+  height: 2rem;
+  border: none;
+  border-radius: 10px;
+  margin-top: 10px;
+  font-weight: bold;
+  color: white;
+  transition: 0.2s;
+}
+
+.confirm-button {
   background-color: rgb(128, 0, 0);
-  color: #f5f5f5;
-  width: 4.5rem;
-  height: 2rem;
-  border: none;
-  border-radius: 10px;
-  margin-top: 10px;
   margin-right: 1rem;
-  font-weight: bolder;
-  transition: .2s;
 }
 
-.cancel-button{
-  background-color: rgb(29, 126, 5);
-  color: #f5f5f5;
-  width: 4.5rem;
-  height: 2rem;
-  border: none;
-  border-radius: 10px;
-  margin-top: 10px;
-  transition: .2s;
-  font-weight: bolder;
-}
-.confirm-button:hover{
+.confirm-button:hover {
   background-color: rgb(168, 25, 25);
 }
 
-.cancel-button:hover{
+.cancel-button {
+  background-color: rgb(29, 126, 5);
+}
+
+.cancel-button:hover {
   background-color: rgb(74, 177, 6);
+}
+
+@media (max-width: 640px) {
+  .edit-menu {
+    padding: 1.5rem;
+  }
+
+  .edit-buttons {
+    flex-direction: column;
+  }
+
+  .save-button, .close-button {
+    width: 100%;
+  }
 }
