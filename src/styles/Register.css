@@ -111,9 +111,20 @@
   height: auto; 
 }
 
+.showPass{
+  all: unset;
+  background-color: transparent;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+  color: #000000;
+  align-self: flex-end;
+}
+
 .account{
   text-decoration: none;
   color: #023b0f;
+  margin: 10px;
 }
 
 .account:hover{

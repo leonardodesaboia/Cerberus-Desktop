@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import Input from '../components/Input';
 import { loginUser } from '../services/api';
 import { getUserData } from '../services/api';
+import {Eye, EyeOff} from 'lucide-react'
+
 import '../styles/Login.css';
 
 function Login() {
@@ -25,6 +27,7 @@ function Login() {
 
     const [isLoading, setIsLoading] = useState(false);
     const [apiError, setApiError] = useState('');
+    const [isShow, setIsShow] = useState(false)
 
     const validators = {
         email: (value) => {
@@ -101,6 +104,10 @@ function Login() {
         }
     };
 
+    const handlePassword =()=>{
+        setIsShow(!isShow)
+    }
+
     return (
 
                 <div className="login-container">
@@ -127,18 +134,22 @@ function Login() {
                                 placeholder="Digite seu email"
                                 disabled={isLoading}
                             />
-                            
-                            <Input 
+                                <Input 
                                 label="Senha" 
-                                type="password" 
+                                type={isShow ? "text" : "password" } 
                                 value={formData.password}
                                 onChange={handleChange('password')}
                                 onBlur={handleBlur('password')}
                                 error={errors.password}
                                 placeholder="Digite sua senha"
-                                disabled={isLoading}
-                            />
+                                disabled={isLoading} />
+                                
+                                <p className='showPass' onClick={handlePassword} >
+                                {isShow ? <EyeOff size={25}/>: <Eye size={25}/>}</p>
 
+                                
+
+                           
                             <button 
                                 type="submit" 
                                 className="login-button"

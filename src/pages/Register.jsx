@@ -5,6 +5,8 @@ import '../styles/Register.css';
 import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../services/api';
 import { getUserData } from '../services/api';
+import {Eye, EyeOff} from 'lucide-react'
+
 
 
 
@@ -38,6 +40,7 @@ function Register() {
     const [successMessage, setSuccessMessage] = useState('');
     const [formSubmitted, setFormSubmitted] = useState(false);
     const [navigationError, setNavigationError] = useState('');
+    const [isShow, setIsShow]= useState(false)
 
 
     const navigate = useNavigate();
@@ -370,7 +373,9 @@ function Register() {
       }
   }, [formData.password]);
 
-
+  const handlePassword =()=>{
+    setIsShow(!isShow)
+}
 
   return (
     <div className="register-container">
@@ -417,24 +422,27 @@ function Register() {
   
           <Input
             label="Senha"
-            type="password"
+            type={isShow ? "text" : "password" } 
             value={formData.password}
             onChange={handleChange('password')}
             onBlur={handleBlur('password')}
             error={errors.password}
             placeholder="Digite sua senha"
           />
+           <p className='showPass' onClick={handlePassword} >
+           {isShow ? <EyeOff size={25}/>: <Eye size={25}/>}</p>
   
           <Input
             label="Confirmar senha"
-            type="password"
+            type={isShow ? "text" : "password" } 
             value={formData.confirmPassword}
             onChange={handleChange('confirmPassword')}
             onBlur={handleBlur('confirmPassword')}
             error={errors.confirmPassword}
             placeholder="Confirme sua senha"
           />
-          <a href="./login" className='account'>Já tem uma conta? clique aqui</a>
+
+          <a href="./login" className='account'>Já tem uma conta? Clique aqui</a>
   
           <button type="submit" className="register-button" onClick={handleSubmit}>
             Cadastrar
