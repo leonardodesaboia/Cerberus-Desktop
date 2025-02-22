@@ -441,6 +441,16 @@ function Register() {
             error={errors.confirmPassword}
             placeholder="Confirme sua senha"
           />
+          <div>
+            <span>A senha deve conter no mínimo:</span>
+            <ul className='pass-req'>
+                <li>8 caracteres</li>
+                <li>Uma letra maiúscula</li>
+                <li>Uma letra minúscula</li>
+                <li>Um símbolo (!@#$%^&*)</li>
+                <li>Um número</li>
+            </ul>
+          </div>
 
           <a href="./login" className='account'>Já tem uma conta? Clique aqui</a>
   

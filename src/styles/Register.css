@@ -130,6 +130,12 @@
 .account:hover{
   text-decoration:underline;
 }
+.pass-req {
+  font-size: 1rem;
+  list-style: none;
+  text-decoration: none;
+  margin-left: 20px;
+}
 
 /* Responsividade */
 @media (min-width: 768px) {
