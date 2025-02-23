@@ -8,6 +8,7 @@ const Store = () => {
   const [products, setProducts] = useState([]);
   const [points, setPoints] = useState(0);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [redeemedProducts, setRedeemedProducts] = useState([]);
   
 
   useEffect(() => {
@@ -15,6 +16,7 @@ const Store = () => {
       try {
         const userData = await getUserData();
         setPoints(userData.points);
+        setRedeemedProducts(userData.redeemedProducts || [])
       } catch (err) {
         console.error("Erro ao carregar dados do usuário");
       }
@@ -52,6 +54,7 @@ const Store = () => {
     try {
       await updateUserPoints(selectedProduct);
       setPoints(newPoints);
+      setRedeemedProducts([...redeemedProducts, selectedProduct])
       handleClosePopUp();
     } catch (error) {
       console.error("Erro ao atualizar pontos:", error);
@@ -69,6 +72,22 @@ const Store = () => {
 
       <section className="home-store-section">
         <h2 className="home-section-title">Loja de Pontos</h2>
+
+        {redeemedProducts.length > 0 && (
+          <div className="category-section">
+            <h3 className="category-title">Meus Resgates</h3>
+            <div className="carrousel-container">
+              <div className="carrousel">
+                {redeemedProducts.map((product) =>(
+                  <div key={product._id} className="home-product-card">
+                      <img src={product.img} alt="" className="home-product-image"/>
+                      <button>Resgatar</button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
 
 {/* ate 500 pontos */}
         {lowPrice.length > 0 && (
