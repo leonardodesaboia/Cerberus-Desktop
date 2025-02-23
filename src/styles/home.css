@@ -31,7 +31,7 @@
 
 .home-achievements-grid {
   display: flex;
-  justify-content: flex-start; /* Alinhar à esquerda */
+  justify-content: center; /* Alinhar à esquerda */
   gap: 1.5rem;
 }
 
@@ -48,7 +48,8 @@
   border: 1px solid rgba(134, 194, 109, 0.2);
   text-align: center;
   transition: transform 0.2s ease;
-  height: 20vh;
+  height: 25vh;
+  width: 20rem;
 }
 
 .home-achievement-card:hover {
@@ -72,7 +73,7 @@
 }
 
 .progress-bar-container {
-  width: 100%;
+  width: 20rem;
   height: 10px;
   border-radius: 5px;
   overflow: hidden;
@@ -80,7 +81,7 @@
 }
 
 .progress-bar {
-  height: 100%;
+  height: 100px;
   background-color: #46aa49;
   transition: width 0.5s ease-in-out;
 }
@@ -120,7 +121,7 @@
 .home-store-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
+  gap: 5.5rem;
   justify-items: start; /* Alinhar itens à esquerda */
 }
 
@@ -132,6 +133,8 @@
   transition: transform 0.2s ease;
   border: 1px solid rgba(134, 194, 109, 0.2);
   margin-bottom: 2rem;
+  height: 30vh;
+  width: 20vh;
 }
 
 .home-product-card:hover {

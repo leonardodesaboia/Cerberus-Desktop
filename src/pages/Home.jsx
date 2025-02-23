@@ -31,7 +31,7 @@ const Home = () => {
 
   // Troféus
   const getTrophyImage = (threshold) => {
-    if (threshold === 25) return "./public/trophys/bronze_trophy.png";
+    if (threshold === 25) return "./public/trophys/bronze_trophy.png" ;
     if (threshold === 50) return "./public/trophys/silver_trophy.png";
     if (threshold === 100) return "./public/trophys/gold_trophy.png";
     return "./public/trophys/locked_trophy.png"; // fallback
@@ -42,6 +42,7 @@ const Home = () => {
           const fetchUserData = async () => {
             try {
               const userData = await getUserData();
+              
               setTrashStats({
                 plastic: userData.plasticDiscarted || 0,
                 metal: userData.metalDiscarted || 0,
