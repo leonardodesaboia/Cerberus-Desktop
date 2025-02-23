@@ -131,7 +131,7 @@ const Navbar = () => {
 
               {isDropDownOpen && (
                 <div className="dropdown-menu">
-                  <button onClick={() => setIsEditOpen(true)} className="dropdown-item">Editar Perfil</button>
+                  <button onClick={() => setIsEditOpen(true)} className="dropdown-item">Meu Cadastro</button>
 
 {/* popup de confirmaçao de logout */}
                   <button onClick={() => handleLogOutPopUp(true)} className="dropdown-item delete">Sair</button>
@@ -182,9 +182,9 @@ const Navbar = () => {
       {isEditOpen && (
         <div className="edit-popup">
           <div className="edit-menu">
-            <h3>Editar Perfil</h3>
+            <h3>Editar cadastro</h3>
             <label>Nome de Usuário:</label>
-            <input type="text" onChange={(e) => setUsername(e.target.value)} />
+            <input type="text" onChange={(e) => setUsername(e.target.value)} value={username}/>
             <label>Email Atual:</label>
             <input type="email" value={currentEmail} disabled />
             <label>Novo Email:</label>
