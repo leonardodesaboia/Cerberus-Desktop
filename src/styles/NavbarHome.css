@@ -334,6 +334,72 @@
   background-color: rgb(74, 177, 6);
 }
 
+/* LOGOUT */
+.confirm-logout-popup {
+  position: fixed; 
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); 
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  z-index: 1000; 
+}
+
+.confirm-logout-menu {
+  background-color: white; 
+  padding: 2rem;
+  border-radius: 0.5rem; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  text-align: center; 
+  max-width: 300px; 
+  width: 100%; 
+}
+
+.confirm-logout-menu h3 {
+  margin-bottom: 1.5rem; 
+  font-size: 1.2rem; 
+  color: #333; 
+}
+
+
+.confirm-logout-buttons {
+  display: flex;
+  justify-content: space-between; 
+  gap: 1rem; 
+}
+
+.confirm-logout-button {
+  background-color: #ff4d4d; 
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.confirm-logout-button:hover {
+  background-color: #e60000; 
+}
+
+.cancel-logout-button {
+  background-color: #f0f0f0; 
+  color: #333;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cancel-logout-button:hover {
+  background-color: #d9d9d9; 
+}
+
+
 @media (max-width: 640px) {
   .edit-menu {
     padding: 1.5rem;

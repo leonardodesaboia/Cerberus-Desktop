@@ -139,9 +139,9 @@ const Navbar = () => {
                     <div className="confirm-logout-popup">
                     <div className="confirm-logout-menu">
                       <h3>Tem certeza que deseja sair sua conta?</h3>
-                      <div className="confirm-buttons">
-                        <button onClick={handleLogout} className="confirm-button">Sim</button>
-                        <button onClick={() => setIsLogoutOpen(false)} className="cancel-button">Cancelar</button>
+                      <div className="confirm-logout-buttons">
+                        <button onClick={handleLogout} className="confirm-logout-button">Sim</button>
+                        <button onClick={() => setIsLogoutOpen(false)} className="cancel-logout-button">Cancelar</button>
                       </div>
                     </div>
                   </div>
