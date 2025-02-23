@@ -9,14 +9,13 @@ const Store = () => {
   const [points, setPoints] = useState(0);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [redeemedProducts, setRedeemedProducts] = useState([]);
-  
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const userData = await getUserData();
         setPoints(userData.points);
-        setRedeemedProducts(userData.redeemedProducts || [])
+        setRedeemedProducts(userData.redeemedProducts || []);
       } catch (err) {
         console.error("Erro ao carregar dados do usuário");
       }
@@ -54,7 +53,7 @@ const Store = () => {
     try {
       await updateUserPoints(selectedProduct);
       setPoints(newPoints);
-      setRedeemedProducts([...redeemedProducts, selectedProduct])
+      setRedeemedProducts([...redeemedProducts, selectedProduct]);
       handleClosePopUp();
     } catch (error) {
       console.error("Erro ao atualizar pontos:", error);
@@ -68,20 +67,20 @@ const Store = () => {
   return (
     <div className="store-container">
       <NavBar />
-      <CardPoints/>
+      <CardPoints />
 
-      <section className="home-store-section">
-        <h2 className="home-section-title">Loja de Pontos</h2>
+      <section className="store-store-section">
+        <h2 className="store-section-title">Loja de Pontos</h2>
 
         {redeemedProducts.length > 0 && (
           <div className="category-section">
             <h3 className="category-title">Meus Resgates</h3>
-            <div className="carrousel-container">
-              <div className="carrousel">
-                {redeemedProducts.map((product) =>(
-                  <div key={product._id} className="home-product-card">
-                      <img src={product.img} alt="" className="home-product-image"/>
-                      <button>Resgatar</button>
+            <div className="carousel-container">
+              <div className="carousel">
+                {redeemedProducts.map((product) => (
+                  <div key={product._id} className="store-product-card">
+                    <img src={product.img} alt="" className="store-product-image" />
+                    <button>Resgatar</button>
                   </div>
                 ))}
               </div>
@@ -89,17 +88,17 @@ const Store = () => {
           </div>
         )}
 
-{/* ate 500 pontos */}
+        {/* até 500 pontos */}
         {lowPrice.length > 0 && (
           <div className="category-section">
             <h3 className="category-title">Até 500 Pontos</h3>
             <div className="carousel-container">
               <div className="carousel">
                 {lowPrice.map((product) => (
-                  <div key={product._id} className="home-product-card" onClick={() => handleOpenPopUp(product)}>
-                    <img src={product.img} alt={product.name} className="home-product-image" />
+                  <div key={product._id} className="store-product-card" onClick={() => handleOpenPopUp(product)}>
+                    <img src={product.img} alt={product.name} className="store-product-image" />
                     <p>{product.name}</p>
-                    <p className="home-product-pricee">{product.price} pontos</p>
+                    <p className="store-product-price">{product.price} pontos</p>
                   </div>
                 ))}
               </div>
@@ -107,34 +106,35 @@ const Store = () => {
           </div>
         )}
 
-{/* acima de 1000 ate 5000 pontos */}
+        {/* acima de 1000 até 5000 pontos */}
         {midPrice.length > 0 && (
           <div className="category-section">
             <h3 className="category-title">1000 a 5000 Pontos</h3>
             <div className="carousel-container">
               <div className="carousel">
                 {midPrice.map((product) => (
-                  <div key={product._id} className="home-product-card" onClick={() => handleOpenPopUp(product)}>
-                    <img src={product.img} alt={product.name} className="home-product-image" />
+                  <div key={product._id} className="store-product-card" onClick={() => handleOpenPopUp(product)}>
+                    <img src={product.img} alt={product.name} className="store-product-image" />
                     <p>{product.name}</p>
-                    <p className="home-product-pricee">{product.price} pontos</p>
+                    <p className="store-product-price">{product.price} pontos</p>
                   </div>
                 ))}
               </div>
             </div>
           </div>
         )}
-{/* acima de 5000 pontos  */}
+
+        {/* acima de 5000 pontos */}
         {highPrice.length > 0 && (
           <div className="category-section">
             <h3 className="category-title">Acima de 5000 Pontos</h3>
             <div className="carousel-container">
               <div className="carousel">
                 {highPrice.map((product) => (
-                  <div key={product._id} className="home-product-card" onClick={() => handleOpenPopUp(product)}>
-                    <img src={product.img} alt={product.name} className="home-product-image" />
+                  <div key={product._id} className="store-product-card" onClick={() => handleOpenPopUp(product)}>
+                    <img src={product.img} alt={product.name} className="store-product-image" />
                     <p>{product.name}</p>
-                    <p className="home-product-pricee">{product.price} pontos</p>
+                    <p className="store-product-price">{product.price} pontos</p>
                   </div>
                 ))}
               </div>
@@ -143,15 +143,15 @@ const Store = () => {
         )}
       </section>
 
-{/* modal de troca de pontos */}
+      {/* modal de troca de pontos */}
       {selectedProduct && (
-        <div className="home-modal-overlay">
-          <div className="home-modal-content">
-            <img src={selectedProduct.img} alt={selectedProduct.name} className="home-modal-image" />
+        <div className="store-modal-overlay">
+          <div className="store-modal-content">
+            <img src={selectedProduct.img} alt={selectedProduct.name} className="store-modal-image" />
             <h2>{selectedProduct.name}</h2>
             <p>{selectedProduct.price} pontos</p>
-            <button onClick={handleClosePopUp} className="home-close-button">Fechar</button>
-            <button onClick={handlePoints} className="home-exchange-button">Trocar</button>
+            <button onClick={handleClosePopUp} className="store-close-button">Fechar</button>
+            <button onClick={handlePoints} className="store-exchange-button">Trocar</button>
           </div>
         </div>
       )}

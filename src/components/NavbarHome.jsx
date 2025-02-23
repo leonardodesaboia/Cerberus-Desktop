@@ -21,6 +21,8 @@ const Navbar = () => {
   const [originalEmail, setOriginalEmail] = useState("");
   const [userId, setUserId] = useState("")
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
+  const [isAppOpen, setIsAppOpen] = useState(false)
+
 
 //carregar dados do usuário
           useEffect(() => {
@@ -59,6 +61,11 @@ const Navbar = () => {
           const handleLogOutPopUp=()=>{
               setIsLogoutOpen(true)
           }
+
+          const handleAppOpen=()=>{
+            setIsAppOpen(true)
+          }
+
         
 // deletar conta 
         const deleteUser = async () => {
@@ -123,7 +130,19 @@ const Navbar = () => {
 
 {/* links app e edições */}
           <div className="navbar-links">
-            <a href="#app" className="navbar-link">Conheça nosso app</a>
+            <a href="#app" className="navbar-link" onClick={handleAppOpen}>Conheça nosso app</a>
+            {isAppOpen &&(
+               <div className="app-popup">
+               <div className="app-popup-code">
+                 <h3>Escanei o QR code e conheça nosso aplicativo!</h3>
+                 <div className="">
+                   <img src="../public/qrCode.png" alt="" />
+                   <button onClick={() => setIsAppOpen(false)} className="close-app-button">Fechar</button>
+                 </div>
+               </div>
+             </div>
+            )}
+
             <div className="profile-container">
               <div className="profile-icon" onClick={() => setIsDropDownOpen(!isDropDownOpen)}>
                 <img src="user.svg" alt={`Perfil de ${username}`} />
