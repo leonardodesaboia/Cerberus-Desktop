@@ -48,7 +48,7 @@
   border: 1px solid rgba(134, 194, 109, 0.2);
   text-align: center;
   transition: transform 0.2s ease;
-  height: 15vh;
+  height: 20vh;
 }
 
 .home-achievement-card:hover {
@@ -227,17 +227,36 @@
   border: none;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  margin-top: 1rem;
 }
 
 .home-exchange-button:hover {
   background: #1f5406;
 }
 
+.home-close-button{
+  flex: 1;
+  background: #545454;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  margin-right: 2rem;
+  transition: background-color 0.2s ease;
+}
+
+.home-close-button:hover{
+  background: #666;
+}
+
 /* Footer */
 .home-footer {
-  text-align: left; /* Alinhar à esquerda */
+  text-align: center; /* Alinhar à esquerda */
   padding: 2rem 0;
   margin-top: 3rem;
+  color: #333;
 }
 
 .home-footer-link {

@@ -20,6 +20,8 @@ const Navbar = () => {
   const [newEmail, setNewEmail] = useState("");
   const [originalEmail, setOriginalEmail] = useState("");
   const [userId, setUserId] = useState("")
+  const [isLogoutOpen, setIsLogoutOpen] = useState(false);
+
 
   useEffect(() => {
     const loadUserData = async () => {
@@ -50,7 +52,11 @@ const Navbar = () => {
     navigate("/")
   };
 
- 
+  
+    const handleLogOutPopUp=()=>{
+        setIsLogoutOpen(true)
+    }
+  
 
   // deletar conta 
   const deleteUser = async () => {
@@ -112,20 +118,36 @@ const Navbar = () => {
             <Recycle className="navbar-icon" />
             <span>EcoPoints</span>
           </a>
+
           <div className="navbar-links">
             <a href="#app" className="navbar-link">Conheça nosso app</a>
             <div className="profile-container">
               <div className="profile-icon" onClick={() => setIsDropDownOpen(!isDropDownOpen)}>
                 <img src="user.svg" alt={`Perfil de ${username}`} />
               </div>
+
               {isDropDownOpen && (
                 <div className="dropdown-menu">
                   <button onClick={() => setIsEditOpen(true)} className="dropdown-item">Editar Perfil</button>
-                  <button onClick={handleLogout} className="dropdown-item delete">Sair</button>
+
+                  {/* popup de confirmaçao de logou */}
+                  <button onClick={() => handleLogOutPopUp(true)} className="dropdown-item delete">Sair</button>
+                  {isLogoutOpen &&(
+                    <div className="confirm-logout-popup">
+                    <div className="confirm-logout-menu">
+                      <h3>Tem certeza que deseja sair sua conta?</h3>
+                      <div className="confirm-buttons">
+                        <button onClick={handleLogout} className="confirm-button">Sim</button>
+                        <button onClick={() => setIsLogoutOpen(false)} className="cancel-button">Cancelar</button>
+                      </div>
+                    </div>
+                  </div>
+                  )}
                 </div>
               )}
             </div>
           </div>
+
           <button className="navbar-menu-button" onClick={() => setIsOpen(!isOpen)}>
             {isOpen ? <X className="navbar-menu-icon" /> : <Menu className="navbar-menu-icon" />}
           </button>
@@ -139,7 +161,7 @@ const Navbar = () => {
             <div className="profile-icon" onClick={() => setIsDropDownOpen(!isDropDownOpen)}>
               <img src="user.svg" alt={`Perfil de ${username}`} />
             </div>
-
+{/* menu dropdown */}
             {isDropDownOpen && (
               <div className="dropdown-menu">
                 <button onClick={() => setIsEditOpen(true)} className="dropdown-item">Meu cadastro</button>
@@ -161,10 +183,12 @@ const Navbar = () => {
             <input type="email" value={currentEmail} disabled />
             <label>Novo Email:</label>
             <input type="email" value={newEmail} onChange={(e) => setNewEmail(e.target.value)} />
+
             <div className="edit-buttons">
               <button onClick={handleSaveChanges} className="save-button">Salvar</button>
               <button onClick={() => setIsEditOpen(false)} className="close-button">Fechar</button>
             </div>
+
              {/* Botão para abrir o pop-up de confirmação */}
              <button onClick={() => setIsDeleteOpen(true)} className="delete-account-button">
               Deletar conta

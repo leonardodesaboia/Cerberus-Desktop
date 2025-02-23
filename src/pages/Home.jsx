@@ -17,7 +17,7 @@ const Home = () => {
   const [error, setError] = useState(null);
   const [trashStats, setTrashStats] = useState({ plastic: 0, metal: 0 });
   const [unlockedAchievementIds, setUnlockedAchievementIds] = useState([]);
-
+  
   // Lista fixa de conquistas
   const allAchievements = [
     { id: 1, name: "25 Plásticos Reciclados", threshold: 25, type: "plastic" },
@@ -26,6 +26,7 @@ const Home = () => {
     { id: 4, name: "25 Metais Reciclados", threshold: 25, type: "metal" },
     { id: 5, name: "50 Metais Reciclados", threshold: 50, type: "metal" },
     { id: 6, name: "100 Metais Reciclados", threshold: 100, type: "metal" },
+    
   ];
 
   // Troféus
