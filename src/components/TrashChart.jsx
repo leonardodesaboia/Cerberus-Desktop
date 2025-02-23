@@ -8,6 +8,7 @@ const COLORS = {
   Metal: "#86C26D" 
 };
 
+// calculo do lixo
 const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {
   const RADIAN = Math.PI / 180;
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;

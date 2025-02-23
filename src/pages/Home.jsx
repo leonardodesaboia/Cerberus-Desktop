@@ -37,99 +37,100 @@ const Home = () => {
     return "./public/trophys/locked_trophy.png"; // fallback
   };
 
-  // Carregar dados do usuário
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const userData = await getUserData();
-        setTrashStats({
-          plastic: userData.plasticDiscarted || 0,
-          metal: userData.metalDiscarted || 0,
-        });
-      } catch (err) {
-        setError("Erro ao carregar dados do usuário");
-        toast.error("Erro ao carregar dados do usuário");
-      } finally {
-        setLoading(false);
-      }
-    };
+// Carregar dados do usuário
+        useEffect(() => {
+          const fetchUserData = async () => {
+            try {
+              const userData = await getUserData();
+              setTrashStats({
+                plastic: userData.plasticDiscarted || 0,
+                metal: userData.metalDiscarted || 0,
+              });
+            } catch (err) {
+              setError("Erro ao carregar dados do usuário");
+              toast.error("Erro ao carregar dados do usuário");
+            } finally {
+              setLoading(false);
+            }
+          };
 
-    fetchUserData();
-  }, []);
+          fetchUserData();
+        }, []);
 
-  // Atualizar conquistas desbloqueadas
-  useEffect(() => {
-    const newUnlockedIds = allAchievements
-      .filter((achievement) => {
-        if (achievement.type === "plastic") {
-          return trashStats.plastic >= achievement.threshold;
-        } else if (achievement.type === "metal") {
-          return trashStats.metal >= achievement.threshold;
-        }
-        return false;
-      })
-      .map((achievement) => achievement.id);
+// Atualizar conquistas desbloqueadas
+        useEffect(() => {
+          // filtra pelo id
+          const newUnlockedIds = allAchievements
+            .filter((achievement) => {
+              if (achievement.type === "plastic") {
+                return trashStats.plastic >= achievement.threshold;
+              } else if (achievement.type === "metal") {
+                return trashStats.metal >= achievement.threshold;
+              }
+              return false;
+            })
+            .map((achievement) => achievement.id);
 
-    setUnlockedAchievementIds(newUnlockedIds);
-  }, [trashStats]);
+          setUnlockedAchievementIds(newUnlockedIds);
+        }, [trashStats]);
 
-  // Filtrar conquistas desbloqueadas e bloqueadas
-  const unlockedAchievements = allAchievements.filter((achievement) =>
-    unlockedAchievementIds.includes(achievement.id)
-  );
-  const lockedAchievements = allAchievements.filter(
-    (achievement) => !unlockedAchievementIds.includes(achievement.id)
-  );
+        // Filtrar conquistas desbloqueadas e bloqueadas
+        const unlockedAchievements = allAchievements.filter((achievement) =>
+          unlockedAchievementIds.includes(achievement.id)
+        );
+        const lockedAchievements = allAchievements.filter(
+          (achievement) => !unlockedAchievementIds.includes(achievement.id)
+        );
 
-  // Carregar produtos da loja
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await fetchProducts();
-        setProducts(data);
-      } catch (error) {
-        console.error("Erro ao carregar os produtos:", error);
-        toast.error("Erro ao carregar os produtos.");
-      }
-    };
-    fetchData();
-  }, []);
+// Carregar produtos da loja
+        useEffect(() => {
+          const fetchData = async () => {
+            try {
+              const data = await fetchProducts();
+              setProducts(data);
+            } catch (error) {
+              console.error("Erro ao carregar os produtos:", error);
+              toast.error("Erro ao carregar os produtos.");
+            }
+          };
+          fetchData();
+        }, []);
 
-  // Abrir popup dos produtos
-  const handleOpenPopUp = (product) => {
-    setSelectedProduct(product);
-  };
+// Abrir popup dos produtos
+        const handleOpenPopUp = (product) => {
+          setSelectedProduct(product);
+        };
 
-  // Fechar popup dos produtos
-  const handleClosePopUp = () => {
-    setSelectedProduct(null);
-  };
+// Fechar popup dos produtos
+        const handleClosePopUp = () => {
+          setSelectedProduct(null);
+        };
 
-  // Decrementar os pontos ao trocar por um produto
-  const handlePoints = async () => {
-    if (!selectedProduct) return;
+// Decrementar os pontos ao trocar por um produto
+        const handlePoints = async () => {
+          if (!selectedProduct) return;
 
-    const newPoints = parseInt(points, 10) - selectedProduct.price;
-    if (newPoints < 0) {
-      toast.error("Pontos insuficientes para esta troca.");
-      return;
-    }
+          const newPoints = parseInt(points, 10) - selectedProduct.price;
+          if (newPoints < 0) {
+            toast.error("Pontos insuficientes para esta troca.");
+            return;
+          }
 
-    try {
-      await updateUserPoints(selectedProduct);
-      setPoints(newPoints);
-      toast.success("Troca realizada com sucesso!");
-      handleClosePopUp();
-    } catch (error) {
-      console.error("Erro ao atualizar pontos:", error);
-      toast.error("Erro ao realizar a troca.");
-    }
-  };
+          try {
+            await updateUserPoints(selectedProduct);
+            setPoints(newPoints);
+            toast.success("Troca realizada com sucesso!");
+            handleClosePopUp();
+          } catch (error) {
+            console.error("Erro ao atualizar pontos:", error);
+            toast.error("Erro ao realizar a troca.");
+          }
+        };
 
-  const navigate = useNavigate();
+        const navigate = useNavigate();
 
-  if (loading) return <p>Carregando...</p>;
-  if (error) return <p>{error}</p>;
+        if (loading) return <p>Carregando...</p>;
+        if (error) return <p>{error}</p>;
 
   return (
     <>
@@ -137,7 +138,8 @@ const Home = () => {
       <div className="home-page-container">
         <CardPoints />
         <div className="home-content-wrapper">
-          {/* Conquistas desbloqueadas */}
+
+{/* Conquistas desbloqueadas */}
           <h2 className="home-achievements-title">Suas Conquistas</h2>
           <div className="home-achievements-grid">
             {unlockedAchievements.map((achievement) => (
@@ -152,17 +154,19 @@ const Home = () => {
             ))}
           </div>
 
-          {/* Conquistas Bloqueadas com Barra de Progresso */}
+{/* Conquistas Bloqueadas com Barra de Progresso */}
           <h2 className="home-achievements-title">Conquistas Bloqueadas</h2>
           <div className="home-achievements-grid">
             {lockedAchievements.map((achievement) => {
-              // Cálculo da porcentagem
+
+// Cálculo da porcentagem
               const progress =
                 achievement.type === "plastic"
                   ? (trashStats.plastic / achievement.threshold) * 100
                   : (trashStats.metal / achievement.threshold) * 100;
 
               return (
+// bloqueados 
                 <div key={achievement.id} className="home-achievement-card blocked">
                   <img
                     src="./public/trophys/locked_trophy.png"
@@ -171,7 +175,7 @@ const Home = () => {
                   />
                   <p>{achievement.name}</p>
 
-                  {/* Barra de progresso */}
+{/* Barra de progresso */}
                   <div className="progress-bar-container">
                     <div className="progress-bar" style={{ width: `${progress}%` }}></div>
                   </div>
@@ -181,7 +185,7 @@ const Home = () => {
             })}
           </div>
 
-          {/* Loja de pontos */}
+{/* Loja de pontos */}
           <section className="home-store-section">
             <h2 className="home-section-title">Loja de pontos</h2>
             <button className="store-link" onClick={() => navigate("/store")}>
@@ -207,7 +211,7 @@ const Home = () => {
 
           <TrashChart />
 
-          {/* Popup de troca de pontos */}
+{/* Popup de troca de pontos */}
           {selectedProduct && (
             <div className="home-modal-overlay">
               <div className="home-modal-content">
@@ -224,7 +228,7 @@ const Home = () => {
             </div>
           )}
 
-          {/* Footer */}
+{/* Footer */}
           <footer className="home-footer">
             <p>© EcoPoints | Cerberus 2025</p>
           </footer>

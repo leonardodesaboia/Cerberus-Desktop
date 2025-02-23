@@ -4,10 +4,10 @@ import { getUserData, editUserData } from '../services/api.jsx';
 import { Menu, X, Recycle } from "lucide-react";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
- 
 import "../styles/NavbarHome.css";
 import { useNavigate } from 'react-router-dom';
 
+// states
 const Navbar = () => {
   const navigate = useNavigate(); 
   const [isOpen, setIsOpen] = useState(false);
@@ -22,95 +22,97 @@ const Navbar = () => {
   const [userId, setUserId] = useState("")
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
 
+//carregar dados do usuário
+          useEffect(() => {
+            const loadUserData = async () => {
+              try {
+                const userData = await getUserData();
+                setUsername(userData.username || "");
+                setCurrentEmail(userData.email || ""); 
+                setOriginalEmail(userData.email || "");
+                setUserId(userData.id)
+              } catch (error) {
+                toast.error("Erro ao carregar dados do usuário");
+                console.error(error);
+              }
+            };
+            loadUserData();
+          }, []);
 
-  useEffect(() => {
-    const loadUserData = async () => {
-      try {
-        const userData = await getUserData();
-        setUsername(userData.username || "");
-        setCurrentEmail(userData.email || ""); 
-        setOriginalEmail(userData.email || "");
-        setUserId(userData.id)
-      } catch (error) {
-        toast.error("Erro ao carregar dados do usuário");
-        console.error(error);
-      }
-    };
-    loadUserData();
-  }, []);
+          useEffect(() => {
+            const handleScroll = () => {
+              setScrolled(window.scrollY > 20);
+            };
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
+            window.addEventListener("scroll", handleScroll);
+            return () => window.removeEventListener("scroll", handleScroll);
+          }, []);
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
-  const handleLogout = () => {
-    navigate("/")
-  };
 
-  
-    const handleLogOutPopUp=()=>{
-        setIsLogoutOpen(true)
-    }
-  
+// caminho p qnd sai da conta
+          const handleLogout = () => {
+            navigate("/")
+          };
 
-  // deletar conta 
-  const deleteUser = async () => {
-    const userId = localStorage.getItem("userId")
-    console.log(localStorage.getItem("userId"))
-    if (!userId) {
-      console.log("chegou na linha 57")
-      return;
-    }
-    try {
-      const response = await fetch(`http://localhost:3000/user/${userId}`, { 
-        method: "DELETE",
-        headers: { 'Content-Type': 'application/json',
-          //'Authorization': `${localStorage.getItem("token")}`
-        },
+// abrir popup
+          const handleLogOutPopUp=()=>{
+              setIsLogoutOpen(true)
+          }
         
-      });
-  
-      if (!response.ok) {
-        throw new Error("Erro ao excluir perfil");
-  
-      }
-  
-      toast.success("Conta excluída com sucesso!");
-      setTimeout(() => {
-        navigate("/");
-      }, 2000);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+// deletar conta 
+        const deleteUser = async () => {
+          const userId = localStorage.getItem("userId")
+          console.log(localStorage.getItem("userId"))
+          if (!userId) {
+            return;
+          }
+          try {
+            const response = await fetch(`http://localhost:3000/user/${userId}`, { 
+              method: "DELETE",
+              headers: { 'Content-Type': 'application/json',
+                //'Authorization': `${localStorage.getItem("token")}`
+              },
+              
+            });
+        
+            if (!response.ok) {
+              throw new Error("Erro ao excluir perfil");
+        
+            }
+            setTimeout(() => {
+              navigate("/");
+            }, 1000);
+          } catch (error) {
+            console.error(error);
+          }
+        };
 
-  const handleSaveChanges = async () => {
-    const updates = {};
-    if (username.trim()) updates.username = username;
-    if (newEmail.trim() && isValidEmail(currentEmail, newEmail, originalEmail)) {
-      updates.email = newEmail;
-    }
-    if (Object.keys(updates).length === 0) {
-      toast.warn("Nenhuma alteração foi feita.");
-      return;
-    }
-    try {
-      const updatedUser = await editUserData(updates);
-      setUsername(updatedUser.username);
-      setOriginalEmail(updatedUser.email);
-    } catch (error) {
-      toast.error(error.message);
-      console.error(error);
-    }
-    setIsEditOpen(false);
-  };
+// salvar mudanças 
+      const handleSaveChanges = async () => {
+        const updates = {};
+        if (username.trim()) updates.username = username;
+        if (newEmail.trim() && isValidEmail(currentEmail, newEmail, originalEmail)) {
+          updates.email = newEmail;
+        }
+        // if (Object.keys(updates).length === 0) {
+        //   toast.warn("Nenhuma alteração foi feita.");
+        //   return;
+        // }
+        try {
+          const updatedUser = await editUserData(updates);
+          setUsername(updatedUser.username);
+          setOriginalEmail(updatedUser.email);
+        } catch (error) {
+          toast.error(error.message);
+          console.error(error);
+        }
+        setIsEditOpen(false);
+      };
 
   return (
+
+// nav bar 
     <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
       <div className="navbar-container">
         <div className="navbar-content">
@@ -119,6 +121,7 @@ const Navbar = () => {
             <span>EcoPoints</span>
           </a>
 
+{/* links app e edições */}
           <div className="navbar-links">
             <a href="#app" className="navbar-link">Conheça nosso app</a>
             <div className="profile-container">
@@ -130,7 +133,7 @@ const Navbar = () => {
                 <div className="dropdown-menu">
                   <button onClick={() => setIsEditOpen(true)} className="dropdown-item">Editar Perfil</button>
 
-                  {/* popup de confirmaçao de logou */}
+{/* popup de confirmaçao de logout */}
                   <button onClick={() => handleLogOutPopUp(true)} className="dropdown-item delete">Sair</button>
                   {isLogoutOpen &&(
                     <div className="confirm-logout-popup">
@@ -154,6 +157,7 @@ const Navbar = () => {
         </div>
       </div>
 
+{/* app adc popup */}
       <div className={`navbar-mobile-menu ${isOpen ? "open" : "closed"}`}>
         <div className="navbar-mobile-links">
           <a href="#app" className="navbar-link">Conheça nosso app</a>
@@ -161,6 +165,7 @@ const Navbar = () => {
             <div className="profile-icon" onClick={() => setIsDropDownOpen(!isDropDownOpen)}>
               <img src="user.svg" alt={`Perfil de ${username}`} />
             </div>
+
 {/* menu dropdown */}
             {isDropDownOpen && (
               <div className="dropdown-menu">
@@ -173,6 +178,7 @@ const Navbar = () => {
         </div>
       </div>
       
+{/* popup de edição/exclusao de conta */}
       {isEditOpen && (
         <div className="edit-popup">
           <div className="edit-menu">
@@ -197,7 +203,7 @@ const Navbar = () => {
         </div>
       )}
 
-      {/* Pop-up de confirmação de exclusão */}
+      {/* popup de confirmação de exclusão */}
       {isDeleteOpen && (
         <div className="confirm-delete-popup">
           <div className="confirm-delete-menu">

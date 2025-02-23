@@ -7,7 +7,7 @@ const CardPoints = () => {
     const [loading, setLoading] = useState(true);
     const [username, setUserName] = useState("")
 
-    // Carregar pontos do usuário
+// Carregar pontos do usuário
     useEffect(() => {
         const fetchUserData = async () => {
             try {

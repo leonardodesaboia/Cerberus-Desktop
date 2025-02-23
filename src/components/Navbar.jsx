@@ -27,7 +27,6 @@ const Navbar = () => {
           
           <div className="navbar-links">
             <a href="#como-funciona" className="navbar-link">Como Funciona</a>
-            {/* Troque o botão por um Link */}
             <Link to="/login">
               <button className="navbar-button">Entrar</button>
             </Link>
@@ -42,7 +41,6 @@ const Navbar = () => {
       <div className={`navbar-mobile-menu ${isOpen ? "open" : "closed"}`}>
         <div className="navbar-mobile-links">
           <a href="#como-funciona" className="navbar-link">Como Funciona</a>
-          {/* Use o Link para redirecionar para a página de login */}
           <Link to="/login">
             <button className="navbar-button">Entrar</button>
           </Link>
