@@ -83,50 +83,27 @@ const Home = () => {
           (achievement) => !unlockedAchievementIds.includes(achievement.id)
         );
 
-// Carregar produtos da loja
-        useEffect(() => {
-          const fetchData = async () => {
-            try {
-              const data = await fetchProducts();
-              setProducts(data);
-            } catch (error) {
-              console.error("Erro ao carregar os produtos:", error);
-              toast.error("Erro ao carregar os produtos.");
-            }
-          };
-          fetchData();
-        }, []);
-
-// Abrir popup dos produtos
-        const handleOpenPopUp = (product) => {
-          setSelectedProduct(product);
-        };
-
-// Fechar popup dos produtos
-        const handleClosePopUp = () => {
-          setSelectedProduct(null);
-        };
 
 // Decrementar os pontos ao trocar por um produto
-        const handlePoints = async () => {
-          if (!selectedProduct) return;
+        // const handlePoints = async () => {
+        //   if (!selectedProduct) return;
 
-          const newPoints = parseInt(points, 10) - selectedProduct.price;
-          if (newPoints < 0) {
-            toast.error("Pontos insuficientes para esta troca.");
-            return;
-          }
+        //   const newPoints = parseInt(points, 10) - selectedProduct.price;
+        //   if (newPoints < 0) {
+        //     toast.error("Pontos insuficientes para esta troca.");
+        //     return;
+        //   }
 
-          try {
-            await updateUserPoints(selectedProduct);
-            setPoints(newPoints);
-            toast.success("Troca realizada com sucesso!");
-            handleClosePopUp();
-          } catch (error) {
-            console.error("Erro ao atualizar pontos:", error);
-            toast.error("Erro ao realizar a troca.");
-          }
-        };
+        //   try {
+        //     await updateUserPoints(selectedProduct);
+        //     setPoints(newPoints);
+        //     toast.success("Troca realizada com sucesso!");
+        //     handleClosePopUp();
+        //   } catch (error) {
+        //     console.error("Erro ao atualizar pontos:", error);
+        //     toast.error("Erro ao realizar a troca.");
+        //   }
+        // };
 
         const navigate = useNavigate();
 
@@ -186,14 +163,35 @@ const Home = () => {
             })}
           </div>
 
+
+          <TrashChart />
+
+
+
+{/* Footer */}
+          <footer className="home-footer">
+            <p>© EcoPoints | Cerberus 2025</p>
+          </footer>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Home;
+
+
+
+
+
 {/* Loja de pontos */}
-          <section className="home-store-section">
-            <h2 className="home-section-title">Loja de pontos</h2>
+          {/* <section className="home-store-section">
+            <h2 className="home-section-title">Troque seus pontos por recompensas aqui!</h2>
             <button className="store-link" onClick={() => navigate("/store")}>
-              Ver mais <FaArrowRight />
+              Resgate de produtos<FaArrowRight />
             </button>
 
-            <div className="home-store-grid">
+            {/* <div className="home-store-grid">
               {products.map(
                 (product) =>
                   product.isActive && (
@@ -207,36 +205,5 @@ const Home = () => {
                     </div>
                   )
               )}
-            </div>
-          </section>
-
-          <TrashChart />
-
-{/* Popup de troca de pontos */}
-          {selectedProduct && (
-            <div className="home-modal-overlay">
-              <div className="home-modal-content">
-                <img src={selectedProduct.img} alt={selectedProduct.name} className="home-modal-image" />
-                <h2>{selectedProduct.name}</h2>
-                <p>{selectedProduct.price} pontos</p>
-                <button onClick={handleClosePopUp} className="home-close-button">
-                  Fechar
-                </button>
-                <button onClick={handlePoints} className="home-exchange-button">
-                  Trocar
-                </button>
-              </div>
-            </div>
-          )}
-
-{/* Footer */}
-          <footer className="home-footer">
-            <p>© EcoPoints | Cerberus 2025</p>
-          </footer>
-        </div>
-      </div>
-    </>
-  );
-};
-
-export default Home;
+            </div> */}
+          {/*</div></section> */}

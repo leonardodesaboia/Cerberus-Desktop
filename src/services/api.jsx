@@ -121,7 +121,7 @@ export const fetchProducts = async () => {
     });
 
     const data = await response.json();
-
+    console.log(data)
     if (!response.ok) {
       throw new Error(data.message || 'Erro ao obter produtos');
     }
@@ -130,4 +130,30 @@ export const fetchProducts = async () => {
   } catch (error) {
     throw new Error(error.message || 'Erro ao obter produtos');
   }
+
 };
+
+export const fetchProductsRedeemed = async () => {
+  try {
+    
+    const response = await fetch(`${API_URL}/log/redeemed/${localStorage.getItem("userId")}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `${localStorage.getItem("token")}`
+      }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Erro ao obter produtos');
+    }
+    console.log(data)
+
+
+    return data;
+  } catch (error) {
+    throw new Error(error.message || 'Erro ao obter produtos');
+  }
+}

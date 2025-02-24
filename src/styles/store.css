@@ -50,20 +50,89 @@ body {
   text-align: center;
   padding: 1rem;
   margin-left: 14%;
-  width: 25vh;
-  height: 30vh;
+  width: 22vh;
+  height: 24vh;
 }
 
-.store-product-card:hover {
-  transform: scale(1.02);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+.store-product-image{
+  height: 6em;
+  width: 10rem;
+}
+/* Estilo da seção de resgates */
+.category-section {
+  margin: 20px 0;
+  padding: 20px;
+  border-radius: 10px;
 }
 
-.store-product-image {
-  width: 90%;
-  height: 150px;
+.category-title {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.no-redeemed-message {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #666;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Container do carrossel */
+.carousel-container {
+  overflow-x: auto;
+  padding-bottom: 10px; /* Espaço para a barra de rolagem */
+}
+
+/* Carrossel */
+.carousel {
+  display: flex;
+  gap: 15px;
+  padding: 10px;
+}
+
+/* Card de produto resgatado */
+.store-product-redeemed-card {
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  text-align: center;
+  min-width: 180px; 
+  flex-shrink: 0; 
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.store-product-redeemed-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Imagem do produto resgatado */
+.store-product-redeemed-image {
+  width: 150px;
+  height: 15px;
   object-fit: cover;
-  border-radius: 0.5rem;
+  border-radius: 10px;
+}
+
+/* Botão de resgatar */
+.store-product-redeemed {
+  background-color: #9dd679;
+  border: none;
+  width: 5rem;
+  height: 2rem;
+  border-radius: 5px;
+  margin-top: 20px;
+  color: #081a01;
+  transition: 0.3s;
+}
+
+.store-product-redeemed:hover {
+  background-color: #0ca031;
 }
 
 .store-product-price {
@@ -77,7 +146,7 @@ body {
 /* Seção de categorias */
 .category-section {
   border: none;
-  /* margin-top: 2rem; */
+  margin-top: 2rem;
   padding: 1.5rem;
 }
 
@@ -85,7 +154,6 @@ body {
   font-size: 1.4rem;
   font-weight: bold;
   color: #286205;
-  /* margin-bottom: 1rem; */
   text-align: left;
   margin-left: 14%;
 }
@@ -129,7 +197,7 @@ body {
 .store-modal-image {
   width: 50%;
   height: 100px;
-  object-fit: cover;
+  /* object-fit: cover; */
   border-radius: 0.5rem;
   margin-bottom: 1rem;
 }
@@ -157,14 +225,12 @@ body {
   background-color: #194805;
 }
 
-.store-product-redeemed{
-  background-color: #9dd679;
-  border: none;
-  width: 5rem;
-  height: 2rem;
-  border-radius: 5px;
+
+.no-redeemed-message{
+  text-align: center;
+  font-size: 1rem;
   margin-top: 20px;
-  color: #081a01;
+  margin-right: 65rem;
 }
 
 
@@ -193,7 +259,8 @@ body {
   }
 
   .store-product-card {
-    width: 100%;
+    width: 35%;
+    height: 12rem;
     margin-left: 0;
   }
 }
@@ -261,10 +328,13 @@ body {
 
   .store-product-card {
     padding: 0.5rem;
+    width: 10rem;
+    
   }
 
   .store-product-image {
     height: 90px;
+    width: 100px;
   }
 
   .carousel {
