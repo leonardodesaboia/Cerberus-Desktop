@@ -60,6 +60,26 @@ const handlePoints = async () => {
     }
   };
 
+
+// Decrementar os pontos ao trocar por um produto
+// const handlePurchase = async (product) => {
+//   try {
+//     // Update points in the backend
+//     await updateUserPoints(product);
+    
+//     // Emit the event to update points across the app
+//     PointsUpdateEvent.emit();
+    
+//     // Show success message
+//     toast.success("Produto adquirido com sucesso!");
+//   } catch (error) {
+//     console.error("Error purchasing product:", error);
+//     toast.error("Erro ao adquirir produto.");
+//   }
+// };
+
+
+
   // popups
   const handleOpenPopUp = (product) => {
     setSelectedProduct(product);

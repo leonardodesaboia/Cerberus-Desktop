@@ -84,28 +84,7 @@ const Home = () => {
         );
 
 
-// Decrementar os pontos ao trocar por um produto
-        // const handlePoints = async () => {
-        //   if (!selectedProduct) return;
 
-        //   const newPoints = parseInt(points, 10) - selectedProduct.price;
-        //   if (newPoints < 0) {
-        //     toast.error("Pontos insuficientes para esta troca.");
-        //     return;
-        //   }
-
-        //   try {
-        //     await updateUserPoints(selectedProduct);
-        //     setPoints(newPoints);
-        //     toast.success("Troca realizada com sucesso!");
-        //     handleClosePopUp();
-        //   } catch (error) {
-        //     console.error("Erro ao atualizar pontos:", error);
-        //     toast.error("Erro ao realizar a troca.");
-        //   }
-        // };
-
-        const navigate = useNavigate();
 
         if (loading) return <p>Carregando...</p>;
         if (error) return <p>{error}</p>;
