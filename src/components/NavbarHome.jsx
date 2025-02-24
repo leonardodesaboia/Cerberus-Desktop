@@ -131,14 +131,15 @@ const Navbar = () => {
 {/* links app e edições */}
           <div className="navbar-links">
             <a href="#app" className="navbar-link" onClick={handleAppOpen}>Conheça nosso app</a>
+            {/*pop up conheça nosso app*/}
             {isAppOpen &&(
                <div className="app-popup">
                <div className="app-popup-code">
                  <h3>Escanei o QR code e conheça nosso aplicativo!</h3>
                  <div className="">
                    <img src="../public/qrCode.png" alt="" />
-                   <button onClick={() => setIsAppOpen(false)} className="close-app-button">Fechar</button>
                  </div>
+                   <button onClick={() => setIsAppOpen(false)} className="close-app-button">Fechar</button>
                </div>
              </div>
             )}

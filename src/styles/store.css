@@ -157,6 +157,19 @@ body {
   background-color: #194805;
 }
 
+.store-product-redeemed{
+  background-color: #9dd679;
+  border: none;
+  width: 5rem;
+  height: 2rem;
+  border-radius: 5px;
+  margin-top: 20px;
+  color: #081a01;
+}
+
+
+
+
 /* Responsividade */
 @media (max-width: 1200px) {
   .store-grid {

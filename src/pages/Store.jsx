@@ -9,13 +9,14 @@ const Store = () => {
   const [points, setPoints] = useState(0);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [redeemedProducts, setRedeemedProducts] = useState([]);
+  const [selectedRedeemed, setSelectedRedeemed] = useState(false)
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const userData = await getUserData();
         setPoints(userData.points);
-        setRedeemedProducts(userData.redeemedProducts || []);
+        setRedeemedProducts(userData.redeemed|| []);
       } catch (err) {
         console.error("Erro ao carregar dados do usuário");
       }
@@ -60,6 +61,10 @@ const Store = () => {
     }
   };
 
+  const handleRedeemed=()=>{
+    setSelectedRedeemed(true)
+  }
+
   const lowPrice = products.filter((product) => product.isActive && product.price <= 500);
   const midPrice = products.filter((product) => product.isActive && product.price > 1000 && product.price <= 5000);
   const highPrice = products.filter((product) => product.isActive && product.price > 5000);
@@ -69,24 +74,34 @@ const Store = () => {
       <NavBar />
       <CardPoints />
 
-      <section className="store-store-section">
-        <h2 className="store-section-title">Loja de Pontos</h2>
-
-        {redeemedProducts.length > 0 && (
+        {redeemedProducts.length >= 0 && (
           <div className="category-section">
             <h3 className="category-title">Meus Resgates</h3>
             <div className="carousel-container">
               <div className="carousel">
                 {redeemedProducts.map((product) => (
                   <div key={product._id} className="store-product-card">
+                    <div>
                     <img src={product.img} alt="" className="store-product-image" />
-                    <button>Resgatar</button>
+                    </div>
+                    <button className="store-product-redeemed">Resgatar</button>
                   </div>
                 ))}
               </div>
             </div>
           </div>
+
+
+
         )}
+
+        
+
+
+
+      <section className="store-store-section">
+        <h2 className="store-section-title">Loja de Pontos</h2>
+
 
         {/* até 500 pontos */}
         {lowPrice.length > 0 && (

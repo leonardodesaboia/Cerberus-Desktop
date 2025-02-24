@@ -247,7 +247,9 @@
   border: none;
   cursor: pointer;
   margin-right: 2rem;
-  height: 11.5rem;
+  height: 2.5rem;
+  width: 5.2rem;
+  text-align: center;
   transition: background-color 0.2s ease;
 }
 
