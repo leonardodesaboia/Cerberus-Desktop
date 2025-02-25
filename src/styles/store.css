@@ -75,11 +75,9 @@ body {
 .no-redeemed-message {
   text-align: center;
   font-size: 1.2rem;
-  color: #666;
+  color: #272727;
   padding: 20px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-left: 10rem;
 }
 
 /* Container do carrossel */

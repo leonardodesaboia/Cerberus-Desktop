@@ -4,6 +4,9 @@ import { getUserData, updateUserPoints, fetchProducts, fetchProductsRedeemed } f
 import "../styles/store.css";
 import CardPoints from "../components/CardPoints";
 
+
+
+
 const Store = () => {
   const [products, setProducts] = useState([]);
   const [points, setPoints] = useState(0);
@@ -44,39 +47,28 @@ const Store = () => {
 
 // pontos
 const handlePoints = async () => {
-    if (!selectedProduct) return;
-    const newPoints = points - selectedProduct.price;
-    if (newPoints < 0) {
-      alert("Pontos insuficientes para esta troca.");
-      return;
-    }
-    try {
-      await updateUserPoints(selectedProduct);
-      setPoints(newPoints);
-      setRedeemedProducts([...redeemedProducts, selectedProduct]);
-      handleClosePopUp();
-    } catch (error) {
-      console.error("Erro ao atualizar pontos:", error);
-    }
-  };
-
-
-// Decrementar os pontos ao trocar por um produto
-// const handlePurchase = async (product) => {
-//   try {
-//     // Update points in the backend
-//     await updateUserPoints(product);
+  if (!selectedProduct) return;
+  const newPoints = points - selectedProduct.price;
+  if (newPoints < 0) {
+    alert("Pontos insuficientes para esta troca.");
+    return;
+  }
+  try {
+    await updateUserPoints(selectedProduct);
     
-//     // Emit the event to update points across the app
-//     PointsUpdateEvent.emit();
-    
-//     // Show success message
-//     toast.success("Produto adquirido com sucesso!");
-//   } catch (error) {
-//     console.error("Error purchasing product:", error);
-//     toast.error("Erro ao adquirir produto.");
-//   }
-// };
+    // Recarrega os pontos do usuário após a troca
+    const updatedUserData = await getUserData();
+    setPoints(updatedUserData.points);
+
+    // Atualiza os produtos resgatados
+    setRedeemedProducts([...redeemedProducts, selectedProduct]);
+
+    handleClosePopUp();
+  } catch (error) {
+    console.error("Erro ao atualizar pontos:", error);
+  }
+};
+
 
 
 
