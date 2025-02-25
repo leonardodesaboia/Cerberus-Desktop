@@ -93,7 +93,7 @@ const Redeemed = () => {
                     <img src={product.img} alt="produto resgatado" className="store-product-redeemed-image" />
                   </div>
                   
-                  <button onClick={() => handleRedeemed(product)}>Ver</button>
+                  <button onClick={() => handleRedeemed(product)} className='see-button'>Ver</button>
                 </div>
               ))}
             </div>

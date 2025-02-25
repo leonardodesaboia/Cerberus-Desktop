@@ -1,50 +1,149 @@
+/* Ajuste para centralizar e organizar os cards em um carrossel */
+.category-section {
+    margin: 20px 0;
+}
 
-.no-redeemed-message{
-    text-align: center;
+.category-title {
+    font-size: 1.5rem;
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.no-redeemed-message {
+    text-align: left;
     font-size: 1rem;
     margin-top: 20px;
-    margin-right: 65rem;
-  }
+}
 
-  .store-product-redeemed-image {
-    width: 150px;
-    height: 15px;
-    object-fit: cover;
-    border-radius: 10px;
-  }
-  
-  /* Botão de resgatar */
-  .store-product-redeemed {
-    background-color: #9dd679;
-    border: none;
-    width: 5rem;
-    height: 2rem;
-    border-radius: 5px;
-    margin-top: 20px;
-    color: #081a01;
-    transition: 0.3s;
-  }
-  
-  .store-product-redeemed:hover {
-    background-color: #0ca031;
-  }
 
-  /* Card de produto resgatado */
+.carousel-container {
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.carousel {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 10px;
+    white-space: nowrap;
+    scrollbar-width: none;
+}
+
+.carousel::-webkit-scrollbar {
+    display: none;
+}
+
 .store-product-redeemed-card {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 15px;
     text-align: center;
-    min-width: 180px; 
-    flex-shrink: 0; 
+    min-width: 180px;
+    flex-shrink: 0;
+    scroll-snap-align: initial;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .store-product-redeemed-card:hover {
+}
+
+.store-product-redeemed-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  }
+}
 
-  .store-redeem-button{
+.store-product-redeemed-image {
+    width: 150px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.store-redeem-button, .store-close-button {
+    border: none;
+    width: 5rem;
+    height: 2rem;
+    border-radius: 5px;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.store-redeem-button {
+    background-color: #9dd679;
     color: #081a01;
-  }
+    margin-right: 1rem;
+    transition: .3s;
+}
+
+.store-redeem-button:hover {
+    background-color: #3bce60;
+}
+
+.store-close-button {
+    background-color: #6b6b6b;
+    color: white;
+    transition: .3s;
+}
+
+.store-close-button:hover {
+    background-color: #525252;
+}
+
+.store-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.store-modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.store-modal-img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.see-button{
+    border: none;
+    background-color: #9dd679;
+    height: 2rem;
+    width: 5rem;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px  rgba(0, 0, 0, 0.1);
+    transition: .2s;
+}
+
+.see-button:hover{
+    background-color: #92cf6c;
+}
+
+@media (max-width: 768px) {
+    .carousel {
+        gap: 5px;
+        justify-content: center;
+    }
+    
+    .store-product-redeemed-card {
+        min-width: 150px;
+        padding: 10px;
+    }
+    
+    .store-product-redeemed-image {
+        width: 120px;
+        height: 80px;
+    }
+}
