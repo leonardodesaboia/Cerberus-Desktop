@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import NavBar from "../components/NavbarHome";
-import { getUserData, updateUserPoints, fetchProducts, fetchProductsRedeemed } from "../services/api";
+import { getUserData, updateUserPoints, fetchProducts } from "../services/api";
 import "../styles/store.css";
 import CardPoints from "../components/CardPoints";
+import { toast } from "react-toastify";
 
 
 
@@ -11,8 +12,6 @@ const Store = () => {
   const [products, setProducts] = useState([]);
   const [points, setPoints] = useState(0);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [redeemedProducts, setRedeemedProducts] = useState([]);
-  const [selectedRedeemed, setSelectedRedeemed] = useState(null);
 
   // userdata
   useEffect(() => {
@@ -30,19 +29,7 @@ const Store = () => {
   }, []);
 
 
-  // logs dos prod resgatados
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await fetchProductsRedeemed();
-        setRedeemedProducts(data);
-      } catch (error) {
-        console.error("Erro ao carregar os produtos:", error);
-      }
-    };
-    fetchData();
 
-  }, []);
 
 
 
@@ -51,7 +38,7 @@ const Store = () => {
     if (!selectedProduct) return;
     const newPoints = points - selectedProduct.price;
     if (newPoints < 0) {
-     alert("Pontos insuficientes para esta troca.");
+     toast.warning("Pontos insuficientes")
      return;
     }
     try {
@@ -97,9 +84,6 @@ const Store = () => {
   }, []);
   
 
-  const handleRedeemed = (product) => {
-    setSelectedRedeemed(product);
-  };
 
   const lowPrice = products.filter((product) => product.isActive && product.price <= 500);
   const midPrice = products.filter((product) => product.isActive && product.price > 1000 && product.price <= 5000);
@@ -110,31 +94,6 @@ const Store = () => {
       <NavBar />
       <CardPoints points={points}/>
 
-      {/* Seção de produtos resgatados */}
-      <div className="category-section">
-        <h3 className="category-title">Meus Resgates</h3>
-        {redeemedProducts.length === 0 ? ( // Verifica se não há produtos resgatados
-          <p className="no-redeemed-message">Você ainda não resgatou nenhum produto.</p>
-        ) : (
-          <div className="carousel-container">
-            <div className="carousel">
-              {redeemedProducts.map((product) => (
-                <div key={product._id} className="store-product-redeemed-card">
-                  <div>
-                    <img src={product.img} alt="produto resgatado" className="store-product-redeemed-image" />
-                  </div>
-                  <button
-                    className="store-product-redeemed"
-                    onClick={() => handleRedeemed(product)}
-                  >
-                    Resgatar
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
 
       <section className="store-store-section">
         <h2 className="store-section-title">Loja de Pontos</h2>
@@ -178,6 +137,7 @@ const Store = () => {
         {/* Acima de 5000 pontos */}
         {highPrice.length > 0 && (
           <div className="category-section">
+    
             <h3 className="category-title">Acima de 5000 Pontos</h3>
             <div className="carousel-container">
               <div className="carousel">
@@ -207,19 +167,7 @@ const Store = () => {
         </div>
       )}
 
-      {/* Modal de produto resgatado */}
-      {selectedRedeemed && (
-        <div className="store-modal-overlay">
-          <div className="store-modal-content">
-            <img src={selectedRedeemed.img} alt={selectedRedeemed.name} className="store-modal-img" />
-            <h2>{selectedRedeemed.name}</h2>
-            <p>Código: {selectedRedeemed.code}</p>
-            <button onClick={() => setSelectedRedeemed(null)} className="store-close-button">
-              Fechar
-            </button>
-          </div>
-        </div>
-      )}
+     
     </div>
   );
 };

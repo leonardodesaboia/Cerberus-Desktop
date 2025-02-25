@@ -1,0 +1,50 @@
+
+.no-redeemed-message{
+    text-align: center;
+    font-size: 1rem;
+    margin-top: 20px;
+    margin-right: 65rem;
+  }
+
+  .store-product-redeemed-image {
+    width: 150px;
+    height: 15px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  
+  /* Botão de resgatar */
+  .store-product-redeemed {
+    background-color: #9dd679;
+    border: none;
+    width: 5rem;
+    height: 2rem;
+    border-radius: 5px;
+    margin-top: 20px;
+    color: #081a01;
+    transition: 0.3s;
+  }
+  
+  .store-product-redeemed:hover {
+    background-color: #0ca031;
+  }
+
+  /* Card de produto resgatado */
+.store-product-redeemed-card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    text-align: center;
+    min-width: 180px; 
+    flex-shrink: 0; 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .store-product-redeemed-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .store-redeem-button{
+    color: #081a01;
+  }

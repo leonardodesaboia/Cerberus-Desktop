@@ -8,7 +8,7 @@ import "../styles/NavbarHome.css";
 import { useNavigate } from 'react-router-dom';
 
 // states
-const Navbar = () => {
+const Navbar = (params) => {
   const navigate = useNavigate(); 
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -39,7 +39,7 @@ const Navbar = () => {
               }
             };
             loadUserData();
-          }, []);
+          }, [params.username]);
 
           useEffect(() => {
             const handleScroll = () => {
@@ -132,6 +132,7 @@ const Navbar = () => {
           <div className="navbar-links">
             <a href="/home" className="navbar-link" >Home</a>
             <a href="/store" className="navbar-link" >Loja de pontos</a>
+            <a href="/redeemed" className="navbar-link" >Resgates</a>
             <a href="#app" className="navbar-link" onClick={handleAppOpen}>Conheça nosso app</a>
 
 
@@ -156,9 +157,7 @@ const Navbar = () => {
               {isDropDownOpen && (
                 <div className="dropdown-menu">
                   <button onClick={() => setIsEditOpen(true)} className="dropdown-item">Meu Cadastro</button>
-                  <button  className="dropdown-item"> <a href="/store">Meus Resgates</a></button>
-
-
+                  
 {/* popup de confirmaçao de logout */}
                   <button onClick={() => handleLogOutPopUp(true)} className="dropdown-item delete">Sair</button>
                   {isLogoutOpen &&(

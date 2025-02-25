@@ -159,30 +159,3 @@ const Home = () => {
 
 export default Home;
 
-
-
-
-
-{/* Loja de pontos */}
-          {/* <section className="home-store-section">
-            <h2 className="home-section-title">Troque seus pontos por recompensas aqui!</h2>
-            <button className="store-link" onClick={() => navigate("/store")}>
-              Resgate de produtos<FaArrowRight />
-            </button>
-
-            {/* <div className="home-store-grid">
-              {products.map(
-                (product) =>
-                  product.isActive && (
-                    <div
-                      key={product._id}
-                      className="home-product-card"
-                      onClick={() => handleOpenPopUp(product)}
-                    >
-                      <img src={product.img} alt={product.name} className="home-product-image" />
-                      <p className="home-product-pricee">{product.price} pontos</p>
-                    </div>
-                  )
-              )}
-            </div> */}
-          {/*</div></section> */}
