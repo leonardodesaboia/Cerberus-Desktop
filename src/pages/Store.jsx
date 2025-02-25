@@ -14,7 +14,6 @@ const Store = () => {
   const [redeemedProducts, setRedeemedProducts] = useState([]);
   const [selectedRedeemed, setSelectedRedeemed] = useState(null);
 
-
   // userdata
   useEffect(() => {
     const fetchUserData = async () => {
@@ -27,6 +26,7 @@ const Store = () => {
       }
     };
     fetchUserData();
+
   }, []);
 
 
@@ -41,36 +41,38 @@ const Store = () => {
       }
     };
     fetchData();
+
   }, []);
 
 
 
-// pontos
-const handlePoints = async () => {
-  if (!selectedProduct) return;
-  const newPoints = points - selectedProduct.price;
-  if (newPoints < 0) {
-    alert("Pontos insuficientes para esta troca.");
-    return;
-  }
-  try {
-    await updateUserPoints(selectedProduct);
+  // pontos
+  const handlePoints = async () => {
+    if (!selectedProduct) return;
+    const newPoints = points - selectedProduct.price;
+    if (newPoints < 0) {
+     alert("Pontos insuficientes para esta troca.");
+     return;
+    }
+    try {
+      await updateUserPoints(selectedProduct);
     
-    // Recarrega os pontos do usuário após a troca
-    const updatedUserData = await getUserData();
-    setPoints(updatedUserData.points);
+      // Recarrega os pontos do usuário após a troca
+      const updatedUserData = await getUserData()
+    
+      handleClosePopUp();
+    
+      setPoints(updatedUserData.points);
+      // Atualiza os produtos resgatados
+      setRedeemedProducts([...redeemedProducts, selectedProduct]);
 
-    // Atualiza os produtos resgatados
-    setRedeemedProducts([...redeemedProducts, selectedProduct]);
+    
 
-    handleClosePopUp();
-  } catch (error) {
-    console.error("Erro ao atualizar pontos:", error);
-  }
-};
-
-
-
+    } catch (error) {
+      console.error("Erro ao atualizar pontos:", error);
+    }
+  
+  };
 
   // popups
   const handleOpenPopUp = (product) => {
@@ -106,7 +108,7 @@ const handlePoints = async () => {
   return (
     <div className="store-container">
       <NavBar />
-      <CardPoints />
+      <CardPoints points={points}/>
 
       {/* Seção de produtos resgatados */}
       <div className="category-section">

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { getUserData } from "../services/api";
 import '../styles/cardPoints.css';
 
-const CardPoints = () => {
+const CardPoints = (params) => {
   const [points, setPoints] = useState(0);
   const [loading, setLoading] = useState(true);
   const [username, setUserName] = useState("");
@@ -22,7 +22,7 @@ const CardPoints = () => {
     };
 
     fetchUserData();
-  }, []);
+  }, [params.points]);
 
   return (
     <div>
