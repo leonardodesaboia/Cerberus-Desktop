@@ -8,7 +8,7 @@
 .home-container {
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* Alinhar à esquerda */
+  align-items: flex-start;
   padding: 20px;
   max-width: 1200px;
 }
@@ -16,25 +16,56 @@
 .home-content-wrapper {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
-  text-align: left; /* Alinhar texto à esquerda */
+  padding: 0 2rem;
+  text-align: left;
 }
 
-
-
-
-
-/* Conquistas */
-.home-achievements-section {
+/* Seção de conquistas */
+.achievements-section {
   margin: 3rem 0;
+  position: relative;
 }
 
+/* Título das conquistas */
+.home-achievements-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 2.5rem;
+  margin-bottom: 1.5rem;
+  color: #174204;
+  text-align: left;
+  padding-left: 0.5rem;
+}
+
+/* Container de carrossel com botões de navegação */
+.carousel-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* Grid de cards de conquistas */
 .home-achievements-grid {
   display: flex;
-  justify-content: center; /* Alinhar à esquerda */
   gap: 1.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 1rem 0.5rem;
+  scrollbar-width: none; /* Para Firefox */
+  -ms-overflow-style: none; /* Para IE e Edge */
+  max-width: calc(100% - 4rem);
+  margin: 0 auto;
+  scroll-behavior: smooth;
 }
 
+/* Esconder a barra de rolagem */
+.home-achievements-grid::-webkit-scrollbar {
+  display: none;
+}
+
+/* Card de conquista */
 .home-achievement-card {
   display: flex;
   flex-direction: column;
@@ -42,210 +73,189 @@
   background: #fbfbfb;
   backdrop-filter: blur(8px);
   border-radius: 1rem;
-  padding: 2rem;
-  margin-top: 12px;
+  padding: 1.5rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(134, 194, 109, 0.2);
   text-align: center;
-  transition: transform 0.2s ease;
-  height: 25vh;
-  width: 20rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  min-height: 250px;
+  min-width: 220px;
+  max-width: 220px;
+  flex-shrink: 0;
+  scroll-snap-align: start;
 }
 
 .home-achievement-card:hover {
-  transform: scale(1.02);
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
+/* Troféu na conquista */
 .home-trophy {
   width: 70px;
   height: auto;
   align-self: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
-.home-achievements-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-top: 2.5rem;
-  margin-bottom: 1rem;
-  color: #174204;
-  text-align: left;
+/* Mensagem para conquistas vazias */
+.empty-achievements {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 250px;
+  min-width: 220px;
+  background: #f8f8f8;
+  border-radius: 1rem;
+  font-style: italic;
+  color: #666;
 }
 
+/* Barra de progresso */
 .progress-bar-container {
-  width: 20rem;
+  width: 100%;
   height: 10px;
+  background: #e9ecef;
   border-radius: 5px;
   overflow: hidden;
-  margin-top: 5px;
+  margin: 1rem 0;
 }
 
 .progress-bar {
-  height: 100px;
-  border: 1px solid #333;
+  height: 100%;
   background-color: #09a50e;
   transition: width 0.5s ease-in-out;
 }
 
-/* Modal */
-.home-modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
+/* Botões de navegação do carrossel */
+.carousel-control {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
-  z-index: 50;
-}
-
-.home-modal-content {
-  background: white;
-  border-radius: 1rem;
-  padding: 1.5rem;
-  max-width: 32rem;
-  width: 40%;
-  position: relative;
-  text-align: center;
-}
-
-.home-modal-image {
-  width: 8rem;
-  height: 8rem;
-  object-fit: cover;
-  border-radius: 0.75rem;
-  margin-bottom: 1rem;
-}
-
-.home-modal-title {
-  font-size: 1.5rem;
-  font-weight: bold;
+  width: 36px;
+  height: 36px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 50%;
   color: #174204;
-  margin-bottom: 1rem;
+  cursor: pointer;
+  z-index: 5;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.home-modal-price {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #86C26D;
-  margin-bottom: 1rem;
+.carousel-control:hover {
+  background: #f0f8e7;
+  transform: scale(1.1);
 }
 
-.home-button-group {
-  display: flex;
-  gap: 1rem;
+.carousel-control:active {
+  transform: scale(0.95);
 }
 
+/* Indicadores do carrossel (para mobile) */
+.carousel-indicators {
+  display: none; /* Escondido por padrão, visível apenas em mobile */
+  justify-content: center;
+  margin-top: 1rem;
+  gap: 8px;
+}
 
+.carousel-indicators span {
+  width: 8px;
+  height: 8px;
+  background-color: #ccc;
+  border-radius: 50%;
+  display: inline-block;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.carousel-indicators span.active {
+  background-color: #174204;
+  width: 10px;
+  height: 10px;
+}
 
 /* Footer */
 .home-footer {
-  text-align: center; /* Alinhar à esquerda */
+  text-align: center;
   padding: 2rem 0;
   margin-top: 3rem;
   color: #333;
+  border-top: 1px solid #e0e0e0;
 }
 
-.home-footer-link {
-  color: #174204;
-  font-weight: 500;
-  text-decoration: none;
-  display: block;
-  margin-bottom: 1rem;
+/* Esconder elementos apenas para mobile por padrão */
+.mobile-only {
+  display: none;
 }
-
-.home-footer-link:hover {
-  color: #326D19;
-}
-
-.home-footer-text {
-  color: #666;
-}
-
-
 
 /* Responsividade */
-@media (max-width: 768px) {
-  .home-achievements-grid,
-  .home-store-grid {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    gap: 1rem;
-    padding-bottom: 10px;
+@media (max-width: 992px) {
+  .home-content-wrapper {
+    padding: 0 1rem;
   }
+  
+  .home-achievement-card {
+    min-width: 200px;
+    min-height: 230px;
+  }
+}
 
-  .home-achievements-grid::-webkit-scrollbar,
-  .home-store-grid::-webkit-scrollbar {
+@media (max-width: 768px) {
+  /* Ajuste para telas menores */
+  .home-content-wrapper {
+    padding: 0 0.75rem;
+  }
+  
+  /* Mostrar indicadores em mobile */
+  .mobile-only {
+    display: flex;
+  }
+  
+  /* Esconder botões de navegação em mobile */
+  .carousel-control {
     display: none;
   }
-
-  .home-achievement-card,
-  .home-product-card {
-    min-width: 80%;
-    scroll-snap-align: center;
+  
+  /* Ajustar grid para carrossel em tela cheia */
+  .home-achievements-grid {
+    max-width: 100%;
+    padding: 0.5rem 0.25rem;
+    gap: 1rem;
   }
-
+  
   .home-achievement-card {
-    width: 20vh;
-    height: 20vh;
+    min-width: 80%;
+    min-height: 200px;
+    margin: 0 auto;
   }
-
-  /* Carrossel */
-  .carousel-indicators {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
+  
+  /* Centralizar mais o conteúdo em mobile */
+  .home-achievements-title {
+    font-size: 1.3rem;
   }
-
-  .carousel-indicators span {
-    width: 10px;
-    height: 10px;
-    margin: 0 5px;
-    background-color: #ccc;
-    border-radius: 50%;
-    cursor: pointer;
+  
+  /* Adicionar mais espaçamento entre seções */
+  .achievements-section {
+    margin: 2rem 0;
   }
+}
 
-  .carousel-indicators .active {
-    background-color: #333;
+@media (max-width: 480px) {
+  .home-achievement-card {
+    min-width: 85%;
+    padding: 1.25rem;
   }
-
-  .home-modal-content {
-    width: 90%;
-    padding: 1rem;
+  
+  .home-trophy {
+    width: 60px;
   }
-
-  .home-modal-image {
-    width: 6rem;
-    height: 6rem;
-  }
-
-  .home-button-group {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .home-exchange-button {
-    padding: 0.5rem 1rem;
-  }
-
-  .home-points-label {
-    font-size: 15px;
-    color: black;
-  }
-
-  .coin-points {
-    width: 4vh;
-    height: 4vh;
-    margin-left: 2rem;
-  }
-
-  .home-points-value {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-right: 10px;
-    color: #174204;
+  
+  .home-achievements-title {
+    font-size: 1.2rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
   }
 }
