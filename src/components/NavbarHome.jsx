@@ -98,6 +98,7 @@ const Navbar = (params) => {
 // salvar mudanças 
       const handleSaveChanges = async () => {
         const updates = {};
+        console.log(`Username = ${username}, newEmail = ${newEmail}`)
         if (username.trim()) updates.username = username;
         if (newEmail.trim() && isValidEmail(currentEmail, newEmail, originalEmail)) {
           updates.email = newEmail;
@@ -109,7 +110,11 @@ const Navbar = (params) => {
         try {
           const updatedUser = await editUserData(updates);
           setUsername(updatedUser.username);
+          console.log(`UserName: ${username}`)
           setOriginalEmail(updatedUser.email);
+          console.log("editeii")
+          navigate(0)
+
         } catch (error) {
           toast.error(error.message);
           console.error(error);
@@ -217,6 +222,7 @@ const Navbar = (params) => {
 
             <div className="edit-buttons">
               <button onClick={handleSaveChanges} className="save-button">Salvar</button>
+
               <button onClick={() => setIsEditOpen(false)} className="close-button">Fechar</button>
             </div>
 

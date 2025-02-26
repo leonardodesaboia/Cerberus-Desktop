@@ -130,7 +130,7 @@ body {
 
 /* Product card styling */
 .product-card {
-  background-color: #ffffff;
+  background-color: #fbfbfb;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
   padding: 15px;
@@ -141,7 +141,8 @@ body {
   justify-content: space-between;
   scroll-snap-align: start;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  height: 200px;
+  height: 15rem;
+  width: 19rem;
   cursor: pointer;
   border: 1px solid rgba(134, 194, 109, 0.2);
 }
@@ -174,7 +175,7 @@ body {
   margin: 8px 0 6px;
   color: #333;
   display: -webkit-box;
-  -webkit-line-clamp: 1;
+  /* -webkit-line-clamp: 1; */
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;

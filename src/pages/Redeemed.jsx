@@ -1,7 +1,12 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from '../components/NavbarHome';
 import { fetchProductsRedeemed, fetchProductsNotRedeemed, updateUserPoints, updateLog } from "../services/api";
 import CardPoints from '../components/CardPoints';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import "../styles/store.css";
 import '../styles/redeemed.css';
 
 const Redeemed = () => {
@@ -9,12 +14,7 @@ const Redeemed = () => {
   const [notRedeemedProducts, setNotRedeemedProducts] = useState([]);
   const [selectedRedeemed, setSelectedRedeemed] = useState(null);
   const [redeemedLog, setRedeemedLog] = useState([]);
-  
-  // Refs for the carousel containers
-  const pendingCarouselRef = useRef(null);
-  const redeemedCarouselRef = useRef(null);
 
-  // Fetch redeemed products
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -27,7 +27,6 @@ const Redeemed = () => {
     fetchData();
   }, []);
 
-  // Fetch not redeemed products
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -40,7 +39,6 @@ const Redeemed = () => {
     fetchData();
   }, []);
 
-  // Update log
   useEffect(() => {
     const fetchData = async () => {
       if (selectedRedeemed) {
@@ -55,18 +53,14 @@ const Redeemed = () => {
     fetchData();
   }, [selectedRedeemed]);
 
-  // Popup
   const handleRedeemed = (product) => {
     setSelectedRedeemed(product);
   };
 
-  // Change not redeemed to redeemed
   const handleRedeemedProd = async () => {
     if (!selectedRedeemed) return;
     
     try {
-      // await updateUserPoints(selectedRedeemed);
-      // Filter by id
       setNotRedeemedProducts(notRedeemedProducts.filter(prod => prod._id !== selectedRedeemed._id));
       setRedeemedProducts([...redeemedProducts, selectedRedeemed]);
       setSelectedRedeemed(null);
@@ -75,17 +69,8 @@ const Redeemed = () => {
     }
   };
 
-  // Popup
   const handleOpenPopUp = () => {
     handleRedeemedProd();
-  };
-
-  // Carousel navigation functions
-  const scrollCarousel = (direction, carouselRef) => {
-    if (carouselRef.current) {
-      const scrollAmount = direction === 'left' ? -300 : 300;
-      carouselRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-    }
   };
 
   return (
@@ -93,87 +78,53 @@ const Redeemed = () => {
       <Navbar />
       <CardPoints />
       
-      {/* Pending Redemptions Section */}
       <div className="category-section">
         <h3 className="category-title">Resgates Pendentes</h3>
-        
         {notRedeemedProducts.length === 0 ? (
           <p className="no-redeemed-message">Você ainda não resgatou nenhum produto.</p>
         ) : (
-          <div className="carousel-wrapper">
-            <button 
-              className="carousel-arrow carousel-arrow-left" 
-              onClick={() => scrollCarousel('left', pendingCarouselRef)}
-              aria-label="Scroll left"
-            >
-              &lt;
-            </button>
-            
-            <div className="carousel-container">
-              <div className="carousel" ref={pendingCarouselRef}>
-                {notRedeemedProducts.map((product) => (
-                  <div key={product._id} className="product-card">
-                    <div className="product-image-container">
-                      <img src={product.img} alt="produto a resgatar" className="product-image" />
-                    </div>
-                    <button onClick={() => handleRedeemed(product)} className="see-button">
-                      Ver
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-            
-            <button 
-              className="carousel-arrow carousel-arrow-right" 
-              onClick={() => scrollCarousel('right', pendingCarouselRef)}
-              aria-label="Scroll right"
-            >
-              &gt;
-            </button>
-          </div>
+          <Swiper 
+          spaceBetween={50}
+          slidesPerView={4}
+          onSlideChange={() => console.log('slide change')}
+          onSwiper={(swiper) => console.log(swiper)}
+          navigation modules={[Navigation]} className="swiper-container">
+            {notRedeemedProducts.map((product) => (
+              <SwiperSlide key={product._id} className="product-card-no-redeemed">
+                <div className="product-image-container">
+                  <img src={product.img} alt="produto a resgatar" className="product-image" />
+                </div>
+                <button onClick={() => handleRedeemed(product)} className="see-button">
+                  Ver
+                </button>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         )}
       </div>
 
-      {/* Redeemed Products Section */}
       <div className="category-section">
         <h3 className="category-title">Produtos Resgatados</h3>
-        
         {redeemedProducts.length === 0 ? (
           <p className="no-redeemed-message">Você ainda não resgatou nenhum produto.</p>
         ) : (
-          <div className="carousel-wrapper">
-            <button 
-              className="carousel-arrow carousel-arrow-left" 
-              onClick={() => scrollCarousel('left', redeemedCarouselRef)}
-              aria-label="Scroll left"
-            >
-              &lt;
-            </button>
-            
-            <div className="carousel-container">
-              <div className="carousel" ref={redeemedCarouselRef}>
-                {redeemedProducts.map((product) => (
-                  <div key={product._id} className="product-card">
-                    <div className="product-image-container">
-                      <img src={product.img} alt="produto resgatado" className="product-image" />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            
-            <button 
-              className="carousel-arrow carousel-arrow-right" 
-              onClick={() => scrollCarousel('right', redeemedCarouselRef)}
-              aria-label="Scroll right"
-            >
-              &gt;
-            </button>
-          </div>
+          <Swiper 
+          spaceBetween={50}
+          slidesPerView={4}
+          onSlideChange={() => console.log('slide change')}
+          onSwiper={(swiper) => console.log(swiper)}
+
+          navigation modules={[Navigation]} className="swiper-container">
+            {redeemedProducts.map((product) => (
+              <SwiperSlide key={product._id} className="product-card">
+                <div className="product-image-container">
+                  <img src={product.img} alt="produto resgatado" className="product-image" />
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         )}
 
-        {/* Product Modal */}
         {selectedRedeemed && (
           <div className="modal-overlay">
             <div className="modal-content">
@@ -182,7 +133,7 @@ const Redeemed = () => {
               <p>Código: {selectedRedeemed.code}</p>
               <div className="modal-buttons">
                 <button onClick={handleOpenPopUp} className="redeem-button">Resgatar</button>
-                <button onClick={() => setSelectedRedeemed(null)} className="close-button">Fechar</button>
+                <button onClick={() => setSelectedRedeemed(null)} className="close-button-redeemed">Fechar</button>
               </div>
             </div>
           </div>

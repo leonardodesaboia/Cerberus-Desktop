@@ -1,8 +1,13 @@
-import { useState, useEffect, useRef } from "react";
+
+import { useState, useEffect } from "react";
 import NavBar from "../components/NavbarHome";
 import { getUserData, updateUserPoints, fetchProducts } from "../services/api";
 import CardPoints from "../components/CardPoints";
 import { toast } from "react-toastify";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
 import "../styles/store.css";
 
 const Store = () => {
@@ -10,13 +15,8 @@ const Store = () => {
   const [points, setPoints] = useState(0);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [redeemedProducts, setRedeemedProducts] = useState([]);
-  
-  // Refs for the carousel containers
-  const lowPriceCarouselRef = useRef(null);
-  const midPriceCarouselRef = useRef(null);
-  const highPriceCarouselRef = useRef(null);
 
-  // Fetch user data
+  // pegar dados do usuario
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -30,7 +30,7 @@ const Store = () => {
     fetchUserData();
   }, []);
 
-  // Fetch products
+  // pegar produtos
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -43,7 +43,7 @@ const Store = () => {
     fetchData();
   }, []);
 
-  // Handle points exchange
+  // decrementar pontos
   const handlePoints = async () => {
     if (!selectedProduct) return;
     const newPoints = points - selectedProduct.price;
@@ -55,7 +55,7 @@ const Store = () => {
     try {
       await updateUserPoints(selectedProduct);
       
-      // Reload user data after exchange
+    
       const updatedUserData = await getUserData();
       
       handleClosePopUp();
@@ -68,7 +68,7 @@ const Store = () => {
     }
   };
 
-  // Modal handlers
+  //modais
   const handleOpenPopUp = (product) => {
     setSelectedProduct(product);
   };
@@ -77,15 +77,7 @@ const Store = () => {
     setSelectedProduct(null);
   };
 
-  // Carousel navigation function
-  const scrollCarousel = (direction, carouselRef) => {
-    if (carouselRef.current) {
-      const scrollAmount = direction === 'left' ? -300 : 300;
-      carouselRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-    }
-  };
-
-  // Filter products by price category
+  // Filtrar produtos
   const lowPrice = products.filter((product) => product.isActive && product.price <= 500);
   const midPrice = products.filter((product) => product.isActive && product.price > 1000 && product.price <= 5000);
   const highPrice = products.filter((product) => product.isActive && product.price > 5000);
@@ -98,122 +90,145 @@ const Store = () => {
       <section className="store-section">
         <h2 className="store-section-title">Loja de Pontos</h2>
 
-        {/* Low Price Category (Up to 500 points) */}
+        {/* ate 500 pontos */}
         {lowPrice.length > 0 && (
           <div className="category-section">
             <h3 className="category-title">Até 500 Pontos</h3>
-            <div className="carousel-wrapper">
-              <button 
-                className="carousel-arrow carousel-arrow-left" 
-                onClick={() => scrollCarousel('left', lowPriceCarouselRef)}
-                aria-label="Scroll left"
+            <div className="swiper-container">
+              <Swiper
+                modules={[Navigation]}
+                spaceBetween={20}
+                slidesPerView="auto"
+                navigation
+                className="products-swiper"
+                breakpoints={{
+                  320: {
+                    slidesPerView: 1.2,
+                    spaceBetween: 10,
+                  },
+                  480: {
+                    slidesPerView: 2.2,
+                    spaceBetween: 15,
+                  },
+                  768: {
+                    slidesPerView: 3.2,
+                    spaceBetween: 20,
+                  },
+                  1024: {
+                    slidesPerView: 4.2,
+                    spaceBetween: 20,
+                  },
+                }}
               >
-                &lt;
-              </button>
-              
-              <div className="carousel-container">
-                <div className="carousel" ref={lowPriceCarouselRef}>
-                  {lowPrice.map((product) => (
-                    <div key={product._id} className="product-card" onClick={() => handleOpenPopUp(product)}>
+                {lowPrice.map((product) => (
+                  <SwiperSlide key={product._id}>
+                    <div className="product-card" onClick={() => handleOpenPopUp(product)}>
                       <div className="product-image-container">
                         <img src={product.img} alt={product.name} className="product-image" />
                       </div>
                       <h4 className="product-name">{product.name}</h4>
                       <p className="product-price">{product.price} pontos</p>
                     </div>
-                  ))}
-                </div>
-              </div>
-              
-              <button 
-                className="carousel-arrow carousel-arrow-right" 
-                onClick={() => scrollCarousel('right', lowPriceCarouselRef)}
-                aria-label="Scroll right"
-              >
-                &gt;
-              </button>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
             </div>
           </div>
         )}
-
-        {/* Mid Price Category (1000 to 5000 points) */}
+{/* ate 5000 pontos */}
         {midPrice.length > 0 && (
           <div className="category-section">
             <h3 className="category-title">1000 a 5000 Pontos</h3>
-            <div className="carousel-wrapper">
-              <button 
-                className="carousel-arrow carousel-arrow-left" 
-                onClick={() => scrollCarousel('left', midPriceCarouselRef)}
-                aria-label="Scroll left"
+            <div className="swiper-container">
+              <Swiper
+                modules={[Navigation]}
+                spaceBetween={20}
+                slidesPerView="auto"
+                navigation
+                className="products-swiper"
+                breakpoints={{
+                  320: {
+                    slidesPerView: 1.2,
+                    spaceBetween: 10,
+                  },
+                  480: {
+                    slidesPerView: 2.2,
+                    spaceBetween: 15,
+                  },
+                  768: {
+                    slidesPerView: 3.2,
+                    spaceBetween: 20,
+                  },
+                  1024: {
+                    slidesPerView: 4.2,
+                    spaceBetween: 20,
+                  },
+                }}
               >
-                &lt;
-              </button>
-              
-              <div className="carousel-container">
-                <div className="carousel" ref={midPriceCarouselRef}>
-                  {midPrice.map((product) => (
-                    <div key={product._id} className="product-card" onClick={() => handleOpenPopUp(product)}>
+                {midPrice.map((product) => (
+                  <SwiperSlide key={product._id}>
+                    <div className="product-card" onClick={() => handleOpenPopUp(product)}>
                       <div className="product-image-container">
                         <img src={product.img} alt={product.name} className="product-image" />
                       </div>
                       <h4 className="product-name">{product.name}</h4>
                       <p className="product-price">{product.price} pontos</p>
                     </div>
-                  ))}
-                </div>
-              </div>
-              
-              <button 
-                className="carousel-arrow carousel-arrow-right" 
-                onClick={() => scrollCarousel('right', midPriceCarouselRef)}
-                aria-label="Scroll right"
-              >
-                &gt;
-              </button>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
             </div>
           </div>
         )}
 
-        {/* High Price Category (Above 5000 points) */}
+        {/*cima de 5000pontos*/}
         {highPrice.length > 0 && (
           <div className="category-section">
             <h3 className="category-title">Acima de 5000 Pontos</h3>
-            <div className="carousel-wrapper">
-              <button 
-                className="carousel-arrow carousel-arrow-left" 
-                onClick={() => scrollCarousel('left', highPriceCarouselRef)}
-                aria-label="Scroll left"
+            <div className="swiper-container">
+              <Swiper
+                modules={[Navigation]}
+                spaceBetween={20}
+                slidesPerView="auto"
+                navigation
+                className="products-swiper"
+                breakpoints={{
+                  320: {
+                    slidesPerView: 1.2,
+                    spaceBetween: 10,
+                  },
+                  480: {
+                    slidesPerView: 2.2,
+                    spaceBetween: 15,
+                  },
+                  768: {
+                    slidesPerView: 3.2,
+                    spaceBetween: 20,
+                  },
+                  1024: {
+                    slidesPerView: 4.2,
+                    spaceBetween: 20,
+                  },
+                }}
               >
-                &lt;
-              </button>
-              
-              <div className="carousel-container">
-                <div className="carousel" ref={highPriceCarouselRef}>
-                  {highPrice.map((product) => (
-                    <div key={product._id} className="product-card" onClick={() => handleOpenPopUp(product)}>
+                {highPrice.map((product) => (
+                  <SwiperSlide key={product._id}>
+                    <div className="product-card" onClick={() => handleOpenPopUp(product)}>
                       <div className="product-image-container">
                         <img src={product.img} alt={product.name} className="product-image" />
                       </div>
                       <h4 className="product-name">{product.name}</h4>
                       <p className="product-price">{product.price} pontos</p>
                     </div>
-                  ))}
-                </div>
-              </div>
-              
-              <button 
-                className="carousel-arrow carousel-arrow-right" 
-                onClick={() => scrollCarousel('right', highPriceCarouselRef)}
-                aria-label="Scroll right"
-              >
-                &gt;
-              </button>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
             </div>
           </div>
         )}
       </section>
 
-      {/* Product Exchange Modal */}
+      {/*modal de troca*/}
       {selectedProduct && (
         <div className="modal-overlay">
           <div className="modal-content">
