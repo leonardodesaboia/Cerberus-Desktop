@@ -6,8 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../services/api';
 import { getUserData } from '../services/api';
 import {Eye, EyeOff} from 'lucide-react'
-
-
+import { motion } from "framer-motion";
 
 
 function Register() {
@@ -379,11 +378,22 @@ function Register() {
 
   return (
     <div className="register-container">
+        <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="login-content">
       <div className="register-header">
        
         <h1>  <img src="../public/recycle.png" alt="" className='logo'/>    EcoPoints</h1>
       </div>
   
+      <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.2 }}
+                    className="login-form-container"
+                >
       <div className="form-container-register">
         {apiError && <div className="error-message">{apiError}</div>}
         {successMessage && <div className="success-message">{successMessage}</div>}
@@ -459,6 +469,8 @@ function Register() {
           </button>
         </form>
       </div>
+      </motion.div>
+      </motion.div>
     </div>
   );
 }

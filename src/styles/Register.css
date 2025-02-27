@@ -1,7 +1,7 @@
 /* Container Principal */
 .register-container {
   min-height: 100vh;
-  background-color: #fbfbfb;
+  background:#f3f3f3;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -13,14 +13,12 @@
 
 /* Header */
 .register-header {
-  background-color: var(--primary-color);
-  padding: 16px;
-  width: 100%;
-  max-width: 450px; /* Largura máxima */
   text-align: center;
-  border-radius: 24px 24px 0 0;
-  position: relative;
-  z-index: 1;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background-color: #02491c;
+  border-radius: 15px;
+  width: 40rem;
 }
 
 .register-header h1 {
@@ -29,15 +27,19 @@
   font-weight: bold;
   margin: 0;
 }
-
+.logo {
+  width: 2rem;
+  height: 2rem;
+  filter: brightness(0) invert(1);
+}
 /* Container do Formulário */
 .form-container-register {
   width: 100%;
-  max-width: 450px; /* Largura máxima */
+  max-width: 550px; /* Largura máxima */
   padding: 24px;
-  background-color: white;
+  /* background-color: rgba(255, 255, 255, 0.395); */
   border-radius: 0 0 24px 24px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); */
   position: relative;
   z-index: 1;
 }
@@ -78,19 +80,19 @@
 /* Botão de Registro */
 .register-button {
   width: 100%;
-  padding: 12px;
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 0.875rem;
+  background-color: #02491c;
+  color: #f3f3f3;
+  padding: 1rem;
+  border-radius: 0.5rem;
   font-weight: 500;
+  transition: background-color 0.2s;
+  border: none;
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
 .register-button:hover {
-  background-color: var(--tertiary-color);
+  background-color: #0d301a;
+
 }
 
 /* Mensagens de Erro e Sucesso */
@@ -105,11 +107,7 @@
   font-size: 0.75rem;
   margin-top: 4px;
 }
-.logo {
-  filter: brightness(0) invert(1); /* Transforma a logo em branco */
-  width: 30px; 
-  height: auto; 
-}
+
 
 .showPass{
   all: unset;
@@ -122,9 +120,11 @@
 }
 
 .account{
+  font-size: 0.875rem;
+  color: #065423;
   text-decoration: none;
-  color: #023b0f;
-  margin: 10px;
+  transition: color 0.2s;
+  text-align: center;
 }
 
 .account:hover{
@@ -133,8 +133,9 @@
 .pass-req {
   font-size: 1rem;
   list-style: none;
-  text-decoration: none;
-  margin-left: 20px;
+  text-decoration: double;
+  padding: 20px;
+  
 }
 
 /* Responsividade */
