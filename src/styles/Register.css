@@ -18,12 +18,14 @@
 }
 
 .register-image-container {
-  flex: 1;
-  background-color: #e8f5e9;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
+ 
+    flex: 1;
+    background-image: url(../../public/lixo2.jpeg);
+    background-position: left;
+    background-size: cover;
+    background-repeat: no-repeat;
+    /* padding: 4rem; */
+  
 }
 
 .register-image {

@@ -172,3 +172,4 @@ export const updateLog = async (log) => {
     throw new Error(error.message || 'Erro ao conectar com o servidor');
   }
 };
+

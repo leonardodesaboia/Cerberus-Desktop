@@ -356,7 +356,7 @@ function Register() {
                 className="register-card"
             >
                 <div className="register-image-container">
-                    <img src="../public/register-eco-illustration.svg" alt="Ilustração de sustentabilidade" className="register-image" />
+                    {/* <img src="../public/register-eco-illustration.svg" alt="Ilustração de sustentabilidade" className="register-image" /> */}
                 </div>
                 
                 <div className="register-form-section">

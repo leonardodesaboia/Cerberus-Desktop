@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { getUserData } from "../services/api";
+import { IoIosArrowForward } from "react-icons/io";
 import '../styles/cardPoints.css';
 
 const CardPoints = (params) => {
@@ -32,7 +33,7 @@ const CardPoints = (params) => {
       <div className="points-card">
         <section>
           <p className="points-label">Seus pontos acumulados:</p>
-          <p className="points-value animated-float">{points}</p>
+          <p className="points-value animated-float">{points}  <a className="points-statement" href="/pointsstatement"><IoIosArrowForward/></a></p>
         </section>
         <img src="./coin.png" alt="pontos" className="coin-points" />
       </div>

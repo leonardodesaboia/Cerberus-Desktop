@@ -115,7 +115,7 @@ function Login() {
                 className="login-card"
             >
                 <div className="login-image-container">
-                    <img src="../public/eco-illustration.svg" alt="Ilustração de sustentabilidade e reciclagem" className="login-image" />
+                    {/* <img src="../public/lixo1.jpeg" alt="Ilustração de sustentabilidade e reciclagem" className="login-image" /> */}
                 </div>
                 
                 <div className="login-form-section">
