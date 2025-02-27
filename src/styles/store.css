@@ -50,6 +50,11 @@ body {
   text-align: left;
 }
 
+.products-swiper{
+  background-color: transparent;
+  color: gainsboro;
+}
+
 /* Category section styling */
 .category-section {
   margin: 30px 0;
@@ -66,69 +71,52 @@ body {
   text-align: left;
 }
 
-/* Carousel wrapper with arrows */
-.carousel-wrapper {
-  display: flex;
-  align-items: center;
-  position: relative;
+
+
+/* Estilos para ambas as setas */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #333; /* Cor das setas */
+  background-color: #fff; /* Fundo das setas */
+  padding: 20px; /* Espaço interno */
+  border-radius: 50%; /* Forma circular */
+  width: 40px; 
+  height: 40px; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
+  transition: all 0.3s ease; 
 }
 
-/* Carousel container and content */
-.carousel-container {
-  width: 100%;
-  overflow: hidden;
-  padding: 10px 0;
+/* Hover state */
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background-color: #f0f0f0;
+  transform: scale(1.1);
 }
 
-.carousel {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: calc(25% - 15px);
-  gap: 20px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-  padding: 10px;
-  scroll-behavior: smooth;
+/* Seta anterior (esquerda) */
+.swiper-button-prev:after {
+  font-size: 18px;
 }
 
-.carousel::-webkit-scrollbar {
-  display: none;
+/* Seta próxima (direita) */
+.swiper-button-next:after {
+  font-size: 18px; 
 }
 
-/* Navigation arrows */
-.carousel-arrow {
-  background-color: #ffffff;
-  border: 1px solid #e0e0e0;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  z-index: 10;
-  font-size: 1.2rem;
-  font-weight: bold;
-  transition: all 0.2s ease;
-  position: absolute;
-}
-
-.carousel-arrow:hover {
-  background-color: #f5f5f5;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
-
-.carousel-arrow-left {
+.swiper-button-prev {
   left: 10px;
 }
 
-.carousel-arrow-right {
+.swiper-button-next {
   right: 10px;
 }
 
-/* Product card styling */
+/* Para quando as setas estão desativadas */
+.swiper-button-disabled {
+  opacity: 0.3;
+}
+
+
 .product-card {
   background-color: #fbfbfb;
   border-radius: 12px;
@@ -264,9 +252,7 @@ body {
 
 /* Responsive adjustments */
 @media (max-width: 1024px) {
-  .carousel {
-    grid-auto-columns: calc(33.33% - 14px);
-  }
+  
   
   .store-section-title {
     margin-left: 10px;
@@ -274,15 +260,7 @@ body {
 }
 
 @media (max-width: 768px) {
-  .carousel {
-    grid-auto-columns: calc(50% - 10px);
-    gap: 15px;
-  }
-  
-  .carousel-arrow {
-    display: none; /* Hide arrows on mobile */
-  }
-  
+
   .product-card {
     height: 180px;
   }
@@ -302,10 +280,7 @@ body {
 }
 
 @media (max-width: 480px) {
-  .carousel {
-    grid-auto-columns: calc(70% - 10px);
-    gap: 10px;
-  }
+
   
   .store-container {
     padding: 0 10px;

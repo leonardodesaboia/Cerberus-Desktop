@@ -13,6 +13,7 @@ const Redeemed = () => {
   const [redeemedProducts, setRedeemedProducts] = useState([]);
   const [notRedeemedProducts, setNotRedeemedProducts] = useState([]);
   const [selectedRedeemed, setSelectedRedeemed] = useState(null);
+  const [redeemedPopup, setRedeemedPopup] = useState(null); // Changed to null instead of true
   const [redeemedLog, setRedeemedLog] = useState([]);
 
   useEffect(() => {
@@ -63,6 +64,7 @@ const Redeemed = () => {
     try {
       setNotRedeemedProducts(notRedeemedProducts.filter(prod => prod._id !== selectedRedeemed._id));
       setRedeemedProducts([...redeemedProducts, selectedRedeemed]);
+      setRedeemedPopup(selectedRedeemed); // Set the redeemed popup with the product data
       setSelectedRedeemed(null);
     } catch (error) {
       console.error("Erro ao atualizar pontos:", error);
@@ -71,6 +73,16 @@ const Redeemed = () => {
 
   const handleOpenPopUp = () => {
     handleRedeemedProd();
+  };
+
+  // Function to show a redeemed product in the popup
+  const handleShowRedeemedPopUp = (product) => {
+    setRedeemedPopup(product);
+  };
+
+  // Function to close the popup
+  const closeRedeemedPopup = () => {
+    setRedeemedPopup(null);
   };
 
   return (
@@ -84,11 +96,13 @@ const Redeemed = () => {
           <p className="no-redeemed-message">Você ainda não resgatou nenhum produto.</p>
         ) : (
           <Swiper 
-          spaceBetween={50}
-          slidesPerView={4}
-          onSlideChange={() => console.log('slide change')}
-          onSwiper={(swiper) => console.log(swiper)}
-          navigation modules={[Navigation]} className="swiper-container">
+            spaceBetween={50}
+            slidesPerView={4}
+            onSlideChange={() => console.log('slide change')}
+            onSwiper={(swiper) => console.log(swiper)}
+            navigation 
+            modules={[Navigation]} 
+            className="swiper-container">
             {notRedeemedProducts.map((product) => (
               <SwiperSlide key={product._id} className="product-card-no-redeemed">
                 <div className="product-image-container">
@@ -109,17 +123,19 @@ const Redeemed = () => {
           <p className="no-redeemed-message">Você ainda não resgatou nenhum produto.</p>
         ) : (
           <Swiper 
-          spaceBetween={50}
-          slidesPerView={4}
-          onSlideChange={() => console.log('slide change')}
-          onSwiper={(swiper) => console.log(swiper)}
-
-          navigation modules={[Navigation]} className="swiper-container">
+            spaceBetween={50}
+            slidesPerView={4}
+            onSlideChange={() => console.log('slide change')}
+            onSwiper={(swiper) => console.log(swiper)}
+            navigation 
+            modules={[Navigation]} 
+            className="swiper-container">
             {redeemedProducts.map((product) => (
               <SwiperSlide key={product._id} className="product-card">
                 <div className="product-image-container">
                   <img src={product.img} alt="produto resgatado" className="product-image" />
                 </div>
+                <button onClick={() => handleShowRedeemedPopUp(product)}>Ver</button>
               </SwiperSlide>
             ))}
           </Swiper>
@@ -131,9 +147,24 @@ const Redeemed = () => {
               <img src={selectedRedeemed.img} alt={selectedRedeemed.name} className="modal-img" />
               <h2>{selectedRedeemed.name}</h2>
               <p>Código: {selectedRedeemed.code}</p>
+              <p>Status: resgate pendente.</p>
               <div className="modal-buttons">
                 <button onClick={handleOpenPopUp} className="redeem-button">Resgatar</button>
                 <button onClick={() => setSelectedRedeemed(null)} className="close-button-redeemed">Fechar</button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {redeemedPopup && (
+          <div className="modal-overlay">
+            <div className="modal-content">
+              <img src={redeemedPopup.img} alt={redeemedPopup.name} className="modal-img" />
+              <h2>{redeemedPopup.name}</h2>
+              <p>Código: {redeemedPopup.code}</p>
+              <p>Status: resgatado.</p>
+              <div className="modal-buttons">
+                <button onClick={closeRedeemedPopup} className="close-button-redeemed">Fechar</button>
               </div>
             </div>
           </div>

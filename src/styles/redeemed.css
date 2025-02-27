@@ -63,6 +63,51 @@
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
 }
 
+
+/* Estilos para ambas as setas */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #333; /* Cor das setas */
+  background-color: #fff; /* Fundo das setas */
+  padding: 20px; /* Espaço interno */
+  border-radius: 50%; /* Forma circular */
+  width: 40px; 
+  height: 40px; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
+  transition: all 0.3s ease; 
+}
+
+/* Hover state */
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background-color: #f0f0f0;
+  transform: scale(1.1);
+}
+
+/* Seta anterior (esquerda) */
+.swiper-button-prev:after {
+  font-size: 18px;
+}
+
+/* Seta próxima (direita) */
+.swiper-button-next:after {
+  font-size: 18px; 
+}
+
+.swiper-button-prev {
+  left: 10px;
+}
+
+.swiper-button-next {
+  right: 10px;
+}
+
+/* Para quando as setas estão desativadas */
+.swiper-button-disabled {
+  opacity: 0.3;
+}
+
+
 /* Product Image */
 .product-image-container {
   width: 100%;

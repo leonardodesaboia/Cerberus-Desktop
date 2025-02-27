@@ -1,4 +1,3 @@
-// src/pages/Login.jsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Input from '../components/Input';
@@ -113,27 +112,33 @@ function Login() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                className="login-content"
+                className="login-card"
             >
-                <div className="login-header">
-                    <h1>
-                        <img src="../public/recycle.png" alt='' className='logo-acc'/> EcoPoints
-                    </h1>
+                <div className="login-image-container">
+                    <img src="../public/eco-illustration.svg" alt="Ilustração de sustentabilidade e reciclagem" className="login-image" />
                 </div>
+                
+                <div className="login-form-section">
+                    <div className="login-header">
+                        <h1 className="login-title">
+                            <img src="../public/recycle.png" alt="" className="logo-acc"/> EcoPoints
+                        </h1>
+                        <p className="login-subtitle">Faça login para acessar sua conta</p>
+                    </div>
 
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.2 }}
-                    className="login-form-container"
-                >
                     {apiError && (
                         <div className="error-message">
                             {apiError}
                         </div>
                     )}
 
-                    <form onSubmit={handleSubmit} className="login-form">
+                    <motion.form 
+                        onSubmit={handleSubmit} 
+                        className="login-form"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.2 }}
+                    >
                         <Input 
                             label="Email" 
                             type="text" 
@@ -156,8 +161,8 @@ function Login() {
                                 placeholder="Digite sua senha"
                                 disabled={isLoading} 
                             />
-                            <span className='showPass' onClick={handlePassword}>
-                                {isShow ? <EyeOff size={25}/> : <Eye size={25}/>}
+                            <span className="showPass" onClick={handlePassword}>
+                                {isShow ? <EyeOff size={20}/> : <Eye size={20}/>}
                             </span>
                         </div>
 
@@ -170,10 +175,10 @@ function Login() {
                         </button>
 
                         <div className="login-register-link">
-                            <a href="/register">Crie sua conta aqui</a>
+                            Não tem uma conta? <a href="/register">Crie sua conta aqui</a>
                         </div>
-                    </form>
-                </motion.div>
+                    </motion.form>
+                </div>
             </motion.div>
         </div>
     );
