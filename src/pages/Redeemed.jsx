@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Navbar from '../components/NavbarHome';
-import { fetchProductsRedeemed, fetchProductsNotRedeemed, updateUserPoints, updateLog } from "../services/api";
+import { fetchProductsRedeemed, fetchProductsNotRedeemed, fetchProducts, updateLog } from "../services/api";
 import CardPoints from '../components/CardPoints';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
@@ -13,7 +13,8 @@ const Redeemed = () => {
   const [redeemedProducts, setRedeemedProducts] = useState([]);
   const [notRedeemedProducts, setNotRedeemedProducts] = useState([]);
   const [selectedRedeemed, setSelectedRedeemed] = useState(null);
-  const [redeemedPopup, setRedeemedPopup] = useState(null); // Changed to null instead of true
+  const [redeemedPopup, setRedeemedPopup] = useState(null); 
+  const [products, setProducts] = useState()
   const [redeemedLog, setRedeemedLog] = useState([]);
 
   useEffect(() => {
@@ -21,6 +22,7 @@ const Redeemed = () => {
       try {
         const data = await fetchProductsRedeemed();
         setRedeemedProducts(data);
+
       } catch (error) {
         console.error("Erro ao carregar os produtos resgatados:", error);
       }
@@ -75,15 +77,28 @@ const Redeemed = () => {
     handleRedeemedProd();
   };
 
-  // Function to show a redeemed product in the popup
+ 
   const handleShowRedeemedPopUp = (product) => {
     setRedeemedPopup(product);
   };
 
-  // Function to close the popup
+ 
   const closeRedeemedPopup = () => {
     setRedeemedPopup(null);
   };
+
+  //pegar produtos p pegar a img
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const data = await fetchProducts();
+          setProducts(data);
+        } catch (error) {
+          console.error("Erro ao carregar os produtos:", error);
+        }
+      };
+      fetchData();
+    }, []);
 
   return (
     <div className="redeemed-container">
