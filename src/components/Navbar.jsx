@@ -28,7 +28,7 @@ const Navbar = () => {
           <div className="navbar-links">
             <a href="#como-funciona" className="navbar-link">Como Funciona</a>
             <Link to="/login">
-              <button className="navbar-button">Entrar</button>
+              <button className="navbar-button-landing">Entrar</button>
             </Link>
           </div>
 
@@ -42,7 +42,7 @@ const Navbar = () => {
         <div className="navbar-mobile-links">
           <a href="#como-funciona" className="navbar-link">Como Funciona</a>
           <Link to="/login">
-            <button className="navbar-button">Entrar</button>
+            <button className="navbar-button-landing">Entrar</button>
           </Link>
         </div>
       </div>

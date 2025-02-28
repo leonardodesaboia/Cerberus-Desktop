@@ -164,6 +164,9 @@ function Login() {
                             <span className="showPass" onClick={handlePassword}>
                                 {isShow ? <EyeOff size={20}/> : <Eye size={20}/>}
                             </span>
+                            <div className="login-register-link">
+                            Esqueceu a senha? <a href="/emailSend">Redefina aqui</a>
+                        </div>
                         </div>
 
                         <button 
