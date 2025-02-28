@@ -10,15 +10,15 @@ import "../styles/store.css";
 import '../styles/redeemed.css';
 
 const Redeemed = () => {
-  const [redeemedProducts, setRedeemedProducts] = useState([]);
-  const [notRedeemedProducts, setNotRedeemedProducts] = useState([]);
+  const [redeemedLogs, setRedeemedLogs] = useState([]);
+  const [notRedeemedLogs, setNotRedeemedLogs] = useState([]);
   const [selectedRedeemed, setSelectedRedeemed] = useState(null);
   const [redeemedPopup, setRedeemedPopup] = useState(null); 
   const [products, setProducts] = useState([]);
-  const [redeemedLog, setRedeemedLog] = useState([]);
+  const [productMap, setProductMap] = useState({});
   const [loading, setLoading] = useState(true);
 
-  // carrega  prod resgatados e nn resgatados
+  // Load redeemed and not redeemed products along with product details
   useEffect(() => {
     const fetchAllData = async () => {
       setLoading(true);
@@ -29,9 +29,17 @@ const Redeemed = () => {
           fetchProducts()
         ]);
         
-        setRedeemedProducts(redeemedData);
-        setNotRedeemedProducts(notRedeemedData);
+        // Create a map of products by ID for easy lookup
+        const prodMap = {};
+        productsData.forEach((product) => {
+          prodMap[product._id] = product;
+        });
+        
+        setProductMap(prodMap);
+        setRedeemedLogs(redeemedData);
+        setNotRedeemedLogs(notRedeemedData);
         setProducts(productsData);
+
       } catch (error) {
         console.error("Erro ao carregar dados:", error);
       } finally {
@@ -42,13 +50,12 @@ const Redeemed = () => {
     fetchAllData();
   }, []);
 
-  // atualizar log
+  // Update log when a product is redeemed
   useEffect(() => {
     const updateLogData = async () => {
       if (selectedRedeemed) {
         try {
-          const data = await updateLog(selectedRedeemed);
-          setRedeemedLog(data);
+          await updateLog(selectedRedeemed);
         } catch (error) {
           console.error("Erro ao atualizar log:", error);
         }
@@ -58,17 +65,18 @@ const Redeemed = () => {
     updateLogData();
   }, [selectedRedeemed]);
 
-  // pega o prod resgatado
-  const handleRedeemed = (product) => {
-    setSelectedRedeemed(product);
+  // Handle selecting a product to be redeemed
+  const handleRedeemed = (log) => {
+    setSelectedRedeemed(log);
   };
 
+  // Handle redeeming a product
   const handleRedeemedProd = async () => {
     if (!selectedRedeemed) return;
     
     try {
-      setNotRedeemedProducts(notRedeemedProducts.filter(prod => prod._id !== selectedRedeemed._id));
-      setRedeemedProducts([...redeemedProducts, selectedRedeemed]);
+      setNotRedeemedLogs(notRedeemedLogs.filter(log => log._id !== selectedRedeemed._id));
+      setRedeemedLogs([...redeemedLogs, selectedRedeemed]);
       setRedeemedPopup(selectedRedeemed);
       setSelectedRedeemed(null);
     } catch (error) {
@@ -80,15 +88,23 @@ const Redeemed = () => {
     handleRedeemedProd();
   };
 
-  const handleShowRedeemedPopUp = (product) => {
-    setRedeemedPopup(product);
+  const handleShowRedeemedPopUp = (log) => {
+    setRedeemedPopup(log);
   };
 
   const closeRedeemedPopup = () => {
     setRedeemedPopup(null);
   };
 
-  // Swiper 
+  // Get product details from a log
+  const getProductDetails = (log) => {
+    if (!log || !log.product || !productMap[log.product]) {
+      return { name: "Produto desconhecido", img: "/placeholder-image.jpg" };
+    }
+    return productMap[log.product];
+  };
+
+  // Swiper breakpoints
   const swiperBreakpoints = {
     320: {
       slidesPerView: 1,
@@ -125,7 +141,7 @@ const Redeemed = () => {
         
         <div className="category-section">
           <h3 className="category-title">Resgates Pendentes</h3>
-          {notRedeemedProducts.length === 0 ? (
+          {notRedeemedLogs.length === 0 ? (
             <div className="empty-state">
               <p className="no-redeemed-message">Você ainda não tem resgates pendentes.</p>
             </div>
@@ -141,19 +157,22 @@ const Redeemed = () => {
                 }}
                 modules={[Navigation]} 
                 className="swiper-container">
-                {notRedeemedProducts.map((product) => (
-                  <SwiperSlide key={product._id}>
-                    <div className="product-card-no-redeemed">
-                      <div className="product-image-container">
-                        <img src={product.img} alt={product.name || "Produto a resgatar"} className="product-image" />
+                {notRedeemedLogs.map((log) => {
+                  const product = getProductDetails(log);
+                  return (
+                    <SwiperSlide key={log._id}>
+                      <div className="product-card-no-redeemed">
+                        <div className="product-image-container">
+                          <img src={product.img} alt={product.name || "Produto a resgatar"} className="product-image" />
+                        </div>
+                        <h4 className="product-name">{product.name}</h4>
+                        <button onClick={() => handleRedeemed(log)} className="see-button">
+                          Ver Detalhes
+                        </button>
                       </div>
-                      <h4 className="product-name">{product.name}</h4>
-                      <button onClick={() => handleRedeemed(product)} className="see-button">
-                        Ver Detalhes
-                      </button>
-                    </div>
-                  </SwiperSlide>
-                ))}
+                    </SwiperSlide>
+                  );
+                })}
               </Swiper>
               <div className="swiper-navigation-custom">
                 <div className="swiper-button-prev-custom"></div>
@@ -162,10 +181,10 @@ const Redeemed = () => {
             </div>
           )}
         </div>
-
+                                                             
         <div className="category-section">
           <h3 className="category-title">Produtos Resgatados</h3>
-          {redeemedProducts.length === 0 ? (
+          {redeemedLogs.length === 0 ? (
             <div className="empty-state">
               <p className="no-redeemed-message">Você ainda não resgatou nenhum produto.</p>
             </div>
@@ -181,19 +200,22 @@ const Redeemed = () => {
                 }}
                 modules={[Navigation]} 
                 className="swiper-container">
-                {redeemedProducts.map((product) => (
-                  <SwiperSlide key={product._id}>
-                    <div className="product-card">
-                      <div className="product-image-container">
-                        <img src={product.img} alt={product.name || "Produto resgatado"} className="product-image" />
+                {redeemedLogs.map((log) => {
+                  const product = getProductDetails(log);
+                  return (
+                    <SwiperSlide key={log._id}>
+                      <div className="product-card">
+                        <div className="product-image-container">
+                          <img src={product.img} alt={product.name || "Produto resgatado"} className="product-image" />
+                        </div>
+                        <h4 className="product-name">{product.name}</h4>
+                        <button onClick={() => handleShowRedeemedPopUp(log)} className="see-button">
+                          Ver Detalhes
+                        </button>
                       </div>
-                      <h4 className="product-name">{product.name}</h4>
-                      <button onClick={() => handleShowRedeemedPopUp(product)} className="see-button">
-                        Ver Detalhes
-                      </button>
-                    </div>
-                  </SwiperSlide>
-                ))}
+                    </SwiperSlide>
+                  );
+                })}
               </Swiper>
               <div className="swiper-navigation-custom">
                 <div className="swiper-button-prev-custom-redeemed"></div>
@@ -203,7 +225,7 @@ const Redeemed = () => {
           )}
         </div>
 
-        {/* popup com detalhe codigo etc e nn resgatado */}
+        {/* Popup for product to be redeemed */}
         {selectedRedeemed && (
           <div className="modal-overlay" onClick={() => setSelectedRedeemed(null)}>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -212,10 +234,14 @@ const Redeemed = () => {
                 <button onClick={() => setSelectedRedeemed(null)} className="modal-close-icon">&times;</button>
               </div>
               <div className="modal-body">
-                <img src={selectedRedeemed.img} alt={selectedRedeemed.name} className="modal-img" />
-                <h3 className="modal-product-name">{selectedRedeemed.name}</h3>
+                <img 
+                  src={getProductDetails(selectedRedeemed).img} 
+                  alt={getProductDetails(selectedRedeemed).name} 
+                  className="modal-img" 
+                />
+                <h3 className="modal-product-name">{getProductDetails(selectedRedeemed).name}</h3>
                 <div className="modal-info">
-                  <p className="modal-code">Código: <span>{selectedRedeemed.code}</span></p>
+                  <p className="modal-code">Código: <span>{getProductDetails(selectedRedeemed).code}</span></p>
                   <p className="modal-status">Status: <span className="status-pending">Resgate pendente</span></p>
                 </div>
               </div>
@@ -227,7 +253,7 @@ const Redeemed = () => {
           </div>
         )}
 
-{/* popup do prod resgatado */}
+        {/* Popup for redeemed product */}
         {redeemedPopup && (
           <div className="modal-overlay" onClick={closeRedeemedPopup}>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -236,10 +262,14 @@ const Redeemed = () => {
                 <button onClick={closeRedeemedPopup} className="modal-close-icon">&times;</button>
               </div>
               <div className="modal-body">
-                <img src={redeemedPopup.img} alt={redeemedPopup.name} className="modal-img" />
-                <h3 className="modal-product-name">{redeemedPopup.name}</h3>
+                <img 
+                  src={getProductDetails(redeemedPopup).img} 
+                  alt={getProductDetails(redeemedPopup).name} 
+                  className="modal-img" 
+                />
+                <h3 className="modal-product-name">{getProductDetails(redeemedPopup).name}</h3>
                 <div className="modal-info">
-                  <p className="modal-code">Código: <span>{redeemedPopup.code}</span></p>
+                  <p className="modal-code">Código: <span>{getProductDetails(redeemedPopup).code}</span></p>
                   <p className="modal-status">Status: <span className="status-redeemed">Resgatado</span></p>
                 </div>
               </div>

@@ -73,14 +73,14 @@
   position: relative;
 }
 
-.showPass {
+/* .showPass {
   position: absolute;
   right: 12px;
   top: 50%;
   transform: translateY(-45%);
   cursor: pointer;
   color: #757575;
-}
+} */
 
 .login-button {
   background-color: #2e7d32;
@@ -132,6 +132,10 @@
 
 /* Media query para dispositivos móveis */
 @media (max-width: 768px) {
+  .login-image-container{
+    display: none;
+  }
+
   .login-card {
     flex-direction: column;
     max-width: 400px;
