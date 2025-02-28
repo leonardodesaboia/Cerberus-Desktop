@@ -1,40 +1,38 @@
-/* Container da página principal */
 .home-page-container {
   min-height: 100vh;
-  background: #f2f2f2;
+  background: linear-gradient(to bottom, #f7f9f7, #f2f6f2);
 }
 
 /* Estilos gerais */
-.home-container {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 20px;
-  max-width: 1200px;
-}
-
 .home-content-wrapper {
   max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
-  padding: 0 2rem;
-  text-align: left;
+  padding: 1.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* Seção de conquistas */
 .achievements-section {
   margin: 3rem 0;
   position: relative;
+  width: 100%;
+  max-width: 1000px;
 }
 
 /* Título das conquistas */
 .home-achievements-title {
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: 1.75rem;
+  font-weight: 700;
   margin-top: 2.5rem;
   margin-bottom: 1.5rem;
   color: #174204;
   text-align: left;
-  padding-left: 0.5rem;
+  position: relative;
+  padding-left: 0.75rem;
+  border-left: 4px solid #3c8a36;
 }
 
 /* Container de carrossel com botões de navegação */
@@ -42,8 +40,8 @@
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   width: 100%;
+  padding: 0 3rem;
 }
 
 /* Grid de cards de conquistas */
@@ -52,13 +50,15 @@
   gap: 1.5rem;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  padding: 1rem 0.5rem;
+  padding: 1rem 0;
   scrollbar-width: none; /* Para Firefox */
   -ms-overflow-style: none; /* Para IE e Edge */
-  max-width: calc(100% - 4rem);
+  width: 100%;
   margin: 0 auto;
   scroll-behavior: smooth;
+  justify-content: center; /* Centraliza os cards */
 }
+
 
 /* Esconder a barra de rolagem */
 .home-achievements-grid::-webkit-scrollbar {
@@ -69,46 +69,146 @@
 .home-achievement-card {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  background: #fbfbfb;
-  backdrop-filter: blur(8px);
-  border-radius: 1rem;
-  padding: 1.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(134, 194, 109, 0.2);
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  border-radius: 1.25rem;
+  padding: 1.75rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(134, 194, 109, 0.25);
   text-align: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  min-height: 250px;
-  min-width: 220px;
-  max-width: 220px;
+  transition: all 0.3s ease;
+  min-height: 280px;
+  min-width: 240px;
+  max-width: 240px;
   flex-shrink: 0;
   scroll-snap-align: start;
+  position: relative;
+  overflow: hidden;
 }
 
 .home-achievement-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transform: translateY(-7px);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.1);
+  border-color: rgba(134, 194, 109, 0.5);
+}
+
+.home-achievement-card.locked {
+  background: #f9fbf9;
+  border: 1px solid rgba(134, 194, 109, 0.15);
+}
+
+.home-achievement-card.locked:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Container do troféu */
+.trophy-container {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  background: rgba(242, 250, 242, 0.8);
+  border-radius: 50%;
+  padding: 0.75rem;
+  box-shadow: 0 4px 12px rgba(134, 194, 109, 0.2);
+}
+
+.trophy-container.locked {
+  background: rgba(242, 242, 242, 0.5);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 /* Troféu na conquista */
 .home-trophy {
   width: 70px;
   height: auto;
-  align-self: center;
-  margin-bottom: 1.5rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+  transition: transform 0.3s ease;
+  object-fit: contain;
+}
+
+.home-achievement-card:hover .home-trophy {
+  transform: scale(1.1);
+}
+
+/* Nome da conquista */
+.achievement-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #174204;
+  margin: 0.5rem 0 1rem;
+  line-height: 1.4;
+}
+
+/* Badge de conquista desbloqueada */
+.achievement-badge {
+  background: rgba(9, 165, 14, 0.15);
+  color: #09a50e;
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 0.35rem 0.75rem;
+  border-radius: 1rem;
+  display: inline-block;
+  margin-top: 0.5rem;
 }
 
 /* Mensagem para conquistas vazias */
 .empty-achievements {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 250px;
-  min-width: 220px;
+  min-height: 280px;
+  min-width: 240px;
   background: #f8f8f8;
-  border-radius: 1rem;
-  font-style: italic;
+  border-radius: 1.25rem;
+  padding: 2rem 1.5rem;
   color: #666;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px dashed #ccc;
+}
+
+.empty-trophy-icon {
+  font-size: 3rem;
+  color: #ccc;
+  margin-bottom: 1rem;
+}
+
+.empty-achievements p {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.empty-hint {
+  font-size: 0.85rem;
+  color: #888;
+  font-style: italic;
+}
+
+/* Detalhes do progresso */
+.progress-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+.progress-percentage {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #09a50e;
+}
+
+.progress-detail {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 0.25rem;
 }
 
 /* Barra de progresso */
@@ -116,15 +216,18 @@
   width: 100%;
   height: 10px;
   background: #e9ecef;
-  border-radius: 5px;
+  border-radius: 10px;
   overflow: hidden;
-  margin: 1rem 0;
+  margin: 0.75rem 0 0.5rem;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .progress-bar {
   height: 100%;
-  background-color: #09a50e;
-  transition: width 0.5s ease-in-out;
+  background: linear-gradient(90deg, #09a50e, #4caf50);
+  border-radius: 10px;
+  transition: width 0.8s ease-in-out;
+  box-shadow: 0 1px 3px rgba(9, 165, 14, 0.3);
 }
 
 /* Botões de navegação do carrossel */
@@ -132,49 +235,117 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  background: #fff;
+  width: 42px;
+  height: 42px;
+  background: #ffffff;
   border: 1px solid #e0e0e0;
   border-radius: 50%;
   color: #174204;
   cursor: pointer;
+  position: absolute;
   z-index: 5;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-prev {
+  left: 0;
+}
+
+.carousel-next {
+  right: 0;
 }
 
 .carousel-control:hover {
   background: #f0f8e7;
   transform: scale(1.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  color: #09a50e;
 }
 
 .carousel-control:active {
   transform: scale(0.95);
 }
 
-/* Indicadores do carrossel (para mobile) */
+.carousel-control:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #f4f4f4;
+}
+
+.carousel-control:disabled:hover {
+  transform: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  color: #174204;
+}
+
+/* Indicadores do carrossel */
 .carousel-indicators {
   display: none; /* Escondido por padrão, visível apenas em mobile */
   justify-content: center;
-  margin-top: 1rem;
-  gap: 8px;
+  margin-top: 1.25rem;
+  gap: 10px;
 }
 
 .carousel-indicators span {
-  width: 8px;
-  height: 8px;
-  background-color: #ccc;
+  width: 10px;
+  height: 10px;
+  background-color: #ddd;
   border-radius: 50%;
   display: inline-block;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .carousel-indicators span.active {
   background-color: #174204;
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
+  transform: scale(1.1);
+}
+
+/* Loading e Error containers */
+.loading-container,
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  text-align: center;
+  padding: 2rem;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(134, 194, 109, 0.3);
+  border-radius: 50%;
+  border-top-color: #09a50e;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+.retry-button {
+  background: #09a50e;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.3s ease;
+}
+
+.retry-button:hover {
+  background: #057a0a;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Footer */
@@ -182,8 +353,10 @@
   text-align: center;
   padding: 2rem 0;
   margin-top: 3rem;
-  color: #333;
+  color: #555;
   border-top: 1px solid #e0e0e0;
+  width: 100%;
+  font-size: 0.9rem;
 }
 
 /* Esconder elementos apenas para mobile por padrão */
@@ -192,21 +365,41 @@
 }
 
 /* Responsividade */
-@media (max-width: 992px) {
+@media (max-width: 1100px) {
   .home-content-wrapper {
-    padding: 0 1rem;
+    padding: 1.25rem 1.5rem;
   }
   
   .home-achievement-card {
-    min-width: 200px;
-    min-height: 230px;
+    min-width: 220px;
+    min-height: 260px;
+    padding: 1.5rem;
+  }
+  
+  .trophy-container {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .home-trophy {
+    width: 60px;
+  }
+  
+  .carousel-container {
+    padding: 0 2.5rem;
   }
 }
 
 @media (max-width: 768px) {
   /* Ajuste para telas menores */
   .home-content-wrapper {
-    padding: 0 0.75rem;
+    padding: 1rem;
+  }
+  
+  .home-achievements-title {
+    font-size: 1.4rem;
+    margin-top: 2rem;
+    margin-bottom: 1.25rem;
   }
   
   /* Mostrar indicadores em mobile */
@@ -214,27 +407,41 @@
     display: flex;
   }
   
-  /* Esconder botões de navegação em mobile */
+  /* Ajustar botões de navegação em mobile */
   .carousel-control {
-    display: none;
+    width: 36px;
+    height: 36px;
   }
   
   /* Ajustar grid para carrossel em tela cheia */
+  .carousel-container {
+    padding: 0 1.5rem;
+  }
+  
   .home-achievements-grid {
-    max-width: 100%;
-    padding: 0.5rem 0.25rem;
+    padding: 0.5rem 0;
     gap: 1rem;
   }
   
   .home-achievement-card {
-    min-width: 80%;
-    min-height: 200px;
-    margin: 0 auto;
+    min-width: 85%;
+    min-height: 240px;
+    padding: 1.25rem;
   }
   
-  /* Centralizar mais o conteúdo em mobile */
-  .home-achievements-title {
-    font-size: 1.3rem;
+  .trophy-container {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 1rem;
+  }
+  
+  .home-trophy {
+    width: 50px;
+  }
+  
+  .achievement-name {
+    font-size: 1rem;
+    margin: 0.5rem 0;
   }
   
   /* Adicionar mais espaçamento entre seções */
@@ -244,18 +451,69 @@
 }
 
 @media (max-width: 480px) {
+  .home-content-wrapper {
+    padding: 0.75rem;
+  }
+  
+  .carousel-container {
+    padding: 0 1.25rem;
+  }
+  
   .home-achievement-card {
-    min-width: 85%;
+    min-width: 90%;
     padding: 1.25rem;
+    min-height: 220px;
+  }
+  
+  .trophy-container {
+    width: 65px;
+    height: 65px;
   }
   
   .home-trophy {
-    width: 60px;
+    width: 45px;
   }
   
   .home-achievements-title {
     font-size: 1.2rem;
-    margin-top: 2rem;
+    margin-top: 1.5rem;
     margin-bottom: 1rem;
+  }
+  
+  .achievement-name {
+    font-size: 0.95rem;
+  }
+  
+  .progress-percentage {
+    font-size: 1rem;
+  }
+  
+  .progress-detail {
+    font-size: 0.8rem;
+  }
+  
+  .achievement-badge {
+    font-size: 0.8rem;
+    padding: 0.25rem 0.6rem;
+  }
+  
+  .carousel-indicators {
+    margin-top: 1rem;
+    gap: 8px;
+  }
+  
+  .carousel-indicators span {
+    width: 8px;
+    height: 8px;
+  }
+  
+  .carousel-indicators span.active {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .carousel-control {
+    width: 32px;
+    height: 32px;
   }
 }
