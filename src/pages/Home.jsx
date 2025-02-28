@@ -40,7 +40,7 @@ const Home = () => {
     return "./public/trophys/locked_trophy.png";
   }, []);
 
-  // Função aprimorada para navegar nos carrosséis
+  // Função p navegar no carrossel
   const scrollGrid = useCallback((gridRef, direction, setActiveIndex, itemCount) => {
     if (gridRef.current) {
       const cardWidth = window.innerWidth < 768 ? gridRef.current.offsetWidth * 0.85 : 220;
@@ -73,7 +73,7 @@ const Home = () => {
     }
   }, []);
 
-  // Carregar dados do usuário
+  //  dados do usuário
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -84,7 +84,7 @@ const Home = () => {
           metal: userData.metalDiscarted || 0,
         });
 
-        // Se a API fornece pontos, atualizamos o estado
+        
         if (userData.points !== undefined) {
           setPoints(userData.points);
         }

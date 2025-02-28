@@ -23,7 +23,7 @@ const Navbar = (params) => {
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
   const [isAppOpen, setIsAppOpen] = useState(false);
 
-  // Load user data on component mount
+  // carregar dados dos usuarios
   useEffect(() => {
     const loadUserData = async () => {
       try {
@@ -50,7 +50,7 @@ const Navbar = (params) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close dropdown when clicking outside
+  // fechar o popup qnd clica em qualquer canto da tela
   useEffect(() => {
     const handleClickOutside = (event) => {
       const dropdown = document.querySelector('.profile-container');
@@ -65,13 +65,14 @@ const Navbar = (params) => {
     };
   }, []);
 
-  // Handler functions
+  // deletar usuario/remover e encaminhar p outra pag
   const handleLogout = () => {
     localStorage.removeItem("userId");
     localStorage.removeItem("token");
     navigate("/");
   };
 
+  // abrir pop ups
   const handleLogOutPopUp = () => {
     setIsLogoutOpen(true);
   };
@@ -80,6 +81,7 @@ const Navbar = (params) => {
     setIsAppOpen(true);
   };
 
+  // deletar usuario
   const deleteUser = async () => {
     const userId = localStorage.getItem("userId");
     if (!userId) {
@@ -109,6 +111,7 @@ const Navbar = (params) => {
     }
   };
 
+  // salvar mudanças
   const handleSaveChanges = async () => {
     const updates = {};
     
@@ -131,7 +134,7 @@ const Navbar = (params) => {
       setUsername(updatedUser.username);
       setOriginalEmail(updatedUser.email);
       toast.success("Perfil atualizado com sucesso!");
-      navigate(0);
+      navigate(0); //recarregar a pag após mudar as informações
     } catch (error) {
       toast.error(error.message || "Erro ao atualizar perfil");
       console.error(error);
@@ -148,6 +151,7 @@ const Navbar = (params) => {
             <span>EcoPoints</span>
           </a>
 
+{/* navbar / links / edições etc */}
           <div className="navbar-links">
             <a href="/home" className="navbar-link">
               <Home size={18} className="link-icon" />
@@ -174,7 +178,7 @@ const Navbar = (params) => {
                 <User className="profile-icon" />
                 <span className="profile-name">{username}</span>
               </button>
-
+{/* menu dropdown pra editar cadastro/excluir conta e sair */}
               {isDropDownOpen && (
                 <div className="dropdown-menu">
                   <button onClick={() => {
@@ -197,6 +201,7 @@ const Navbar = (params) => {
             </div>
           </div>
 
+{/* fechar menu  */}
           <button 
             className="navbar-menu-button" 
             onClick={() => setIsOpen(!isOpen)}
@@ -207,7 +212,7 @@ const Navbar = (params) => {
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* menu do mobile - responsivo */}
       <div className={`navbar-mobile-menu ${isOpen ? "open" : "closed"}`}>
         <div className="navbar-mobile-links">
           <a href="/home" className="mobile-link">
@@ -245,7 +250,8 @@ const Navbar = (params) => {
         </div>
       </div>
       
-      {/* QR Code App Popup */}
+
+      {/* pop up do qr code*/}
       {isAppOpen && (
         <div className="popup-overlay" onClick={() => setIsAppOpen(false)}>
           <div className="app-popup" onClick={e => e.stopPropagation()}>
@@ -267,7 +273,7 @@ const Navbar = (params) => {
         </div>
       )}
 
-      {/* Logout Confirmation Popup */}
+      {/* popup de confirmação de saída*/}
       {isLogoutOpen && (
         <div className="popup-overlay" onClick={() => setIsLogoutOpen(false)}>
           <div className="confirmation-popup" onClick={e => e.stopPropagation()}>
@@ -298,7 +304,7 @@ const Navbar = (params) => {
         </div>
       )}
 
-      {/* Edit Profile Popup */}
+      {/* popup de edição de perfil*/}
       {isEditOpen && (
         <div className="popup-overlay" onClick={() => setIsEditOpen(false)}>
           <div className="edit-popup" onClick={e => e.stopPropagation()}>
@@ -312,7 +318,7 @@ const Navbar = (params) => {
                 <X size={20} />
               </button>
             </div>
-            
+            {/* mostra o usuario atual e editar */}
             <div className="form-group">
               <label htmlFor="username">Nome de Usuário:</label>
               <div className="input-container">
@@ -326,7 +332,7 @@ const Navbar = (params) => {
                 />
               </div>
             </div>
-            
+    {/* mostra o email atual */}
             <div className="form-group">
               <label htmlFor="currentEmail">Email Atual:</label>
               <div className="input-container disabled">
@@ -338,7 +344,7 @@ const Navbar = (params) => {
                 />
               </div>
             </div>
-            
+{/* novo email */}
             <div className="form-group">
               <label htmlFor="newEmail">Novo Email:</label>
               <div className="input-container">
@@ -351,7 +357,7 @@ const Navbar = (params) => {
                 />
               </div>
             </div>
-
+{/* salvar td */}
             <div className="popup-buttons edit-buttons">
               <button onClick={handleSaveChanges} className="save-button">
                 <span>Salvar alterações</span>
@@ -365,7 +371,7 @@ const Navbar = (params) => {
         </div>
       )}
 
-      {/* Delete Account Confirmation */}
+      {/* popup de deleção de conta */}
       {isDeleteOpen && (
         <div className="popup-overlay" onClick={() => setIsDeleteOpen(false)}>
           <div className="confirmation-popup danger-popup" onClick={e => e.stopPropagation()}>

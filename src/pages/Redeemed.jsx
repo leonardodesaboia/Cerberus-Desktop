@@ -18,6 +18,7 @@ const Redeemed = () => {
   const [redeemedLog, setRedeemedLog] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // carrega  prod resgatados e nn resgatados
   useEffect(() => {
     const fetchAllData = async () => {
       setLoading(true);
@@ -41,6 +42,7 @@ const Redeemed = () => {
     fetchAllData();
   }, []);
 
+  // atualizar log
   useEffect(() => {
     const updateLogData = async () => {
       if (selectedRedeemed) {
@@ -56,6 +58,7 @@ const Redeemed = () => {
     updateLogData();
   }, [selectedRedeemed]);
 
+  // pega o prod resgatado
   const handleRedeemed = (product) => {
     setSelectedRedeemed(product);
   };
@@ -85,7 +88,7 @@ const Redeemed = () => {
     setRedeemedPopup(null);
   };
 
-  // Swiper breakpoints for responsiveness
+  // Swiper 
   const swiperBreakpoints = {
     320: {
       slidesPerView: 1,
@@ -200,7 +203,7 @@ const Redeemed = () => {
           )}
         </div>
 
-        {/* Modals */}
+        {/* popup com detalhe codigo etc e nn resgatado */}
         {selectedRedeemed && (
           <div className="modal-overlay" onClick={() => setSelectedRedeemed(null)}>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -224,6 +227,7 @@ const Redeemed = () => {
           </div>
         )}
 
+{/* popup do prod resgatado */}
         {redeemedPopup && (
           <div className="modal-overlay" onClick={closeRedeemedPopup}>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
