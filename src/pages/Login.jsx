@@ -161,11 +161,11 @@ function Login() {
                                 placeholder="Digite sua senha"
                                 disabled={isLoading} 
                             />
-                            <span className="showPass" onClick={handlePassword}>
+                            <span className="showPass-login" onClick={handlePassword}>
                                 {isShow ? <EyeOff size={20}/> : <Eye size={20}/>}
                             </span>
                             <div className="login-register-link">
-                            Esqueceu a senha? <a href="/emailSend">Redefina aqui</a>
+                             <a href="/emailSend">Esqueceu a senha?</a>
                         </div>
                         </div>
 

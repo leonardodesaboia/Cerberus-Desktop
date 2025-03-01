@@ -20,11 +20,11 @@
 .login-image-container {
   flex: 1;
   background-image: url(../../public/lixo1.jpeg);
-  /* background-position: cent; */
   background-size: cover;
   background-repeat: no-repeat;
   padding: 4rem;
 }
+
 .login-image {
   max-width: 100%;
   max-height: 100%;
@@ -69,18 +69,47 @@
   gap: 20px;
 }
 
+/* Remover borda e padding do container do input */
+.login-form .input-container,
+.login-form .form-group,
+.login-form .input-wrapper {
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Estilizar apenas o input real */
+.login-form input {
+  height: 70px;
+  padding: 15px 12px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  width: 100%;
+}
+
+/* Ajustar o espaçamento do label */
+.login-form label {
+  margin-bottom: 5px;
+  display: block;
+  font-size: 14px;
+  color: #333;
+}
+
 .password-container {
   position: relative;
 }
 
-/* .showPass {
+.showPass-login {
   position: absolute;
   right: 12px;
-  top: 50%;
-  transform: translateY(-45%);
+  top: 30%;
+  transform: translateY(60%);
   cursor: pointer;
   color: #757575;
-} */
+}
 
 .login-button {
   background-color: #2e7d32;
@@ -124,28 +153,27 @@
 .error-message {
   background-color: #ffebee;
   color: #c62828;
-  padding: 12px;
+  padding: 5px;
   border-radius: 8px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   text-align: center;
 }
 
-/* Media query para dispositivos móveis */
 @media (max-width: 768px) {
-  .login-image-container{
+  .login-image-container {
     display: none;
   }
-
+  
   .login-card {
     flex-direction: column;
     max-width: 400px;
   }
-
+  
   .login-image-container {
     padding: 30px;
     max-height: 200px;
   }
-
+  
   .login-form-section {
     padding: 30px 20px;
   }
