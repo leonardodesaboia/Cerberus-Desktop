@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import Navbar from '../components/NavbarHome';
 import { fetchProductsRedeemed, fetchProductsNotRedeemed, fetchProducts, updateLog } from "../services/api";
 import CardPoints from '../components/CardPoints';
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css';
@@ -23,6 +25,8 @@ const Redeemed = () => {
     const fetchAllData = async () => {
       setLoading(true);
       try {
+        toast.info("Carregando seus produtos...");
+        
         const [redeemedData, notRedeemedData, productsData] = await Promise.all([
           fetchProductsRedeemed(),
           fetchProductsNotRedeemed(),
@@ -40,8 +44,15 @@ const Redeemed = () => {
         setNotRedeemedLogs(notRedeemedData);
         setProducts(productsData);
 
+        toast.success("Dados carregados com sucesso!");
+        
+        if (notRedeemedData.length > 0) {
+          toast.info(`Você tem ${notRedeemedData.length} produto(s) pendente(s) para resgate.`);
+        }
+
       } catch (error) {
         console.error("Erro ao carregar dados:", error);
+        toast.error("Falha ao carregar seus produtos. Tente novamente mais tarde.");
       } finally {
         setLoading(false);
       }
@@ -58,6 +69,7 @@ const Redeemed = () => {
           await updateLog(selectedRedeemed);
         } catch (error) {
           console.error("Erro ao atualizar log:", error);
+          toast.error("Falha ao atualizar status do produto.");
         }
       }
     };
@@ -68,6 +80,8 @@ const Redeemed = () => {
   // Handle selecting a product to be redeemed
   const handleRedeemed = (log) => {
     setSelectedRedeemed(log);
+    const product = getProductDetails(log);
+    toast.info(`Visualizando detalhes de: ${product.name}`);
   };
 
   // Handle redeeming a product
@@ -75,12 +89,19 @@ const Redeemed = () => {
     if (!selectedRedeemed) return;
     
     try {
+      toast.info("Processando seu resgate...");
+      
+      const productDetails = getProductDetails(selectedRedeemed);
+      
       setNotRedeemedLogs(notRedeemedLogs.filter(log => log._id !== selectedRedeemed._id));
       setRedeemedLogs([...redeemedLogs, selectedRedeemed]);
       setRedeemedPopup(selectedRedeemed);
       setSelectedRedeemed(null);
+      
+      toast.success(`${productDetails.name} foi resgatado com sucesso!`);
     } catch (error) {
       console.error("Erro ao atualizar pontos:", error);
+      toast.error("Não foi possível concluir o resgate. Tente novamente.");
     }
   };
 
@@ -90,10 +111,13 @@ const Redeemed = () => {
 
   const handleShowRedeemedPopUp = (log) => {
     setRedeemedPopup(log);
+    const product = getProductDetails(log);
+    toast.info(`Visualizando detalhes do produto resgatado: ${product.name}`);
   };
 
   const closeRedeemedPopup = () => {
     setRedeemedPopup(null);
+    toast.info("Janela de detalhes fechada");
   };
 
   // Get product details from a log
@@ -124,6 +148,11 @@ const Redeemed = () => {
     }
   };
 
+  const handleCancelRedemption = () => {
+    setSelectedRedeemed(null);
+    toast.info("Resgate cancelado pelo usuário");
+  };
+
   if (loading) {
     return (
       <div className="redeemed-loading">
@@ -136,6 +165,17 @@ const Redeemed = () => {
   return (
     <div className="redeemed-container">
       <Navbar />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <div className="redeemed-content">
         <CardPoints />
         
@@ -156,6 +196,11 @@ const Redeemed = () => {
                   nextEl: '.swiper-button-next-custom'
                 }}
                 modules={[Navigation]} 
+                onSwiper={(swiper) => {
+                  if (notRedeemedLogs.length > 1) {
+                    toast.info("Deslize para ver mais produtos pendentes");
+                  }
+                }}
                 className="swiper-container">
                 {notRedeemedLogs.map((log) => {
                   const product = getProductDetails(log);
@@ -166,7 +211,10 @@ const Redeemed = () => {
                           <img src={product.img} alt={product.name || "Produto a resgatar"} className="product-image" />
                         </div>
                         <h4 className="product-name">{product.name}</h4>
-                        <button onClick={() => handleRedeemed(log)} className="see-button">
+                        <button 
+                          onClick={() => handleRedeemed(log)} 
+                          className="see-button"
+                        >
                           Ver Detalhes
                         </button>
                       </div>
@@ -199,6 +247,11 @@ const Redeemed = () => {
                   nextEl: '.swiper-button-next-custom-redeemed'
                 }}
                 modules={[Navigation]} 
+                onSwiper={(swiper) => {
+                  if (redeemedLogs.length > 1) {
+                    toast.info("Deslize para ver todos os produtos resgatados");
+                  }
+                }}
                 className="swiper-container">
                 {redeemedLogs.map((log) => {
                   const product = getProductDetails(log);
@@ -209,7 +262,10 @@ const Redeemed = () => {
                           <img src={product.img} alt={product.name || "Produto resgatado"} className="product-image" />
                         </div>
                         <h4 className="product-name">{product.name}</h4>
-                        <button onClick={() => handleShowRedeemedPopUp(log)} className="see-button">
+                        <button 
+                          onClick={() => handleShowRedeemedPopUp(log)} 
+                          className="see-button"
+                        >
                           Ver Detalhes
                         </button>
                       </div>
@@ -227,11 +283,11 @@ const Redeemed = () => {
 
         {/* Popup for product to be redeemed */}
         {selectedRedeemed && (
-          <div className="modal-overlay" onClick={() => setSelectedRedeemed(null)}>
+          <div className="modal-overlay" onClick={handleCancelRedemption}>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
               <div className="modal-header">
                 <h2 className="modal-title">Detalhes do Produto</h2>
-                <button onClick={() => setSelectedRedeemed(null)} className="modal-close-icon">&times;</button>
+                <button onClick={handleCancelRedemption} className="modal-close-icon">&times;</button>
               </div>
               <div className="modal-body">
                 <img 
@@ -246,8 +302,18 @@ const Redeemed = () => {
                 </div>
               </div>
               <div className="modal-buttons">
-                <button onClick={handleOpenPopUp} className="redeem-button">Resgatar</button>
-                <button onClick={() => setSelectedRedeemed(null)} className="close-button-redeemed">Cancelar</button>
+                <button 
+                  onClick={handleOpenPopUp} 
+                  className="redeem-button"
+                >
+                  Resgatar
+                </button>
+                <button 
+                  onClick={handleCancelRedemption} 
+                  className="close-button-redeemed"
+                >
+                  Cancelar
+                </button>
               </div>
             </div>
           </div>
@@ -274,6 +340,16 @@ const Redeemed = () => {
                 </div>
               </div>
               <div className="modal-buttons">
+                <button 
+                  onClick={() => {
+                    closeRedeemedPopup();
+                    navigator.clipboard.writeText(getProductDetails(redeemedPopup).code);
+                    toast.success("Código copiado para a área de transferência!");
+                  }} 
+                  className="copy-button"
+                >
+                  Copiar Código
+                </button>
                 <button onClick={closeRedeemedPopup} className="close-button-redeemed">Fechar</button>
               </div>
             </div>

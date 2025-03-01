@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import NavBar from "../components/NavbarHome";
 import { getUserData, updateUserPoints, fetchProducts } from "../services/api";
 import CardPoints from "../components/CardPoints";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css';
@@ -24,6 +25,7 @@ const Store = () => {
         const userData = await getUserData();
         setPoints(userData.points);
         setRedeemedProducts(userData.log || []);
+        toast.info(`Bem-vindo à loja! Você tem ${userData.points} pontos disponíveis.`);
       } catch (err) {
         console.error("Erro ao carregar dados do usuário", err);
         toast.error("Não foi possível carregar seus dados");
@@ -40,6 +42,11 @@ const Store = () => {
       try {
         const data = await fetchProducts();
         setProducts(data);
+        if (data.length > 0) {
+          toast.info(`${data.length} produtos disponíveis para resgate!`);
+        } else {
+          toast.warning("Não há produtos disponíveis no momento.");
+        }
       } catch (error) {
         console.error("Erro ao carregar os produtos:", error);
         toast.error("Falha ao carregar produtos");
@@ -50,32 +57,39 @@ const Store = () => {
 
   // Handle point redemption
   const handleRedeemProduct = async () => {
-    if (!selectedProduct) return;
+    if (!selectedProduct) {
+      toast.error("Nenhum produto selecionado.");
+      return;
+    }
     
     const newPoints = points - selectedProduct.price;
     if (newPoints < 0) {
-      toast.warning("Pontos insuficientes para este produto");
+      toast.warning(`Pontos insuficientes para ${selectedProduct.name}. Você precisa de mais ${selectedProduct.price - points} pontos.`);
       return;
     }
+    
+    toast.info("Processando seu pedido...");
     
     try {
       await updateUserPoints(selectedProduct);
       const updatedUserData = await getUserData();
       
-      toast.success(`Você resgatou ${selectedProduct.name} com sucesso!`);
+      toast.success(`${selectedProduct.name} resgatado com sucesso! Você agora tem ${updatedUserData.points} pontos.`);
+      
       handleClosePopUp();
       
       setPoints(updatedUserData.points);
       setRedeemedProducts([...redeemedProducts, selectedProduct]);
     } catch (error) {
       console.error("Erro ao atualizar pontos:", error);
-      toast.error("Não foi possível resgatar o produto");
+      toast.error("Não foi possível resgatar o produto. Tente novamente mais tarde.");
     }
   };
 
   // Modal handlers
   const handleOpenPopUp = (product) => {
     setSelectedProduct(product);
+    toast.info(`Detalhes do produto: ${product.name}`);
   };
 
   const handleClosePopUp = () => {
@@ -104,7 +118,10 @@ const Store = () => {
 
   // ProductCard component for DRY code
   const ProductCard = ({ product }) => (
-    <div className="product-card" onClick={() => handleOpenPopUp(product)}>
+    <div 
+      className="product-card" 
+      onClick={() => handleOpenPopUp(product)}
+    >
       <div className="product-image-container">
         <img src={product.img} alt={product.name} className="product-image" />
       </div>
@@ -136,6 +153,18 @@ const Store = () => {
   return (
     <div className="store-container">
       <NavBar />
+      {/* ToastContainer deve ser incluído para renderizar os toasts */}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <div className="store-content">
         <CardPoints points={points} />
 
@@ -189,7 +218,15 @@ const Store = () => {
               >
                 Trocar
               </button>
-              <button onClick={handleClosePopUp} className="close-button">Fechar</button>
+              <button 
+                onClick={() => {
+                  handleClosePopUp();
+                  toast.info("Operação cancelada");
+                }} 
+                className="close-button"
+              >
+                Fechar
+              </button>
             </div>
           </div>
         </div>

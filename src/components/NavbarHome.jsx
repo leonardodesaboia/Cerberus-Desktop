@@ -32,6 +32,7 @@ const Navbar = (params) => {
         setCurrentEmail(userData.email || ""); 
         setOriginalEmail(userData.email || "");
         setUserId(userData.id);
+        toast.success("Bem-vindo(a) de volta, " + (userData.username || ""));
       } catch (error) {
         toast.error("Erro ao carregar dados do usuário");
         console.error(error);
@@ -69,6 +70,7 @@ const Navbar = (params) => {
   const handleLogout = () => {
     localStorage.removeItem("userId");
     localStorage.removeItem("token");
+    toast.info("Logout realizado com sucesso. Até logo!");
     navigate("/");
   };
 
@@ -79,6 +81,25 @@ const Navbar = (params) => {
 
   const handleAppOpen = () => {
     setIsAppOpen(true);
+    toast.info("Escaneie o QR code para baixar nosso aplicativo");
+  };
+
+  // Toggle dropdown com feedback
+  const toggleDropdown = () => {
+    setIsDropDownOpen(!isDropDownOpen);
+    if (!isDropDownOpen) {
+      toast.info("Menu de perfil aberto");
+    }
+  };
+
+  // Toggle menu mobile com feedback
+  const toggleMobileMenu = () => {
+    setIsOpen(!isOpen);
+    if (!isOpen) {
+      toast.info("Menu mobile aberto");
+    } else {
+      toast.info("Menu mobile fechado");
+    }
   };
 
   // deletar usuario
@@ -111,16 +132,43 @@ const Navbar = (params) => {
     }
   };
 
+  // abrir modal de edição com feedback
+  const openEditModal = () => {
+    setIsEditOpen(true);
+    setIsDropDownOpen(false);
+    toast.info("Edição de perfil aberta");
+  };
+
+  // fechar modal com feedback
+  const closeEditModal = () => {
+    setIsEditOpen(false);
+    toast.info("Edição de perfil cancelada");
+  };
+
+  // Abrir modal de confirmação de exclusão com aviso
+  const openDeleteConfirmation = () => {
+    setIsDeleteOpen(true);
+    toast.warning("Atenção: Você está prestes a excluir sua conta permanentemente!");
+  };
+
+  // Cancelar exclusão de conta
+  const cancelDeleteAccount = () => {
+    setIsDeleteOpen(false);
+    toast.info("Exclusão de conta cancelada");
+  };
+
   // salvar mudanças
   const handleSaveChanges = async () => {
     const updates = {};
     
     if (username.trim()) updates.username = username;
-    if (newEmail.trim() && isValidEmail(currentEmail, newEmail, originalEmail)) {
-      updates.email = newEmail;
-    } else if (newEmail.trim() && !isValidEmail(currentEmail, newEmail, originalEmail)) {
-      toast.error("Email inválido");
-      return;
+    if (newEmail.trim()) {
+      if (isValidEmail(currentEmail, newEmail, originalEmail)) {
+        updates.email = newEmail;
+      } else {
+        toast.error("Email inválido ou já está em uso");
+        return;
+      }
     }
     
     if (Object.keys(updates).length === 0) {
@@ -142,6 +190,16 @@ const Navbar = (params) => {
     setIsEditOpen(false);
   };
 
+  // Validação de email em tempo real com feedback
+  const handleEmailChange = (e) => {
+    const email = e.target.value;
+    setNewEmail(email);
+    
+    if (email && email === currentEmail) {
+      toast.info("Este já é seu email atual");
+    }
+  };
+
   return (
     <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
       <div className="navbar-container">
@@ -157,11 +215,11 @@ const Navbar = (params) => {
               <Home size={18} className="link-icon" />
               <span>Home</span>
             </a>
-            <a href="/store" className="navbar-link">
+            <a href="/store" className="navbar-link" onClick={() => toast.info("Acessando a loja de pontos...")}>
               <ShoppingBag size={18} className="link-icon" />
               <span>Loja de pontos</span>
             </a>
-            <a href="/redeemed" className="navbar-link">
+            <a href="/redeemed" className="navbar-link" onClick={() => toast.info("Acessando seus resgates...")}>
               <Gift size={18} className="link-icon" />
               <span>Resgates</span>
             </a>
@@ -172,7 +230,7 @@ const Navbar = (params) => {
             <div className="profile-container">
               <button 
                 className="profile-button"
-                onClick={() => setIsDropDownOpen(!isDropDownOpen)}
+                onClick={toggleDropdown}
                 aria-label="Menu de perfil"
               >
                 <User className="profile-icon" />
@@ -181,10 +239,7 @@ const Navbar = (params) => {
 {/* menu dropdown pra editar cadastro/excluir conta e sair */}
               {isDropDownOpen && (
                 <div className="dropdown-menu">
-                  <button onClick={() => {
-                    setIsEditOpen(true);
-                    setIsDropDownOpen(false);
-                  }} className="dropdown-item">
+                  <button onClick={openEditModal} className="dropdown-item">
                     <Edit size={16} className="dropdown-icon" />
                     <span>Meu Cadastro</span>
                   </button>
@@ -204,7 +259,7 @@ const Navbar = (params) => {
 {/* fechar menu  */}
           <button 
             className="navbar-menu-button" 
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={toggleMobileMenu}
             aria-label={isOpen ? "Fechar menu" : "Abrir menu"}
           >
             {isOpen ? <X className="navbar-menu-icon" /> : <Menu className="navbar-menu-icon" />}
@@ -215,15 +270,15 @@ const Navbar = (params) => {
       {/* menu do mobile - responsivo */}
       <div className={`navbar-mobile-menu ${isOpen ? "open" : "closed"}`}>
         <div className="navbar-mobile-links">
-          <a href="/home" className="mobile-link">
+          <a href="/home" className="mobile-link" onClick={() => toast.info("Acessando a página principal...")}>
             <Home size={18} className="mobile-link-icon" />
             <span>Home</span>
           </a>
-          <a href="/store" className="mobile-link">
+          <a href="/store" className="mobile-link" onClick={() => toast.info("Acessando a loja de pontos...")}>
             <ShoppingBag size={18} className="mobile-link-icon" />
             <span>Loja de pontos</span>
           </a>
-          <a href="/redeemed" className="mobile-link">
+          <a href="/redeemed" className="mobile-link" onClick={() => toast.info("Acessando seus resgates...")}>
             <Gift size={18} className="mobile-link-icon" />
             <span>Resgates</span>
           </a>
@@ -234,7 +289,7 @@ const Navbar = (params) => {
             <span>Conheça nosso app</span>
           </a>
           <button onClick={() => {
-            setIsEditOpen(true);
+            openEditModal();
             setIsOpen(false);
           }} className="mobile-link">
             <Edit size={18} className="mobile-link-icon" />
@@ -253,12 +308,18 @@ const Navbar = (params) => {
 
       {/* pop up do qr code*/}
       {isAppOpen && (
-        <div className="popup-overlay" onClick={() => setIsAppOpen(false)}>
+        <div className="popup-overlay" onClick={() => {
+          setIsAppOpen(false);
+          toast.info("QR code fechado");
+        }}>
           <div className="app-popup" onClick={e => e.stopPropagation()}>
             <div className="popup-header">
               <h3>Conheça nosso aplicativo!</h3>
               <button 
-                onClick={() => setIsAppOpen(false)} 
+                onClick={() => {
+                  setIsAppOpen(false);
+                  toast.info("QR code fechado");
+                }} 
                 className="popup-close-button"
                 aria-label="Fechar"
               >
@@ -280,7 +341,10 @@ const Navbar = (params) => {
             <div className="popup-header">
               <h3>Sair da conta</h3>
               <button 
-                onClick={() => setIsLogoutOpen(false)} 
+                onClick={() => {
+                  setIsLogoutOpen(false);
+                  toast.info("Logout cancelado");
+                }} 
                 className="popup-close-button"
                 aria-label="Fechar"
               >
@@ -296,7 +360,10 @@ const Navbar = (params) => {
                 <LogOut size={16} className="button-icon" />
                 <span>Sair</span>
               </button>
-              <button onClick={() => setIsLogoutOpen(false)} className="cancel-button">
+              <button onClick={() => {
+                setIsLogoutOpen(false);
+                toast.info("Logout cancelado");
+              }} className="cancel-button">
                 <span>Cancelar</span>
               </button>
             </div>
@@ -306,12 +373,12 @@ const Navbar = (params) => {
 
       {/* popup de edição de perfil*/}
       {isEditOpen && (
-        <div className="popup-overlay" onClick={() => setIsEditOpen(false)}>
+        <div className="popup-overlay" onClick={closeEditModal}>
           <div className="edit-popup" onClick={e => e.stopPropagation()}>
             <div className="popup-header">
               <h3>Editar Cadastro</h3>
               <button 
-                onClick={() => setIsEditOpen(false)} 
+                onClick={closeEditModal} 
                 className="popup-close-button"
                 aria-label="Fechar"
               >
@@ -326,7 +393,12 @@ const Navbar = (params) => {
                 <input 
                   id="username"
                   type="text" 
-                  onChange={(e) => setUsername(e.target.value)} 
+                  onChange={(e) => {
+                    setUsername(e.target.value);
+                    if (e.target.value.length < 3 && e.target.value.length > 0) {
+                      toast.warning("Nome de usuário deve ter pelo menos 3 caracteres");
+                    }
+                  }} 
                   value={username}
                   placeholder="Seu nome de usuário"
                 />
@@ -352,7 +424,7 @@ const Navbar = (params) => {
                   id="newEmail"
                   type="email" 
                   value={newEmail} 
-                  onChange={(e) => setNewEmail(e.target.value)} 
+                  onChange={handleEmailChange} 
                   placeholder="Novo email (opcional)"
                 />
               </div>
@@ -362,7 +434,7 @@ const Navbar = (params) => {
               <button onClick={handleSaveChanges} className="save-button">
                 <span>Salvar alterações</span>
               </button>
-              <button onClick={() => setIsDeleteOpen(true)} className="delete-account-button">
+              <button onClick={openDeleteConfirmation} className="delete-account-button">
                 <Trash2 size={16} className="button-icon" />
                 <span>Deletar conta</span>
               </button>
@@ -373,12 +445,12 @@ const Navbar = (params) => {
 
       {/* popup de deleção de conta */}
       {isDeleteOpen && (
-        <div className="popup-overlay" onClick={() => setIsDeleteOpen(false)}>
+        <div className="popup-overlay" onClick={cancelDeleteAccount}>
           <div className="confirmation-popup danger-popup" onClick={e => e.stopPropagation()}>
             <div className="popup-header">
               <h3>Excluir Conta</h3>
               <button 
-                onClick={() => setIsDeleteOpen(false)} 
+                onClick={cancelDeleteAccount}
                 className="popup-close-button"
                 aria-label="Fechar"
               >
@@ -391,13 +463,14 @@ const Navbar = (params) => {
             </div>
             <div className="popup-buttons">
               <button onClick={() => {
+                toast.warning("Processando exclusão de conta...");
                 deleteUser();
                 setIsDeleteOpen(false);
               }} className="danger-button">
                 <Trash2 size={16} className="button-icon" />
                 <span>Excluir permanentemente</span>
               </button>
-              <button onClick={() => setIsDeleteOpen(false)} className="cancel-button">
+              <button onClick={cancelDeleteAccount} className="cancel-button">
                 <span>Cancelar</span>
               </button>
             </div>
