@@ -7,7 +7,7 @@ const CardPoints = (params) => {
   const [points, setPoints] = useState(0);
   const [loading, setLoading] = useState(true);
   const [username, setUserName] = useState("");
-
+  
   // Carregar pontos do usuário
   useEffect(() => {
     const fetchUserData = async () => {
@@ -21,19 +21,24 @@ const CardPoints = (params) => {
         setLoading(false);
       }
     };
-
+    
     fetchUserData();
   }, [params.points]);
-
+  
   return (
-    <div>
+    <div className="card-container">
       <div className="welcome-container">
         <h1 className="welcome-text">Bem Vindo(a), {username}!</h1>
       </div>
       <div className="points-card">
-        <section>
+        <section className="points-info">
           <p className="points-label">Seus pontos acumulados:</p>
-          <p className="points-value animated-float">{points}  <a className="points-statement" href="/pointsstatement"><IoIosArrowForward/></a></p>
+          <div className="points-row">
+            <p className="points-value animated-float">{points}</p>
+            <a className="points-statement" href="/pointsstatement">
+              <IoIosArrowForward/>
+            </a>
+          </div>
         </section>
         <img src="./coin.png" alt="pontos" className="coin-points" />
       </div>

@@ -173,20 +173,44 @@ export const updateLog = async (log) => {
   }
 };
 
-export const resetPassword = async (token, password) => {
-  const response = await fetch(`${API_URL}/user/password/${token}`, {
+// export const resetPassword = async (token, password) => {
+//   const response = await fetch(`${API_URL}/user/password/${token}`, {
+//       method: 'POST',
+//       headers: {
+//           'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify({ password }) // Enviando a nova senha
+//   });
+//   console.log(token)
+//   const data = await response.json();
+
+//   if (!response.ok) {
+//       throw new Error(data.message || 'Erro ao redefinir a senha');
+//   }
+
+//   return data; 
+// };
+
+export const resetPassword = async (email, token) => {
+  try {
+    const response = await fetch(`${API_URL}/user/forgot-password`, {
       method: 'POST',
       headers: {
-          'Content-Type': 'application/json',
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ password }) // Enviando a nova senha
-  });
-  console.log(token)
-  const data = await response.json();
-
-  if (!response.ok) {
-      throw new Error(data.message || 'Erro ao redefinir a senha');
+      body: JSON.stringify({ email, token })
+    });
+    
+    const data = await response.json();
+    
+    if (!response.ok) {
+      throw new Error(data.message || 'Erro ao solicitar redefinição de senha');
+    }
+    
+    return {
+      message: data.message || 'Email de recuperação enviado. Por favor, verifique sua caixa de entrada.'
+    };
+  } catch (error) {
+    throw new Error(error.message || 'Erro ao conectar com o servidor');
   }
-
-  return data; 
 };
