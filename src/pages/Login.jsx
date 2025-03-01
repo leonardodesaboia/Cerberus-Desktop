@@ -165,7 +165,7 @@ function Login() {
                                 {isShow ? <EyeOff size={20}/> : <Eye size={20}/>}
                             </span>
                             <div className="login-register-link">
-                             <a href="/emailSend">Esqueceu a senha?</a>
+                             <a href="/sendEmail">Esqueceu a senha?</a>
                         </div>
                         </div>
 
