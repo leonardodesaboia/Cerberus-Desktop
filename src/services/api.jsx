@@ -191,14 +191,14 @@ export const updateLog = async (log) => {
 //   return data; 
 // };
 
-export const resetPassword = async (email, token) => {
+export const resetPassword = async (password, token) => {
   try {
     const response = await fetch(`${API_URL}/user/forgot-password`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ email, token })
+      body: JSON.stringify({password})
     });
     
     const data = await response.json();
