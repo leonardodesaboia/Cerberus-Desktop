@@ -191,26 +191,33 @@ export const updateLog = async (log) => {
 //   return data; 
 // };
 
-export const resetPassword = async (password, token) => {
+export const resetPassword = async (email) => {
   try {
     const response = await fetch(`${API_URL}/user/forgot-password`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({password})
+      body: JSON.stringify({ email })
     });
-    
-    const data = await response.json();
-    
-    if (!response.ok) {
-      throw new Error(data.message || 'Erro ao solicitar redefinição de senha');
+
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.indexOf("application/json") !== -1) {
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.message || 'Erro ao solicitar redefinição de senha');
+      }
+      
+      return {
+        message: data.message || 'Email de recuperação enviado. Por favor, verifique sua caixa de entrada.'
+      };
+    } else {
+     
+      throw new Error(`Server returned ${response.status}: ${response.statusText}`);
     }
-    
-    return {
-      message: data.message || 'Email de recuperação enviado. Por favor, verifique sua caixa de entrada.'
-    };
   } catch (error) {
+    console.error("Reset password error:", error);
     throw new Error(error.message || 'Erro ao conectar com o servidor');
   }
 };

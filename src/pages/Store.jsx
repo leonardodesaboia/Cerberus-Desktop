@@ -28,7 +28,7 @@ const Store = () => {
         toast.info(`Bem-vindo à loja! Você tem ${userData.points} pontos disponíveis.`);
       } catch (err) {
         console.error("Erro ao carregar dados do usuário", err);
-        toast.error("Não foi possível carregar seus dados");
+        // toast.error("Não foi possível carregar seus dados");
       } finally {
         setLoading(false);
       }
@@ -58,7 +58,7 @@ const Store = () => {
   // Handle point redemption
   const handleRedeemProduct = async () => {
     if (!selectedProduct) {
-      toast.error("Nenhum produto selecionado.");
+      // toast.error("Nenhum produto selecionado.");
       return;
     }
     
@@ -74,7 +74,7 @@ const Store = () => {
       await updateUserPoints(selectedProduct);
       const updatedUserData = await getUserData();
       
-      toast.success(`${selectedProduct.name} resgatado com sucesso! Você agora tem ${updatedUserData.points} pontos.`);
+      toast.success(`${selectedProduct.name} resgatado com sucesso!.`);
       
       handleClosePopUp();
       
@@ -89,7 +89,7 @@ const Store = () => {
   // Modal handlers
   const handleOpenPopUp = (product) => {
     setSelectedProduct(product);
-    toast.info(`Detalhes do produto: ${product.name}`);
+    // toast.info(`Detalhes do produto: ${product.name}`);
   };
 
   const handleClosePopUp = () => {
@@ -97,9 +97,10 @@ const Store = () => {
   };
 
   // Filter products by price ranges
-  const lowPrice = products.filter((product) => product.isActive && product.price <= 500);
-  const midPrice = products.filter((product) => product.isActive && product.price > 1000 && product.price <= 5000);
-  const highPrice = products.filter((product) => product.isActive && product.price > 5000);
+  const lowPrice = products.filter((product) => product.isActive && product.price <= 5000);
+  const midPrice = products.filter((product) => product.isActive && product.price > 5000 && product.price <= 10000);
+  const midPrice2 = products.filter((product) => product.isActive && product.price > 10000 && product.price <= 20000);
+  const highPrice = products.filter((product) => product.isActive && product.price > 20000);
 
   // Common Swiper settings
   const swiperSettings = {
@@ -178,9 +179,10 @@ const Store = () => {
             </div>
           ) : (
             <>
-              <CategorySection title="Até 500 Pontos" products={lowPrice} />
-              <CategorySection title="1000 a 5000 Pontos" products={midPrice} />
-              <CategorySection title="Acima de 5000 Pontos" products={highPrice} />
+              <CategorySection title="Até 5000 Pontos" products={lowPrice} />
+              <CategorySection title="5000 a 10000 Pontos" products={midPrice} />
+              <CategorySection title="10000 a 20000 Pontos" products={midPrice2} />
+              <CategorySection title="Acima de 20000 Pontos" products={highPrice} />
               
               {lowPrice.length === 0 && midPrice.length === 0 && highPrice.length === 0 && (
                 <div className="no-products-message">

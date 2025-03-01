@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import {resetPassword} from '../services/api'
 
 const SendEmail= () => {
-  const [email, setEmail] = useState()
+  const [email, setEmail] = useState('')
   const [emailError, setEmailError] = useState()
   const [isLoading, setIsLoading] = useState(false)
   const [apiError, setApiError] = useState()
@@ -54,6 +54,7 @@ const SendEmail= () => {
     setSuccessMessage('');
     
     try {
+      console.log("chegou aqui")
       const response = await resetPassword(email);
       setSuccessMessage(response.message);
       // Limpar o campo de email após o sucesso
