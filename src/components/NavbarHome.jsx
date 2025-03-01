@@ -389,7 +389,7 @@ const Navbar = (params) => {
             <div className="form-group">
               <label htmlFor="username">Nome de Usuário:</label>
               <div className="input-container">
-                <User size={18} className="input-icon" />
+                {/* <User size={18} className="input-icon" /> */}
                 <input 
                   id="username"
                   type="text" 

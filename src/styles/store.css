@@ -140,13 +140,13 @@ body {
 .category-title {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #286205;
+  color: #183a03;
   margin-bottom: 25px;
   padding-left: 20px;
   position: relative;
 }
 
-.category-title:before {
+/* .category-title:before {
   content: '';
   position: absolute;
   left: 0;
@@ -156,7 +156,7 @@ body {
   height: 25px;
   background-color: #286205;
   border-radius: 3px;
-}
+} */
 
 /* Product card styling */
 .product-card {
