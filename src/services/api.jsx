@@ -175,27 +175,34 @@ export const updateLog = async (log) => {
 };
 
 export const emailResetPassword = async (token, password) => {
-  const response = await fetch(`${API_PASS_URL}/ResetPassword/${token}`, {
+  try {
+    
+    const response = await fetch(`${API_URL}/user/new-password/${token}`, {
       method: 'POST',
       headers: {
-          'Content-Type': 'application/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ password }) 
-  });
-  console.log(token)
-  const data = await response.json();
-
-  if (!response.ok) {
-      throw new Error(data.message || 'Erro ao redefinir a senha');
+    });
+    
+    // Verificar se a resposta é JSON
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.indexOf("application/json") !== -1) {
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.message || 'Erro ao redefinir a senha');
+      }
+      
+      return data;
+    } else {
+      throw new Error(`Servidor retornou ${response.status}: ${response.statusText}`);
+    }
+  } catch (error) {
+    console.error("Reset password error:", error);
+    throw new Error(error.message || 'Erro ao conectar com o servidor');
   }
-
-  return data; 
 };
-
-
-
-
-
 
 
 export const resetPassword = async (email) => {
