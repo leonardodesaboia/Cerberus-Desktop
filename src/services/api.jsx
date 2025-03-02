@@ -180,7 +180,7 @@ export const emailResetPassword = async (token, password) => {
       headers: {
           'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ password }) // Enviando a nova senha
+      body: JSON.stringify({ password }) 
   });
   console.log(token)
   const data = await response.json();
@@ -191,6 +191,12 @@ export const emailResetPassword = async (token, password) => {
 
   return data; 
 };
+
+
+
+
+
+
 
 export const resetPassword = async (email) => {
   try {
