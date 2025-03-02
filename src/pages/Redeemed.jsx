@@ -25,7 +25,7 @@ const Redeemed = () => {
     const fetchAllData = async () => {
       setLoading(true);
       try {
-        toast.info("Carregando seus produtos...");
+        // toast.info("Carregando seus produtos...");
         
         const [redeemedData, notRedeemedData, productsData] = await Promise.all([
           fetchProductsRedeemed(),
@@ -44,7 +44,7 @@ const Redeemed = () => {
         setNotRedeemedLogs(notRedeemedData);
         setProducts(productsData);
 
-        toast.success("Dados carregados com sucesso!");
+        // toast.success("Dados carregados com sucesso!");
         
         if (notRedeemedData.length > 0) {
           toast.info(`Você tem ${notRedeemedData.length} produto(s) pendente(s) para resgate.`);
@@ -52,7 +52,7 @@ const Redeemed = () => {
 
       } catch (error) {
         console.error("Erro ao carregar dados:", error);
-        toast.error("Falha ao carregar seus produtos. Tente novamente mais tarde.");
+        // toast.error("Falha ao carregar seus produtos. Tente novamente mais tarde.");
       } finally {
         setLoading(false);
       }
@@ -81,7 +81,7 @@ const Redeemed = () => {
   const handleRedeemed = (log) => {
     setSelectedRedeemed(log);
     const product = getProductDetails(log);
-    toast.info(`Visualizando detalhes de: ${product.name}`);
+    // toast.info(`Visualizando detalhes de: ${product.name}`);
   };
 
   // Handle redeeming a product
@@ -112,12 +112,12 @@ const Redeemed = () => {
   const handleShowRedeemedPopUp = (log) => {
     setRedeemedPopup(log);
     const product = getProductDetails(log);
-    toast.info(`Visualizando detalhes do produto resgatado: ${product.name}`);
+    // toast.info(`Visualizando detalhes do produto resgatado: ${product.name}`);
   };
 
   const closeRedeemedPopup = () => {
     setRedeemedPopup(null);
-    toast.info("Janela de detalhes fechada");
+    // toast.info("Janela de detalhes fechada");
   };
 
   // Get product details from a log

@@ -294,7 +294,7 @@ const Home = () => {
           </footer>
         </div>
       </div>
-      <ToastContainer position="bottom-right" autoClose={5000} />
+      <ToastContainer position="top-right" autoClose={5000} />
     </>
   );
 };

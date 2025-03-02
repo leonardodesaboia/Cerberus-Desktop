@@ -32,7 +32,7 @@ const Navbar = (params) => {
         setCurrentEmail(userData.email || ""); 
         setOriginalEmail(userData.email || "");
         setUserId(userData.id);
-        toast.success("Bem-vindo(a) de volta, " + (userData.username || ""));
+        toast.success("Bem-vindo(a) de volta, " + (userData.username));
       } catch (error) {
         toast.error("Erro ao carregar dados do usuário");
         console.error(error);
@@ -71,7 +71,10 @@ const Navbar = (params) => {
     localStorage.removeItem("userId");
     localStorage.removeItem("token");
     toast.info("Logout realizado com sucesso. Até logo!");
-    navigate("/");
+    setTimeout(() => {
+      navigate("/");
+
+    }, 1000);
   };
 
   // abrir pop ups
@@ -81,25 +84,25 @@ const Navbar = (params) => {
 
   const handleAppOpen = () => {
     setIsAppOpen(true);
-    toast.info("Escaneie o QR code para baixar nosso aplicativo");
+    // toast.info("Escaneie o QR code para baixar nosso aplicativo");
   };
 
   // Toggle dropdown com feedback
   const toggleDropdown = () => {
     setIsDropDownOpen(!isDropDownOpen);
     if (!isDropDownOpen) {
-      toast.info("Menu de perfil aberto");
+      // toast.info("Menu de perfil aberto");
     }
   };
 
   // Toggle menu mobile com feedback
   const toggleMobileMenu = () => {
     setIsOpen(!isOpen);
-    if (!isOpen) {
-      toast.info("Menu mobile aberto");
-    } else {
-      toast.info("Menu mobile fechado");
-    }
+    // if (!isOpen) {
+    //   // toast.info("Menu mobile aberto");
+    // } else {
+    //   toast.info("Menu mobile fechado");
+    // }
   };
 
   // deletar usuario
@@ -136,13 +139,13 @@ const Navbar = (params) => {
   const openEditModal = () => {
     setIsEditOpen(true);
     setIsDropDownOpen(false);
-    toast.info("Edição de perfil aberta");
+    // toast.info("Edição de perfil aberta");
   };
 
   // fechar modal com feedback
   const closeEditModal = () => {
     setIsEditOpen(false);
-    toast.info("Edição de perfil cancelada");
+    // toast.info("Edição de perfil cancelada");
   };
 
   // Abrir modal de confirmação de exclusão com aviso
@@ -310,7 +313,7 @@ const Navbar = (params) => {
       {isAppOpen && (
         <div className="popup-overlay" onClick={() => {
           setIsAppOpen(false);
-          toast.info("QR code fechado");
+          // toast.info("QR code fechado");
         }}>
           <div className="app-popup" onClick={e => e.stopPropagation()}>
             <div className="popup-header">
@@ -318,7 +321,7 @@ const Navbar = (params) => {
               <button 
                 onClick={() => {
                   setIsAppOpen(false);
-                  toast.info("QR code fechado");
+                  // toast.info("QR code fechado");
                 }} 
                 className="popup-close-button"
                 aria-label="Fechar"
@@ -343,7 +346,7 @@ const Navbar = (params) => {
               <button 
                 onClick={() => {
                   setIsLogoutOpen(false);
-                  toast.info("Logout cancelado");
+                  // toast.info("Logout cancelado");
                 }} 
                 className="popup-close-button"
                 aria-label="Fechar"
@@ -362,7 +365,7 @@ const Navbar = (params) => {
               </button>
               <button onClick={() => {
                 setIsLogoutOpen(false);
-                toast.info("Logout cancelado");
+                // toast.info("Logout cancelado");
               }} className="cancel-button">
                 <span>Cancelar</span>
               </button>
