@@ -22,7 +22,7 @@ const App = () => {
           <Route path="/redeemed" element={<Redeemed/>} />
           <Route path="/pointsstatement" element={<PointsStatement/>} />
           <Route path='/sendEmail' element={<SendEmail/>} />
-          <Route path='/ResetPassword/token' element={<ResetPassword/>}/>
+          <Route path='/ResetPassword/:token' element={<ResetPassword/>}/>
         </Routes>
       </BrowserRouter>
   )

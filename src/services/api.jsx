@@ -1,4 +1,5 @@
 export const API_URL = 'http://localhost:3000'; 
+export const API_PASS_URL ='http://localhost:5173'
 
 export const registerUser = async (userData) => {
   try {
@@ -173,23 +174,23 @@ export const updateLog = async (log) => {
   }
 };
 
-// export const resetPassword = async (token, password) => {
-//   const response = await fetch(`${API_URL}/user/password/${token}`, {
-//       method: 'POST',
-//       headers: {
-//           'Content-Type': 'application/json',
-//       },
-//       body: JSON.stringify({ password }) // Enviando a nova senha
-//   });
-//   console.log(token)
-//   const data = await response.json();
+export const emailResetPassword = async (token, password) => {
+  const response = await fetch(`${API_PASS_URL}/ResetPassword/${token}`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ password }) // Enviando a nova senha
+  });
+  console.log(token)
+  const data = await response.json();
 
-//   if (!response.ok) {
-//       throw new Error(data.message || 'Erro ao redefinir a senha');
-//   }
+  if (!response.ok) {
+      throw new Error(data.message || 'Erro ao redefinir a senha');
+  }
 
-//   return data; 
-// };
+  return data; 
+};
 
 export const resetPassword = async (email) => {
   try {
