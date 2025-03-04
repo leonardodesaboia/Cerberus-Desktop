@@ -165,7 +165,7 @@
     100% { transform: rotate(360deg); }
   }
   
-  .error-message {
+  /* .error-message {
     text-align: center;
     padding: 30px;
     background-color: rgba(255, 82, 82, 0.1);
@@ -181,7 +181,7 @@
     border-radius: 4px;
     margin-top: 15px;
     cursor: pointer;
-  }
+  } */
   
   .empty-state {
     text-align: center;

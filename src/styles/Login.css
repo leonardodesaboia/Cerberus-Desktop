@@ -74,7 +74,7 @@
 .login-form .form-group,
 .login-form .input-wrapper {
   border: none !important;
-  padding: 0 !important;
+  /* padding: 0 !important; */
   margin: 0 !important;
   background: transparent !important;
   box-shadow: none !important;
@@ -150,14 +150,14 @@
   text-decoration: underline;
 }
 
-.error-message {
+/* .error-message {
   background-color: #ffebee;
   color: #c62828;
   padding: 5px;
   border-radius: 8px;
   margin-bottom: 10px;
   text-align: center;
-}
+} */
 
 @media (max-width: 768px) {
   .login-image-container {

@@ -150,7 +150,7 @@
   border: none;
   background-color: transparent;
   font-size: 1rem;
-  padding: 0;
+  /* padding: 0; */
 }
 
 .input-container input:focus {
@@ -224,11 +224,11 @@
   font-size: 0.9rem;
 }
 
-.error-message {
+/* .error-message {
   background-color: #fdeaea;
   color: #e74c3c;
   border: 1px solid #fadbd8;
-}
+} */
 
 .success-message {
   background-color: #eafaf1;
