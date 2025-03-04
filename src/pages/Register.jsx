@@ -367,7 +367,7 @@ function Register() {
                         <p className="register-subtitle">Crie sua conta e comece a contribuir</p>
                     </div>
 
-                    {apiError && <div className="error-message">{apiError}</div>}
+                    {apiError && <div className="error-message-register">{apiError}</div>}
                     {successMessage && <div className="success-message">{successMessage}</div>}
                     {navigationError && <div className="error-message">{navigationError}</div>}
             

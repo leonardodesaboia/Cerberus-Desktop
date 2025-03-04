@@ -25,7 +25,7 @@ const Store = () => {
         const userData = await getUserData();
         setPoints(userData.points);
         setRedeemedProducts(userData.log || []);
-        toast.info(`Bem-vindo à loja! Você tem ${userData.points} pontos disponíveis.`);
+        // toast.info(`Bem-vindo à loja! Você tem ${userData.points} pontos disponíveis.`);
       } catch (err) {
         console.error("Erro ao carregar dados do usuário", err);
         // toast.error("Não foi possível carregar seus dados");
@@ -45,11 +45,12 @@ const Store = () => {
         if (data.length > 0) {
           toast.info(`${data.length} produtos disponíveis para resgate!`);
         } else {
-          toast.warning("Não há produtos disponíveis no momento.");
+          // toast.warning("Não há produtos disponíveis no momento.");
+          return;
         }
       } catch (error) {
         console.error("Erro ao carregar os produtos:", error);
-        toast.error("Falha ao carregar produtos");
+        // toast.error("Falha ao carregar produtos");
       }
     };
     fetchData();
@@ -223,7 +224,7 @@ const Store = () => {
               <button 
                 onClick={() => {
                   handleClosePopUp();
-                  toast.info("Operação cancelada");
+                  // toast.info("Operação cancelada");
                 }} 
                 className="close-button"
               >

@@ -217,7 +217,7 @@
 }
 
 /* Notification messages */
-.error-message, .success-message {
+.error-message-sendEmail, .success-message {
   padding: 0.8rem;
   border-radius: 8px;
   margin-bottom: 1.5rem;

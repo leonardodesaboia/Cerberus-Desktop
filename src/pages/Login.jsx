@@ -127,7 +127,7 @@ function Login() {
                     </div>
 
                     {apiError && (
-                        <div className="error-message">
+                        <div className="error-login">
                             {apiError}
                         </div>
                     )}

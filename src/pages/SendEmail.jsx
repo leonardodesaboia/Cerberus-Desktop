@@ -142,7 +142,7 @@ const SendEmail= () => {
           </div>
 
           {apiError && (
-            <div className="error-message">
+            <div className="error-message-sendEmail">
               {apiError}
             </div>
           )}

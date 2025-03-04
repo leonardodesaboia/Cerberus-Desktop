@@ -157,7 +157,7 @@ const Extrato = () => {
           <div className="spinner"></div>
         </div>
       ) : error ? (
-        <div className="error-message">
+        <div className="error-message-statement">
           <p>{error}</p>
           <button onClick={fetchAllLogs}>Tentar novamente</button>
         </div>

@@ -9,7 +9,7 @@
 
 .login-card {
   display: flex;
-  width: 900px;
+  width: 65rem;
   max-width: 100%;
   background-color: #ffffff;
   border-radius: 12px;
@@ -26,8 +26,8 @@
 }
 
 .login-image {
-  max-width: 100%;
-  max-height: 100%;
+  max-width: 80%;
+  max-height: 80%;
   object-fit: contain;
 }
 
@@ -150,14 +150,13 @@
   text-decoration: underline;
 }
 
-/* .error-message {
-  background-color: #ffebee;
-  color: #c62828;
+.error-login {
+  color: #7f0000;
   padding: 5px;
   border-radius: 8px;
   margin-bottom: 10px;
   text-align: center;
-} */
+}
 
 @media (max-width: 768px) {
   .login-image-container {

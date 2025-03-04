@@ -1,9 +1,14 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 import "../styles/home.css";
 import { getUserData, updateUserPoints, fetchProducts } from "../services/api";
 import Navbar from "../components/NavbarHome";
 import TrashChart from "../components/TrashChart";
-import { FaArrowRight, FaArrowLeft, FaTrophy } from "react-icons/fa6";
+import { FaTrophy } from "react-icons/fa6";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
@@ -15,12 +20,6 @@ const Home = () => {
   const [unlockedAchievementIds, setUnlockedAchievementIds] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [activeUnlockedIndex, setActiveUnlockedIndex] = useState(0);
-  const [activeLockedIndex, setActiveLockedIndex] = useState(0);
-  
-  // Refs para os containers de conquistas
-  const unlockedGridRef = useRef(null);
-  const lockedGridRef = useRef(null);
   
   // Lista de conquistas
   const allAchievements = [
@@ -40,39 +39,6 @@ const Home = () => {
     return "./public/trophys/locked_trophy.png";
   }, []);
 
-  // Função p navegar no carrossel
-  const scrollGrid = useCallback((gridRef, direction, setActiveIndex, itemCount) => {
-    if (gridRef.current) {
-      const cardWidth = window.innerWidth < 768 ? gridRef.current.offsetWidth * 0.85 : 220;
-      const gap = window.innerWidth < 768 ? 16 : 24;
-      const scrollAmount = direction === 'left' ? -(cardWidth + gap) : (cardWidth + gap);
-      
-      gridRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-      
-      // Atualizar o indicador ativo
-      setTimeout(() => {
-        const scrollLeft = gridRef.current.scrollLeft;
-        const newIndex = Math.round(scrollLeft / (cardWidth + gap));
-        setActiveIndex(Math.max(0, Math.min(newIndex, itemCount - 1)));
-      }, 300);
-    }
-  }, []);
-
-  // Função para ir diretamente para um slide específico
-  const goToSlide = useCallback((gridRef, index, setActiveIndex) => {
-    if (gridRef.current) {
-      const cardWidth = window.innerWidth < 768 ? gridRef.current.offsetWidth * 0.85 : 220;
-      const gap = window.innerWidth < 768 ? 16 : 24;
-      
-      gridRef.current.scrollTo({
-        left: index * (cardWidth + gap),
-        behavior: 'smooth'
-      });
-      
-      setActiveIndex(index);
-    }
-  }, []);
-
   //  dados do usuário
   useEffect(() => {
     const fetchUserData = async () => {
@@ -84,7 +50,6 @@ const Home = () => {
           metal: userData.metalDiscarded || 0,
         });
 
-        
         if (userData.points !== undefined) {
           setPoints(userData.points);
         }
@@ -156,20 +121,32 @@ const Home = () => {
           <section className="achievements-section">
             <h2 className="home-achievements-title">Suas Conquistas</h2>
             
-            <div className="carousel-container">
-              <button 
-                className="carousel-control carousel-prev" 
-                onClick={() => scrollGrid(unlockedGridRef, 'left', setActiveUnlockedIndex, unlockedAchievements.length)}
-                aria-label="Anterior"
-                disabled={unlockedAchievements.length <= 3}
+            {unlockedAchievements.length > 0 ? (
+              <Swiper
+                modules={[Navigation, Pagination]}
+                spaceBetween={20}
+                slidesPerView={3}
+                navigation
+                pagination={{ clickable: true }}
+                breakpoints={{
+                  320: {
+                    slidesPerView: 1.2,
+                    spaceBetween: 10
+                  },
+                  480: {
+                    slidesPerView: 2,
+                    spaceBetween: 15
+                  },
+                  768: {
+                    slidesPerView: 3,
+                    spaceBetween: 20
+                  }
+                }}
+                className="home-achievements-swiper"
               >
-                <FaArrowLeft />
-              </button>
-              
-              <div className="home-achievements-grid" ref={unlockedGridRef}>
-                {unlockedAchievements.length > 0 ? (
-                  unlockedAchievements.map((achievement) => (
-                    <div key={achievement.id} className="home-achievement-card">
+                {unlockedAchievements.map((achievement) => (
+                  <SwiperSlide key={achievement.id}>
+                    <div className="home-achievement-card">
                       <div className="trophy-container">
                         <img
                           src={getTrophyImage(achievement.threshold)}
@@ -181,61 +158,53 @@ const Home = () => {
                       <h3 className="achievement-name">{achievement.name}</h3>
                       <span className="achievement-badge">Desbloqueado</span>
                     </div>
-                  ))
-                ) : (
-                  <div className="empty-achievements">
-                    <FaTrophy className="empty-trophy-icon" />
-                    <p>Você ainda não desbloqueou conquistas</p>
-                    <span className="empty-hint">Continue reciclando para ganhar troféus!</span>
-                  </div>
-                )}
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            ) : (
+              <div className="empty-achievements">
+                <FaTrophy className="empty-trophy-icon" />
+                <p>Você ainda não desbloqueou conquistas</p>
+                <span className="empty-hint">Continue reciclando para ganhar troféus!</span>
               </div>
-              
-              <button 
-                className="carousel-control carousel-next" 
-                onClick={() => scrollGrid(unlockedGridRef, 'right', setActiveUnlockedIndex, unlockedAchievements.length)}
-                aria-label="Próximo"
-                disabled={unlockedAchievements.length <= 3}
-              >
-                <FaArrowRight />
-              </button>
-            </div>
-            
-            {/* Indicadores para mobile */}
-            <div className="carousel-indicators mobile-only">
-              {unlockedAchievements.length > 0 && unlockedAchievements.map((_, index) => (
-                <span 
-                  key={index} 
-                  className={index === activeUnlockedIndex ? "active" : ""}
-                  onClick={() => goToSlide(unlockedGridRef, index, setActiveUnlockedIndex)}
-                ></span>
-              ))}
-            </div>
+            )}
           </section>
 
           {/* Conquistas Bloqueadas com Barra de Progresso */}
           <section className="achievements-section">
             <h2 className="home-achievements-title">Próximas Conquistas</h2>
             
-            <div className="carousel-container">
-              <button 
-                className="carousel-control carousel-prev" 
-                onClick={() => scrollGrid(lockedGridRef, 'left', setActiveLockedIndex, lockedAchievements.length)}
-                aria-label="Anterior"
-                disabled={lockedAchievements.length <= 3}
-              >
-                <FaArrowLeft />
-              </button>
-              
-              <div className="home-achievements-grid" ref={lockedGridRef}>
-                {lockedAchievements.map((achievement) => {
-                  // Cálculo da porcentagem
-                  const currentValue = achievement.type === "plastic" ? trashStats.plastic : trashStats.metal;
-                  const progress = (currentValue / achievement.threshold) * 100;
-                  const cappedProgress = Math.min(progress, 100);
+            <Swiper
+              modules={[Navigation, Pagination]}
+              spaceBetween={20}
+              slidesPerView={3}
+              navigation
+              pagination={{ clickable: true }}
+              breakpoints={{
+                320: {
+                  slidesPerView: 1.2,
+                  spaceBetween: 10
+                },
+                480: {
+                  slidesPerView: 2,
+                  spaceBetween: 15
+                },
+                768: {
+                  slidesPerView: 3,
+                  spaceBetween: 20
+                }
+              }}
+              className="home-achievements-swiper"
+            >
+              {lockedAchievements.map((achievement) => {
+                // Cálculo da porcentagem
+                const currentValue = achievement.type === "plastic" ? trashStats.plastic : trashStats.metal;
+                const progress = (currentValue / achievement.threshold) * 100;
+                const cappedProgress = Math.min(progress, 100);
 
-                  return (
-                    <div key={achievement.id} className="home-achievement-card locked">
+                return (
+                  <SwiperSlide key={achievement.id}>
+                    <div className="home-achievement-card locked">
                       <div className="trophy-container locked">
                         <img
                           src="./public/trophys/locked_trophy.png"
@@ -260,30 +229,10 @@ const Home = () => {
                         </span>
                       </div>
                     </div>
-                  );
-                })}
-              </div>
-              
-              <button 
-                className="carousel-control carousel-next" 
-                onClick={() => scrollGrid(lockedGridRef, 'right', setActiveLockedIndex, lockedAchievements.length)}
-                aria-label="Próximo"
-                disabled={lockedAchievements.length <= 3}
-              >
-                <FaArrowRight />
-              </button>
-            </div>
-            
-            {/* Indicadores para mobile */}
-            <div className="carousel-indicators mobile-only">
-              {lockedAchievements.map((_, index) => (
-                <span 
-                  key={index} 
-                  className={index === activeLockedIndex ? "active" : ""}
-                  onClick={() => goToSlide(lockedGridRef, index, setActiveLockedIndex)}
-                ></span>
-              ))}
-            </div>
+                  </SwiperSlide>
+                );
+              })}
+            </Swiper>
           </section>
 
           <TrashChart trashStats={trashStats} />

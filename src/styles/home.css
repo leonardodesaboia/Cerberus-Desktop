@@ -35,14 +35,38 @@
   border-left: 4px solid #3eb535;
 }
 
-/* Container de carrossel com botões de navegação */
-.carousel-container {
-  position: relative;
-  display: flex;
-  align-items: center;
+
+/* swiper */
+.home-achievements-swiper {
   width: 100%;
-  padding: 0 3rem;
+  padding: 20px 0;
 }
+
+.home-achievements-swiper .swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-button-prev, 
+.swiper-button-next {
+  color: #4CAF50 !important;
+}
+
+.swiper-pagination-bullet {
+  background-color: #4CAF50 !important;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #45a049 !important;
+}
+
+@media screen and (max-width: 768px) {
+  .home-achievements-swiper {
+    padding: 10px 0;
+  }
+}
+
 
 /* Grid de cards de conquistas */
 .home-achievements-grid {
@@ -230,79 +254,7 @@
   box-shadow: 0 1px 3px rgba(9, 165, 14, 0.3);
 }
 
-/* Botões de navegação do carrossel */
-.carousel-control {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 42px;
-  height: 42px;
-  background: #ffffff;
-  border: 1px solid #e0e0e0;
-  border-radius: 50%;
-  color: #174204;
-  cursor: pointer;
-  position: absolute;
-  z-index: 5;
-  transition: all 0.25s ease;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
 
-.carousel-prev {
-  left: 0;
-}
-
-.carousel-next {
-  right: 0;
-}
-
-.carousel-control:hover {
-  background: #f0f8e7;
-  transform: scale(1.1);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  color: #09a50e;
-}
-
-.carousel-control:active {
-  transform: scale(0.95);
-}
-
-.carousel-control:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  background: #f4f4f4;
-}
-
-.carousel-control:disabled:hover {
-  transform: none;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-  color: #174204;
-}
-
-/* Indicadores do carrossel */
-.carousel-indicators {
-  display: none; /* Escondido por padrão, visível apenas em mobile */
-  justify-content: center;
-  margin-top: 1.25rem;
-  gap: 10px;
-}
-
-.carousel-indicators span {
-  width: 10px;
-  height: 10px;
-  background-color: #ddd;
-  border-radius: 50%;
-  display: inline-block;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.carousel-indicators span.active {
-  background-color: #174204;
-  width: 12px;
-  height: 12px;
-  transform: scale(1.1);
-}
 
 /* Loading e Error containers */
 .loading-container,
@@ -317,8 +269,8 @@
 }
 
 .loading-spinner {
-  width: 40px;
-  height: 40px;
+  width: 20px;
+  height: 20px;
   border: 3px solid rgba(134, 194, 109, 0.3);
   border-radius: 50%;
   border-top-color: #09a50e;
@@ -407,17 +359,8 @@
     display: flex;
   }
   
-  /* Ajustar botões de navegação em mobile */
-  .carousel-control {
-    width: 36px;
-    height: 36px;
-  }
-  
-  /* Ajustar grid para carrossel em tela cheia */
-  .carousel-container {
-    padding: 0 1.5rem;
-  }
-  
+
+
   .home-achievements-grid {
     padding: 0.5rem 0;
     gap: 1rem;
