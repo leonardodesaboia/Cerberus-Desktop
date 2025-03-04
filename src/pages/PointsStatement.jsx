@@ -148,7 +148,7 @@ const Extrato = () => {
       <header className="extrato-header">
         <h1>Extrato de Pontos</h1>
         <button className="refresh-button" onClick={fetchAllLogs}>
-          <FaRedo />
+          {/* <FaRedo /> */}
         </button>
       </header>
       
