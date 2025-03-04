@@ -114,12 +114,12 @@
   width: 100%;
 }
 
-.input-container {
+.input-container-sendMail {
   margin-bottom: 1.5rem;
   width: 100%;
 }
 
-.input-container label {
+.input-container-sendMail label {
   display: block;
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
@@ -144,16 +144,16 @@
   margin-right: 0.5rem;
 }
 
-.input-container input {
+.input-container-sendMail input {
   width: 100%;
   height: 3rem;
   border: none;
   background-color: transparent;
   font-size: 1rem;
-  /* padding: 0; */
+  padding: 0;
 }
 
-.input-container input:focus {
+.input-container-sendMail input:focus {
   outline: none;
 }
 

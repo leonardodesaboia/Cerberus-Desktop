@@ -256,7 +256,7 @@ const Redeemed = () => {
                   const product = getProductDetails(log);
                   return (
                     <SwiperSlide key={log._id}>
-                      <div className="product-card">
+                      <div className="product-card-redeemed">
                         <div className="product-image-container">
                           <img 
                             src={product.img} 

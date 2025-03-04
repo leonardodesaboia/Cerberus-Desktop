@@ -376,7 +376,7 @@
   font-size: 1rem;
   background: transparent;
   width: 100%;
-}
+} 
 
 .input-container input::placeholder {
   color: #aaa;

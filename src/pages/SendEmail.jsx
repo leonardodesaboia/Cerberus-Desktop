@@ -160,7 +160,7 @@ const SendEmail= () => {
             transition={{ delay: 0.2 }}
             onSubmit={handleSubmit}
           >
-            <div className="input-container">
+            <div className="input-container-sendMail">
               <label htmlFor="email">Email</label>
               <div className="email-input-wrapper">
                 <Mail size={20} className="email-icon" />
