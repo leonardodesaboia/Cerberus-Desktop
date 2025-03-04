@@ -37,18 +37,18 @@ const TrashChart = () => {
       const fetchData = async () => {
           try {
               const userData = await getUserData();
-              const totalAmount = userData.plasticDiscarted + userData.metalDiscarted;
+              const totalAmount = userData.plasticDiscarded + userData.metalDiscarded;
               
               const filterData = [
                   { 
                       name: "Plástico", 
-                      amount: userData.plasticDiscarted || 0,
-                      percentage: totalAmount > 0 ? (userData.plasticDiscarted / totalAmount) * 100 : 0
+                      amount: userData.plasticDiscarded || 0,
+                      percentage: totalAmount > 0 ? (userData.plasticDiscarded / totalAmount) * 100 : 0
                   },
                   { 
                       name: "Metal", 
-                      amount: userData.metalDiscarted || 0,
-                      percentage: totalAmount > 0 ? (userData.metalDiscarted / totalAmount) * 100 : 0
+                      amount: userData.metalDiscarded || 0,
+                      percentage: totalAmount > 0 ? (userData.metalDiscarded / totalAmount) * 100 : 0
                   }
               ];
               

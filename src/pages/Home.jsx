@@ -80,8 +80,8 @@ const Home = () => {
         const userData = await getUserData();
         
         setTrashStats({
-          plastic: userData.plasticDiscarted || 0,
-          metal: userData.metalDiscarted || 0,
+          plastic: userData.plasticDiscarded || 0,
+          metal: userData.metalDiscarded || 0,
         });
 
         

@@ -285,12 +285,6 @@ const Navbar = (params) => {
             <Gift size={18} className="mobile-link-icon" />
             <span>Resgates</span>
           </a>
-          <a href="#app" className="mobile-link" onClick={() => {
-            handleAppOpen();
-            setIsOpen(false);
-          }}>
-            <span>Conheça nosso app</span>
-          </a>
           <button onClick={() => {
             openEditModal();
             setIsOpen(false);
@@ -298,6 +292,12 @@ const Navbar = (params) => {
             <Edit size={18} className="mobile-link-icon" />
             <span>Meu Cadastro</span>
           </button>
+          <a href="#app" className="mobile-link" onClick={() => {
+            handleAppOpen();
+            setIsOpen(false);
+          }}>
+            <span>Conheça nosso app</span>
+          </a>
           <button onClick={() => {
             handleLogOutPopUp();
             setIsOpen(false);
