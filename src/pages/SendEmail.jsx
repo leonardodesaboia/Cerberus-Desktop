@@ -1,16 +1,44 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import '../styles/sendEmail.css';
-import { Mail, ArrowLeft } from 'lucide-react';
+import { Mail, ArrowLeft, CheckCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import {resetPassword} from '../services/api'
+import {resetPassword} from '../services/api';
+
+// Toast component
+const Toast = ({ message, type, onClose }) => {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      onClose();
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, [onClose]);
+
+  const icon = type === 'success' ? <CheckCircle size={20} /> : null;
+  
+  return (
+    <motion.div 
+      className={`toast toast-${type}`}
+      initial={{ opacity: 0, y: 50, x: "-50%" }}
+      animate={{ opacity: 1, y: 0, x: "-50%" }}
+      exit={{ opacity: 0, y: 20, x: "-50%" }}
+    >
+      {icon}
+      <span>{message}</span>
+    </motion.div>
+  );
+};
 
 const SendEmail= () => {
-  const [email, setEmail] = useState('')
-  const [emailError, setEmailError] = useState()
-  const [isLoading, setIsLoading] = useState(false)
-  const [apiError, setApiError] = useState()
-  const [successMessage, setSuccessMessage] = useState()
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [apiError, setApiError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastType, setToastType] = useState('');
 
   useEffect(() => {
     setApiError('');
@@ -39,7 +67,13 @@ const SendEmail= () => {
     return '';
   };
 
-  const handleSubmit = async (e) => { // Added the event parameter here
+  const showToastNotification = (message, type) => {
+    setToastMessage(message);
+    setToastType(type);
+    setShowToast(true);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     const emailValidationError = validateEmail(email);
@@ -54,13 +88,16 @@ const SendEmail= () => {
     setSuccessMessage('');
     
     try {
-      console.log("chegou aqui")
+      console.log("chegou aqui");
       const response = await resetPassword(email);
       setSuccessMessage(response.message);
+      // Show toast notification
+      showToastNotification('Email enviado com sucesso! Verifique sua caixa de entrada.', 'success');
       // Limpar o campo de email após o sucesso
       setEmail('');
     } catch (err) {
       setApiError(err.message || 'Ocorreu um erro ao processar sua solicitação.');
+      showToastNotification('Erro ao enviar email. Tente novamente.', 'error');
     } finally {
       setIsLoading(false);
     }
@@ -68,12 +105,23 @@ const SendEmail= () => {
 
   return (
     <div className="send-email-container">
+      <AnimatePresence>
+        {showToast && (
+          <Toast 
+            message={toastMessage} 
+            type={toastType} 
+            onClose={() => setShowToast(false)} 
+          />
+        )}
+      </AnimatePresence>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         className="send-email-card"
       >
+        
         <div className="send-email-image-container">
           {/* Imagem ilustrativa pode ser adicionada aqui */}
         </div>
@@ -154,4 +202,4 @@ const SendEmail= () => {
   );
 };
 
-export default SendEmail;
+export default SendEmail
