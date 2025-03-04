@@ -20,39 +20,49 @@ const Redeemed = () => {
   const [productMap, setProductMap] = useState({});
   const [loading, setLoading] = useState(true);
 
-  // Load redeemed and not redeemed products along with product details
+  // carregar dados 
   useEffect(() => {
     const fetchAllData = async () => {
       setLoading(true);
       try {
-        // toast.info("Carregando seus produtos...");
-        
         const [redeemedData, notRedeemedData, productsData] = await Promise.all([
           fetchProductsRedeemed(),
           fetchProductsNotRedeemed(),
           fetchProducts()
         ]);
         
-        // Create a map of products by ID for easy lookup
+        // Criar mapa de produtos com informações adicionais
         const prodMap = {};
         productsData.forEach((product) => {
-          prodMap[product._id] = product;
+          prodMap[product._id] = {
+            ...product,
+            code: product.code || 'Código não disponível'
+          };
         });
         
+        // Adicionar código aos logs resgatados e não resgatados
+        const enhancedRedeemedData = redeemedData.map(log => ({
+          ...log,
+          code: log.code || (prodMap[log.product] && prodMap[log.product].code) || 'Código não encontrado'
+        }));
+
+        const enhancedNotRedeemedData = notRedeemedData.map(log => ({
+          ...log,
+          code: log.code || (prodMap[log.product] && prodMap[log.product].code) || 'Código não encontrado'
+        }));
+        
         setProductMap(prodMap);
-        setRedeemedLogs(redeemedData);
-        setNotRedeemedLogs(notRedeemedData);
+        setRedeemedLogs(enhancedRedeemedData);
+        setNotRedeemedLogs(enhancedNotRedeemedData);
         setProducts(productsData);
 
-        // toast.success("Dados carregados com sucesso!");
-        
-        if (notRedeemedData.length > 0) {
-          toast.info(`Você tem ${notRedeemedData.length} produto(s) pendente(s) para resgate.`);
+        if (enhancedNotRedeemedData.length > 0) {
+          toast.info(`Você tem ${enhancedNotRedeemedData.length} produto(s) pendente(s) para resgate.`);
         }
 
       } catch (error) {
         console.error("Erro ao carregar dados:", error);
-        // toast.error("Falha ao carregar seus produtos. Tente novamente mais tarde.");
+        toast.error("Falha ao carregar produtos. Tente novamente.");
       } finally {
         setLoading(false);
       }
@@ -61,7 +71,7 @@ const Redeemed = () => {
     fetchAllData();
   }, []);
 
-  // Update log when a product is redeemed
+  // atualizar log
   useEffect(() => {
     const updateLogData = async () => {
       if (selectedRedeemed) {
@@ -69,7 +79,7 @@ const Redeemed = () => {
           await updateLog(selectedRedeemed);
         } catch (error) {
           console.error("Erro ao atualizar log:", error);
-          toast.error("Falha ao atualizar status do produto.");
+          toast.error("Falha ao atualizar log do produto.");
         }
       }
     };
@@ -77,20 +87,35 @@ const Redeemed = () => {
     updateLogData();
   }, [selectedRedeemed]);
 
-  // Handle selecting a product to be redeemed
+  // pegar detalhes do produto
+  const getProductDetails = (log) => {
+    if (!log || !log.product || !productMap[log.product]) {
+      return { 
+        name: "Produto desconhecido", 
+        img: "/placeholder-image.jpg", 
+        code: log.code || "Código não encontrado" 
+      };
+    }
+    
+    const product = productMap[log.product];
+    return {
+      ...product,
+      code: log.code || product.code || "Código não disponível"
+    };
+  };
+
+  // prod selecionado p resgate
   const handleRedeemed = (log) => {
     setSelectedRedeemed(log);
     const product = getProductDetails(log);
-    // toast.info(`Visualizando detalhes de: ${product.name}`);
   };
 
-  // Handle redeeming a product
+  // produto resgatado
   const handleRedeemedProd = async () => {
     if (!selectedRedeemed) return;
     
     try {
       toast.info("Processando seu resgate...");
-      
       const productDetails = getProductDetails(selectedRedeemed);
       
       setNotRedeemedLogs(notRedeemedLogs.filter(log => log._id !== selectedRedeemed._id));
@@ -112,45 +137,22 @@ const Redeemed = () => {
   const handleShowRedeemedPopUp = (log) => {
     setRedeemedPopup(log);
     const product = getProductDetails(log);
-    // toast.info(`Visualizando detalhes do produto resgatado: ${product.name}`);
   };
 
   const closeRedeemedPopup = () => {
     setRedeemedPopup(null);
-    // toast.info("Janela de detalhes fechada");
   };
 
-  // Get product details from a log
-  const getProductDetails = (log) => {
-    if (!log || !log.product || !productMap[log.product]) {
-      return { name: "Produto desconhecido", img: "/placeholder-image.jpg" };
-    }
-    return productMap[log.product];
-  };
-
-  // Swiper breakpoints
+  // Swiper 
   const swiperBreakpoints = {
-    320: {
-      slidesPerView: 1,
-      spaceBetween: 20
-    },
-    480: {
-      slidesPerView: 2,
-      spaceBetween: 30
-    },
-    768: {
-      slidesPerView: 3,
-      spaceBetween: 40
-    },
-    1024: {
-      slidesPerView: 4,
-      spaceBetween: 50
-    }
+    320: { slidesPerView: 1, spaceBetween: 20 },
+    480: { slidesPerView: 2, spaceBetween: 30 },
+    768: { slidesPerView: 3, spaceBetween: 40 },
+    1024: { slidesPerView: 4, spaceBetween: 50 }
   };
 
   const handleCancelRedemption = () => {
     setSelectedRedeemed(null);
-    toast.info("Resgate cancelado pelo usuário");
   };
 
   if (loading) {
@@ -196,21 +198,22 @@ const Redeemed = () => {
                   nextEl: '.swiper-button-next-custom'
                 }}
                 modules={[Navigation]} 
-                onSwiper={(swiper) => {
-                  if (notRedeemedLogs.length > 1) {
-                    toast.info("Deslize para ver mais produtos pendentes");
-                  }
-                }}
-                className="swiper-container">
+                className="swiper-container"
+              >
                 {notRedeemedLogs.map((log) => {
                   const product = getProductDetails(log);
                   return (
                     <SwiperSlide key={log._id}>
                       <div className="product-card-no-redeemed">
                         <div className="product-image-container">
-                          <img src={product.img} alt={product.name || "Produto a resgatar"} className="product-image" />
+                          <img 
+                            src={product.img} 
+                            alt={product.name || "Produto a resgatar"} 
+                            className="product-image" 
+                          />
                         </div>
                         <h4 className="product-name">{product.name}</h4>
+                        {/* <p className="product-code">Código: {product.code}</p> */}
                         <button 
                           onClick={() => handleRedeemed(log)} 
                           className="see-button"
@@ -247,19 +250,19 @@ const Redeemed = () => {
                   nextEl: '.swiper-button-next-custom-redeemed'
                 }}
                 modules={[Navigation]} 
-                onSwiper={(swiper) => {
-                  if (redeemedLogs.length > 1) {
-                    toast.info("Deslize para ver todos os produtos resgatados");
-                  }
-                }}
-                className="swiper-container">
+                className="swiper-container"
+              >
                 {redeemedLogs.map((log) => {
                   const product = getProductDetails(log);
                   return (
                     <SwiperSlide key={log._id}>
                       <div className="product-card">
                         <div className="product-image-container">
-                          <img src={product.img} alt={product.name || "Produto resgatado"} className="product-image" />
+                          <img 
+                            src={product.img} 
+                            alt={product.name || "Produto resgatado"} 
+                            className="product-image" 
+                          />
                         </div>
                         <h4 className="product-name">{product.name}</h4>
                         <button 
@@ -319,7 +322,7 @@ const Redeemed = () => {
           </div>
         )}
 
-        {/* Popup for redeemed product */}
+        {/* Popup redeemed  */}
         {redeemedPopup && (
           <div className="modal-overlay" onClick={closeRedeemedPopup}>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -339,10 +342,9 @@ const Redeemed = () => {
                   <p className="modal-status">Status: <span className="status-redeemed">Resgatado</span></p>
                 </div>
               </div>
-              <div className="modal-buttons">
+              {/* <div className="modal-buttons">
                 <button 
                   onClick={() => {
-                    closeRedeemedPopup();
                     navigator.clipboard.writeText(getProductDetails(redeemedPopup).code);
                     toast.success("Código copiado para a área de transferência!");
                   }} 
@@ -351,7 +353,7 @@ const Redeemed = () => {
                   Copiar Código
                 </button>
                 <button onClick={closeRedeemedPopup} className="close-button-redeemed">Fechar</button>
-              </div>
+              </div> */}
             </div>
           </div>
         )}
