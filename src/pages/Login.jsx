@@ -4,6 +4,7 @@ import Input from '../components/Input';
 import { loginUser, getUserData } from '../services/api';
 import { Eye, EyeOff } from 'lucide-react';
 import { motion } from "framer-motion";
+import { Toaster, toast } from 'react-hot-toast';
 import '../styles/Login.css';
 
 function Login() {
@@ -29,14 +30,23 @@ function Login() {
 
     const validators = {
         email: (value) => {
-            if (!value) return 'Email é obrigatório';
+            if (!value) {
+                toast.error('Email é obrigatório');
+                return 'Email é obrigatório';
+            }
             value = value.trim();
             const emailRegex = /^[a-zA-Z0-9][a-zA-Z0-9._-]*[a-zA-Z0-9]@[a-zA-Z][-a-zA-Z.]*[a-zA-Z](\.[a-zA-Z]{2,})+$/;
-            if (!emailRegex.test(value)) return 'Email inválido';
+            if (!emailRegex.test(value)) {
+                toast.error('Email inválido');
+                return 'Email inválido';
+            }
             return '';
         },
         password: (value) => {
-            if (!value) return 'Senha é obrigatória';
+            if (!value) {
+                toast.error('Senha é obrigatória');
+                return 'Senha é obrigatória';
+            }
             return '';
         }
     };
@@ -91,12 +101,15 @@ function Login() {
                 localStorage.setItem('userId', tokenPayload.id);
                 localStorage.setItem('user', await getUserData());
                 
+                toast.success('Login realizado com sucesso!');
                 navigate('/home');
                 
             } catch (error) {
                 if (error.message.includes('credenciais')) {
+                    toast.error('Email ou senha incorretos');
                     setApiError('Email ou senha incorretos');
                 } else {
+                    toast.error('Erro ao fazer login. Por favor, tente novamente.');
                     setApiError('Erro ao fazer login. Por favor, tente novamente.');
                 }
                 console.error('Erro no login:', error);
@@ -108,6 +121,17 @@ function Login() {
 
     return (
         <div className="login-container">
+            <Toaster 
+                position="top-right"
+                reverseOrder={false}
+                toastOptions={{
+                    style: {
+                        borderRadius: '10px',
+                        // background: '#fa4141',
+                        color: '#00000',
+                    },
+                }}
+            />
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -145,7 +169,7 @@ function Login() {
                             value={formData.email}
                             onChange={handleChange('email')}
                             onBlur={handleBlur('email')}
-                            error={errors.email}
+                            // error={errors.email}
                             placeholder="Digite seu email"
                             disabled={isLoading}
                         />
@@ -157,7 +181,7 @@ function Login() {
                                 value={formData.password}
                                 onChange={handleChange('password')}
                                 onBlur={handleBlur('password')}
-                                error={errors.password}
+                                // error={errors.password}
                                 placeholder="Digite sua senha"
                                 disabled={isLoading} 
                             />
