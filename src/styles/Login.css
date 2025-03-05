@@ -81,6 +81,40 @@
   box-shadow: none !important;
 }
 
+.input-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-label {
+  margin-bottom: 5px;
+  display: block;
+  font-size: 14px;
+  color: #333;
+  text-align: left; /* Explicitly align text to the left */
+}
+
+.input-field {
+  height: 70px;
+  padding: 15px 12px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  width: 100%;
+}
+
+/* Error message styling */
+.error-message {
+  color: #7f0000;
+  font-size: 12px;
+  margin-top: 5px;
+  margin-right: 19rem;
+}
+
+/* Error state for input */
+.input-field.input-error {
+  border-color: #7f0000;
+}
 
 /* Estilizar apenas o input real */
 .login-form input {
@@ -177,5 +211,8 @@
   
   .login-form-section {
     padding: 30px 20px;
+  }
+  .error-message {
+    margin-right: 13rem;
   }
 }

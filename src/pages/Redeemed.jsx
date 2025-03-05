@@ -311,12 +311,12 @@ const Redeemed = () => {
                 >
                   Resgatar
                 </button>
-                <button 
+                {/* <button 
                   onClick={handleCancelRedemption} 
                   className="close-button-redeemed"
                 >
                   Cancelar
-                </button>
+                </button> */}
               </div>
             </div>
           </div>
