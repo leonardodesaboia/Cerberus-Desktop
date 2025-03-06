@@ -19,7 +19,7 @@
 
 .register-image-container {
   flex: 1;
-  background-image: url(../../public/lixo2.jpeg);
+  background-image: url(../../public/lixo3.jpeg);
   background-position: left;
   background-size: cover;
   background-repeat: no-repeat;
@@ -86,7 +86,7 @@
   height: 70px;
   padding: 15px 12px;
   font-size: 14px;
-  border: 1px solid #ddd;
+  border: 1px solid #ededed;
   border-radius: 6px;
   width: 100%;
 }
@@ -200,7 +200,7 @@
   }
   
   .register-image-container {
-    padding: 30px;
+    padding: 300px;
     max-height: 180px;
     display: none;
   }
