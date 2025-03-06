@@ -43,7 +43,7 @@ const Store = () => {
         const data = await fetchProducts();
         setProducts(data);
         if (data.length > 0) {
-          toast.info(`${data.length} produtos disponíveis para resgate!`);
+          // toast.info(`${data.length} produtos disponíveis para resgate!`);
         } else {
           // toast.warning("Não há produtos disponíveis no momento.");
           return;

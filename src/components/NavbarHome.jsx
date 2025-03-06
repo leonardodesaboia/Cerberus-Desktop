@@ -118,6 +118,7 @@ const Navbar = (params) => {
         method: "DELETE",
         headers: { 
           'Content-Type': 'application/json',
+          'Authorization': `${localStorage.getItem("token")}`,
         },
       });
   
@@ -169,7 +170,7 @@ const Navbar = (params) => {
       if (isValidEmail(currentEmail, newEmail, originalEmail)) {
         updates.email = newEmail;
       } else {
-        toast.error("Email inválido ou já está em uso");
+         toast.error("Email inválido ou já está em uso");
         return;
       }
     }

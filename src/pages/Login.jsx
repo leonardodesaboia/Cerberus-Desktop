@@ -9,6 +9,8 @@ import '../styles/Login.css';
 
 function Login() {
     const navigate = useNavigate();
+    const [deboucedSearchTerm, setDeboucedSearchTerm] = useState('')
+
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -37,7 +39,7 @@ function Login() {
             value = value.trim();
             const emailRegex = /^[a-zA-Z0-9][a-zA-Z0-9._-]*[a-zA-Z0-9]@[a-zA-Z][-a-zA-Z.]*[a-zA-Z](\.[a-zA-Z]{2,})+$/;
             if (!emailRegex.test(value)) {
-                toast.error('Email inválido');
+                // toast.error('Email inválido');
                 return 'Email inválido';
             }
             return '';
@@ -150,11 +152,11 @@ function Login() {
                         <p className="login-subtitle">Faça login para acessar sua conta</p>
                     </div>
 
-                    {apiError && (
+                   {/*{apiError && (
                         <div className="error-login">
                             {apiError}
                         </div>
-                    )}
+                    )} */}
 
                     <motion.form 
                         onSubmit={handleSubmit} 

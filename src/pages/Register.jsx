@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
 import { Toaster, toast } from 'react-hot-toast';
 import { motion } from "framer-motion";
+import { useDebounce } from 'react-use';
 
 function Register() {
     const navigate = useNavigate();
@@ -26,7 +27,7 @@ function Register() {
     });
 
     const [touched, setTouched] = useState({
-        email: false,
+        email: false, 
         cpf: false,
         username: false,
         password: false,
@@ -40,12 +41,18 @@ function Register() {
     const [formSubmitted, setFormSubmitted] = useState(false);
     const [navigationError, setNavigationError] = useState('');
     const [isShow, setIsShow] = useState(false);
+    
+    // Estado para armazenar valores a serem validados com debounce
+    const [debouncedValues, setDebouncedValues] = useState({
+        email: '',
+        username: '',
+        password: ''
+    });
 
     // validadores
     const validators = {
         email: (value) => {
             if (!value) {
-                toast.error('Email é obrigatório');
                 return 'Email é obrigatório';
             }
         
@@ -55,7 +62,6 @@ function Register() {
             // Verifica se tem exatamente um @
             const atCount = (value.match(/@/g) || []).length;
             if (atCount !== 1) {
-                toast.error('Email deve conter exatamente um @');
                 return 'Email deve conter exatamente um @';
             }
         
@@ -63,51 +69,42 @@ function Register() {
         
             // Validações da parte local (antes do @)
             if (!localPart || localPart.length < 3) {
-                // toast.error('Parte local do email deve ter pelo menos 3 caracteres');
                 return 'Parte local do email deve ter pelo menos 3 caracteres';
             }
             if (localPart.length > 64) {
-                toast.error('Parte local do email não pode ter mais de 64 caracteres');
                 return 'Parte local do email não pode ter mais de 64 caracteres';
             }
         
             // Regex para parte local
             const localPartRegex = /^[a-zA-Z0-9][a-zA-Z0-9._-]*[a-zA-Z0-9]$/;
             if (!localPartRegex.test(localPart)) {
-                // toast.error('Email deve começar e terminar com letra ou número');
                 return 'Email deve começar e terminar com letra ou número';
             }
         
             // Validações do domínio (depois do @)
             if (!domain) {
-                toast.error('Domínio do email não pode estar vazio');
                 return 'Domínio do email não pode estar vazio';
             }
             if (domain.length > 255) {
-                toast.error('Domínio do email não pode ter mais de 255 caracteres');
                 return 'Domínio do email não pode ter mais de 255 caracteres';
             }
             if (!domain.includes('.')) {
-                // toast.error('Domínio deve conter pelo menos um ponto');
                 return 'Domínio deve conter pelo menos um ponto';
             }
         
             // Nova regex para o domínio - apenas letras, pontos e hífens
             const domainRegex = /^[a-zA-Z][-a-zA-Z.]*[a-zA-Z](\.[a-zA-Z]{2,})+$/;
             if (!domainRegex.test(domain)) {
-                // toast.error('Domínio deve conter apenas letras, pontos e hífens');
                 return 'Domínio deve conter apenas letras, pontos e hífens';
             }
         
             // Verifica sequências de caracteres especiais
             if (value.includes('..') || value.includes('--') || value.includes('__')) {
-                toast.error('Email não pode conter sequências de caracteres especiais');
                 return 'Email não pode conter sequências de caracteres especiais';
             }
         
             // Verifica se começa ou termina com caracteres especiais
             if (/^[._-]|[._-]$/.test(localPart)) {
-                toast.error('Email não pode começar ou terminar com caracteres especiais');
                 return 'Email não pode começar ou terminar com caracteres especiais';
             }
         
@@ -118,7 +115,6 @@ function Register() {
         
             for (const pattern of suspiciousPatterns) {
                 if (pattern.test(value)) {
-                    toast.error('Formato de email inválido');
                     return 'Formato de email inválido';
                 }
             }
@@ -131,17 +127,14 @@ function Register() {
             const cpfClean = value.replace(/\D/g, '');
             
             if (!cpfClean) {
-                toast.error('CPF é obrigatório');
                 return 'CPF é obrigatório';
             }
             if (cpfClean.length !== 11) {
-                // toast.error('CPF deve conter 11 dígitos');
-                return 'CPF deve conter 11 dígitos';
+                // return 'CPF deve conter 11 dígitos';
             }
             
             // Verifica dígitos repetidos
             if (/^(\d)\1{10}$/.test(cpfClean)) {
-                toast.error('CPF inválido');
                 return 'CPF inválido';
             }
             
@@ -157,7 +150,6 @@ function Register() {
             remainder = (sum * 10) % 11;
             if (remainder === 10 || remainder === 11) remainder = 0;
             if (remainder !== parseInt(cpfClean.substring(9, 10))) {
-                toast.error('CPF inválido');
                 return 'CPF inválido';
             }
             
@@ -170,7 +162,6 @@ function Register() {
             remainder = (sum * 10) % 11;
             if (remainder === 10 || remainder === 11) remainder = 0;
             if (remainder !== parseInt(cpfClean.substring(10, 11))) {
-                toast.error('CPF inválido');
                 return 'CPF inválido';
             }
             
@@ -179,19 +170,15 @@ function Register() {
 
         username: (value) => {
             if (!value) {
-                toast.error('Username é obrigatório');
                 return 'Username é obrigatório';
             }
             if (value.length < 3) {
-                // toast.error('Username deve ter no mínimo 3 caracteres');
                 return 'Username deve ter no mínimo 3 caracteres';
             }
             if (value.length > 20) {
-                toast.error('Username deve ter no máximo 20 caracteres');
                 return 'Username deve ter no máximo 20 caracteres';
             }
             if (!/^[a-zA-Z0-9_]+$/.test(value)) {
-                toast.error('Username deve conter apenas letras, números e _');
                 return 'Username deve conter apenas letras, números e _';
             }
             return '';
@@ -199,59 +186,48 @@ function Register() {
 
         password: (value) => {
             if (!value) {
-                toast.error('Senha é obrigatória');
                 return 'Senha é obrigatória';
             }
             if (value.length < 8) {
-                // toast.error('Senha deve ter no mínimo 8 caracteres');
                 return 'Senha deve ter no mínimo 8 caracteres';
             }
             if (value.length > 32) {
-                toast.error('Senha deve ter no máximo 32 caracteres');
                 return 'Senha deve ter no máximo 32 caracteres';
             }
         
             // Verifica se há caracteres não permitidos
             const allowedCharsRegex = /^[a-zA-Z0-9!@#$%^&*]+$/;
             if (!allowedCharsRegex.test(value)) {
-                // toast.error('Senha deve conter apenas letras, números e caracteres especiais (!@#$%^&*)');
                 return 'Senha deve conter apenas letras, números e caracteres especiais (!@#$%^&*)';
             }
         
             // Verifica requisitos mínimos
             if (!/[A-Z]/.test(value)) {
-                toast.error('Senha deve conter pelo menos uma letra maiúscula');
                 return 'Senha deve conter pelo menos uma letra maiúscula';
             }
             if (!/[a-z]/.test(value)) {
-                toast.error('Senha deve conter pelo menos uma letra minúscula');
                 return 'Senha deve conter pelo menos uma letra minúscula';
             }
             if (!/[0-9]/.test(value)) {
-                toast.error('Senha deve conter pelo menos um número');
                 return 'Senha deve conter pelo menos um número';
             }
             if (!/[!@#$%^&*]/.test(value)) {
-                toast.error('Senha deve conter pelo menos um caractere especial (!@#$%^&*)');
                 return 'Senha deve conter pelo menos um caractere especial (!@#$%^&*)';
             }
         
             // Verifica sequências repetidas
             if (/(.)\1{2,}/.test(value)) {
-                toast.error('Senha não pode conter três ou mais caracteres iguais em sequência');
                 return 'Senha não pode conter três ou mais caracteres iguais em sequência';
             }
         
             // Verifica espaços
             if (/\s/.test(value)) {
-                toast.error('Senha não pode conter espaços');
                 return 'Senha não pode conter espaços';
             }
         
             // Verifica se todos os caracteres estão dentro do range ASCII básico
             for (let i = 0; i < value.length; i++) {
                 if (value.charCodeAt(i) > 127) {
-                    toast.error('Senha não pode conter emojis ou caracteres especiais não permitidos');
                     return 'Senha não pode conter emojis ou caracteres especiais não permitidos';
                 }
             }
@@ -261,17 +237,74 @@ function Register() {
         
         confirmPassword: (value, password) => {
             if (!value) {
-                // toast.error('Confirmação de senha é obrigatória');
                 return 'Confirmação de senha é obrigatória';
             }
             if (value !== password) {
-                toast.error('As senhas não coincidem');
                 return 'As senhas não coincidem';
             }
             return '';
         }
     };
 
+    // Aplicar debounce para email
+    useDebounce(
+        () => {
+            if (touched.email && debouncedValues.email) {
+                const error = validators.email(debouncedValues.email);
+                if (error) {
+                    toast.error(error);
+                }
+                setErrors(prev => ({ ...prev, email: error }));
+            }
+        },
+        600,
+        [debouncedValues.email]
+    );
+
+    useDebounce(
+        () => {
+            if (touched.cpf && debouncedValues.cpf) {
+                const error = validators.cpf(debouncedValues.cpf);
+                if (error) {
+                    toast.error(error);
+                }
+                setErrors(prev => ({ ...prev, cpf: error }));
+            }
+        },
+        600,
+        [debouncedValues.cpf]
+    );
+
+
+    // Aplicar debounce para username
+    useDebounce(
+        () => {
+            if (touched.username && debouncedValues.username) {
+                const error = validators.username(debouncedValues.username);
+                if (error) {
+                    toast.error(error);
+                }
+                setErrors(prev => ({ ...prev, username: error }));
+            }
+        },
+        600,
+        [debouncedValues.username]
+    );
+
+    // Aplicar debounce para password
+    useDebounce(
+        () => {
+            if (touched.password && debouncedValues.password) {
+                const error = validators.password(debouncedValues.password);
+                if (error) {
+                    toast.error(error);
+                }
+                setErrors(prev => ({ ...prev, password: error }));
+            }
+        },
+        600,
+        [debouncedValues.password]
+    );
 
     // enviar
     const handleSubmit = async (event) => {
@@ -343,15 +376,15 @@ function Register() {
                     password: '',
                     confirmPassword: ''
                 });
-
                 const data = await loginUser(formData);
-                                
                 // Salva o token
-                const arrayToken = data.token.split('.');
+                const token = data.token
+                const arrayToken = token.split('.');
                 const tokenPayload = JSON.parse(atob(arrayToken[1]));
                 localStorage.setItem('userId', tokenPayload.id);
-                localStorage.setItem('user', await getUserData());
-
+                //localStorage.setItem('user', await getUserData());
+                localStorage.setItem('token', token);
+                //console.log(localStorage.getItem(token))
                 navigate('/home');
             } catch (error) {
                 setFormSubmitted(false);
@@ -369,7 +402,6 @@ function Register() {
                         setApiError('Este registro já existe em nossa base de dados');
                     }
                 } else {
-                    // toast.error('Ocorreu um erro ao realizar o cadastro. Por favor, tente novamente.');
                     setApiError('Ocorreu um erro ao realizar o cadastro. Por favor, tente novamente.');
                 }
                 
@@ -404,13 +436,25 @@ function Register() {
 
         setFormData(prev => ({ ...prev, [field]: value }));
         
-        if (touched[field]) {
-            // Para o CPF, remove a formatação antes de validar
-            const valueToValidate = field === 'cpf' ? value.replace(/\D/g, '') : value;
-            const validationError = field === 'confirmPassword' 
-                ? validators[field](value, formData.password)
-                : validators[field](valueToValidate);
+        // Atualiza os valores para debounce para campos que precisam
+        if (['email', 'username', 'password'].includes(field)) {
+            setDebouncedValues(prev => ({ ...prev, [field]: value }));
+        }
+        
+        // Para campos que não precisam de debounce, validar imediatamente quando tocados
+        if (touched[field] && field === 'confirmPassword') {
+            const validationError = validators.confirmPassword(value, formData.password);
             setErrors(prev => ({ ...prev, [field]: validationError }));
+            if (validationError) {
+                toast.error(validationError);
+            }
+        } else if (touched[field] && field === 'cpf') {
+            const valueToValidate = value.replace(/\D/g, '');
+            const validationError = validators.cpf(valueToValidate);
+            setErrors(prev => ({ ...prev, [field]: validationError }));
+            if (validationError) {
+                toast.error(validationError);
+            }
         }
     };
 
@@ -418,6 +462,12 @@ function Register() {
     const handleBlur = (field) => () => {
         setTouched(prev => ({ ...prev, [field]: true }));
         
+        // Para campos com debounce, apenas marcar como tocado
+        if (['email', 'username', 'password'].includes(field)) {
+            return;
+        }
+        
+        // Para campos sem debounce, validar imediatamente
         let valueToValidate = formData[field];
         if (field === 'cpf') {
             valueToValidate = formData[field].replace(/\D/g, '');
@@ -428,6 +478,9 @@ function Register() {
             : validators[field](valueToValidate);
         
         setErrors(prev => ({ ...prev, [field]: validationError }));
+        if (validationError) {
+            toast.error(validationError);
+        }
     };
 
     // Validar ao mudar a senha (para atualizar a validação da confirmação)
@@ -435,8 +488,11 @@ function Register() {
         if (touched.confirmPassword) {
             const validationError = validators.confirmPassword(formData.confirmPassword, formData.password);
             setErrors(prev => ({ ...prev, confirmPassword: validationError }));
+            if (validationError) {
+                toast.error(validationError);
+            }
         }
-    }, [formData.password]);
+    }, [formData.password, touched.confirmPassword]);
 
     const handlePassword = () => {
         setIsShow(!isShow);
@@ -450,7 +506,6 @@ function Register() {
                 toastOptions={{
                     style: {
                         borderRadius: '10px',
-                        // background: '#fa4141',
                         color: '#00000',
                     },
                 }}
