@@ -14,32 +14,45 @@ const Extrato = () => {
   
   const API_URL = 'http://localhost:3000';
   
-  // Função para analisar datas em vários formatos
+  // Função melhorada para analisar datas em vários formatos
   const parseFlexibleDate = (dateString) => {
-    // Se dateString contém '/', assume que está no formato DD/MM/YYYY (Brasileiro)
-    if (dateString.includes('/')) {
-      const parts = dateString.split(', ');
-      const datePart = parts[0].split('/');
-      
-      const day = parseInt(datePart[0]);
-      const month = parseInt(datePart[1]) - 1;  // Meses em JS são baseados em 0
-      const year = parseInt(datePart[2]);
-      
-      // Se houver parte de tempo
-      if (parts.length > 1) {
-        const timePart = parts[1].split(':');
-        const hour = parseInt(timePart[0]);
-        const minute = parseInt(timePart[1]);
-        const second = timePart.length > 2 ? parseInt(timePart[2]) : 0;
-        
-        return new Date(year, month, day, hour, minute, second);
-      } else {
-        return new Date(year, month, day);
-      }
-    } 
+    if (!dateString) return new Date(0); // Retorna data mínima se for undefined
     
-    // Padrão para formato ISO
-    return new Date(dateString);
+    try {
+      // Primeiro tenta o formato ISO diretamente
+      const isoDate = new Date(dateString);
+      if (!isNaN(isoDate.getTime())) return isoDate;
+      
+      // Tenta formato DD/MM/YYYY
+      if (dateString.includes('/')) {
+        const parts = dateString.split(', ');
+        const datePart = parts[0].split('/');
+        
+        if (datePart.length !== 3) throw new Error('Formato de data inválido');
+        
+        const day = parseInt(datePart[0], 10);
+        const month = parseInt(datePart[1], 10) - 1;  // Meses em JS são baseados em 0
+        const year = parseInt(datePart[2], 10);
+        
+        // Se houver parte de tempo
+        if (parts.length > 1) {
+          const timePart = parts[1].split(':');
+          const hour = parseInt(timePart[0], 10);
+          const minute = parseInt(timePart[1], 10);
+          const second = timePart.length > 2 ? parseInt(timePart[2], 10) : 0;
+          
+          return new Date(year, month, day, hour, minute, second);
+        } else {
+          return new Date(year, month, day);
+        }
+      }
+      
+      // Se chegou aqui, não conseguiu analisar a data
+      throw new Error(`Não foi possível analisar o formato de data: ${dateString}`);
+    } catch (error) {
+      console.warn(`Erro ao analisar data "${dateString}":`, error);
+      return new Date(0); // Retorna data mínima em caso de erro
+    }
   };
   
   const fetchAllLogs = async () => {
@@ -65,38 +78,39 @@ const Extrato = () => {
         date: log.activityDate
       })));
       
-      // Ordena por data exata (mais recente primeiro)
+      // Estratégia de ordenação melhorada
       const sortedLogs = [...data].sort((a, b) => {
-        try {
-          // Analisa datas com a função auxiliar
+        // Se ambos tiverem timestamps (createdAt)
+        if (a.createdAt && b.createdAt) {
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        }
+        
+        // Se ambos tiverem activityDate
+        if (a.activityDate && b.activityDate) {
           const dateA = parseFlexibleDate(a.activityDate);
           const dateB = parseFlexibleDate(b.activityDate);
-          
-          // Verifica se as datas são válidas
-          if (isNaN(dateA.getTime()) || isNaN(dateB.getTime())) {
-            throw new Error('Análise de data inválida');
-          }
-          
-          // Ordena por timestamp (mais recente primeiro)
-          return dateB.getTime() - dateA.getTime();
-        } catch (error) {
-          console.warn('Erro ao analisar datas, voltando para comparação de strings:', error);
-          
-          // Fallback para comparação básica de strings
-          return b.activityDate.localeCompare(a.activityDate);
+          return dateB - dateA;
         }
+        
+        // Fallback para IDs (assumindo que IDs mais recentes são maiores)
+        if (a._id && b._id) {
+          return b._id.localeCompare(a._id);
+        }
+        
+        return 0; // Sem critério de ordenação
       });
       
       // Log das datas ordenadas para verificação
       console.log("Datas após ordenação:", sortedLogs.map(log => ({
         id: log._id,
         date: log.activityDate,
-        parsedDate: parseFlexibleDate(log.activityDate).toISOString()
+        parsedDate: log.activityDate ? parseFlexibleDate(log.activityDate).toISOString() : 'N/A'
       })));
       
       setTransactions(sortedLogs);
       setLoading(false);
     } catch (error) {
+      console.error("Erro ao buscar logs:", error);
       setError(error.message || 'Erro ao conectar com o servidor');
       setLoading(false);
     }
@@ -109,7 +123,7 @@ const Extrato = () => {
       
       if (isNaN(date.getTime())) {
         // Se não for uma data válida, mostra a string como está
-        return dateString;
+        return dateString || 'Data desconhecida';
       }
       
       return date.toLocaleDateString('pt-BR', {
@@ -121,7 +135,7 @@ const Extrato = () => {
       });
     } catch (error) {
       // Volta para mostrar a string original
-      return dateString;
+      return dateString || 'Data desconhecida';
     }
   };
   
@@ -147,9 +161,9 @@ const Extrato = () => {
       <NavBar/>
       <header className="extrato-header">
         <h1>Extrato de Pontos</h1>
-        <button className="refresh-button" onClick={fetchAllLogs}>
-          {/* <FaRedo /> */}
-        </button>
+        {/* <button className="refresh-button" onClick={fetchAllLogs}>
+          <FaRedo />
+        </button> */}
       </header>
       
       {loading ? (
