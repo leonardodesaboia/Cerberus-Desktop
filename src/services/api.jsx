@@ -128,12 +128,19 @@ export const fetchProductsRedeemed = async () => {
       },
     });
     
+    if (response.status === 404) {
+      // Retorna um array vazio em vez de lançar um erro quando não há produtos
+      console.log("Nenhum produto resgatado encontrado");
+      return [];
+    }
+    
     const data = await response.json();
     if (!response.ok) throw new Error(data.message || 'Erro ao obter produtos resgatados');
     
     return data;
   } catch (error) {
-    throw new Error(error.message || 'Erro ao conectar com o servidor');
+    console.error("Erro na requisição:", error);
+    throw new Error(error.message || 'Nenhum produto foi resgatado');
   }
 };
 
