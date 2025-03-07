@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { registerUser, loginUser, getUserData } from '../services/api';
 import Input from '../components/Input';
 import '../styles/Register.css';
@@ -10,6 +10,9 @@ import { useDebounce } from 'react-use';
 
 function Register() {
     const navigate = useNavigate();
+    // Referência para rastrear erros já exibidos
+    const displayedErrors = useRef({});
+    
     const [formData, setFormData] = useState({
         email: '',
         cpf: '',
@@ -46,7 +49,8 @@ function Register() {
     const [debouncedValues, setDebouncedValues] = useState({
         email: '',
         username: '',
-        password: ''
+        password: '',
+        cpf: ''
     });
 
     // validadores
@@ -246,48 +250,54 @@ function Register() {
         }
     };
 
-    // Aplicar debounce para email
+    // Função para mostrar erros sem repetição
+    const showErrorOnce = (field, error) => {
+        // Só mostra o erro se ele for diferente do último erro mostrado para este campo
+        if (error && displayedErrors.current[field] !== error) {
+            displayedErrors.current[field] = error;
+            toast.error(error, {
+                duration: 3500, // 3.5 segundos
+                id: `${field}-error` // ID único para evitar duplicatas do mesmo tipo
+            });
+        }
+    };
+
+    // Aplicar debounce para email - verificação quando PARAR de digitar
     useDebounce(
         () => {
             if (touched.email && debouncedValues.email) {
                 const error = validators.email(debouncedValues.email);
-                if (error) {
-                    toast.error(error);
-                }
                 setErrors(prev => ({ ...prev, email: error }));
+                // Não mostrar toast durante digitação
             }
         },
-        600,
+        800, // aumentado para reduzir frequência
         [debouncedValues.email]
     );
 
+    // Aplicar debounce para CPF
     useDebounce(
         () => {
             if (touched.cpf && debouncedValues.cpf) {
                 const error = validators.cpf(debouncedValues.cpf);
-                if (error) {
-                    toast.error(error);
-                }
                 setErrors(prev => ({ ...prev, cpf: error }));
+                // Não mostrar toast durante digitação
             }
         },
-        600,
+        800,
         [debouncedValues.cpf]
     );
-
 
     // Aplicar debounce para username
     useDebounce(
         () => {
             if (touched.username && debouncedValues.username) {
                 const error = validators.username(debouncedValues.username);
-                if (error) {
-                    toast.error(error);
-                }
                 setErrors(prev => ({ ...prev, username: error }));
+                // Não mostrar toast durante digitação
             }
         },
-        600,
+        800,
         [debouncedValues.username]
     );
 
@@ -296,13 +306,11 @@ function Register() {
         () => {
             if (touched.password && debouncedValues.password) {
                 const error = validators.password(debouncedValues.password);
-                if (error) {
-                    toast.error(error);
-                }
                 setErrors(prev => ({ ...prev, password: error }));
+                // Não mostrar toast durante digitação
             }
         },
-        600,
+        800,
         [debouncedValues.password]
     );
 
@@ -333,6 +341,12 @@ function Register() {
 
         setErrors(newErrors);
 
+        // Mostrar todos os erros do formulário
+        Object.entries(newErrors).forEach(([field, error]) => {
+            if (error) {
+                showErrorOnce(field, error);
+            }
+        });
         
         // Verificar se há erros
         const hasErrors = Object.values(newErrors).some(error => error !== '');
@@ -376,15 +390,17 @@ function Register() {
                     password: '',
                     confirmPassword: ''
                 });
+                
+                // Resetar erros mostrados
+                displayedErrors.current = {};
+                
                 const data = await loginUser(formData);
                 // Salva o token
                 const token = data.token
                 const arrayToken = token.split('.');
                 const tokenPayload = JSON.parse(atob(arrayToken[1]));
                 localStorage.setItem('userId', tokenPayload.id);
-                //localStorage.setItem('user', await getUserData());
                 localStorage.setItem('token', token);
-                //console.log(localStorage.getItem(token))
                 navigate('/home');
             } catch (error) {
                 setFormSubmitted(false);
@@ -436,38 +452,16 @@ function Register() {
 
         setFormData(prev => ({ ...prev, [field]: value }));
         
-        // Atualiza os valores para debounce para campos que precisam
-        if (['email', 'username', 'password'].includes(field)) {
-            setDebouncedValues(prev => ({ ...prev, [field]: value }));
-        }
-        
-        // Para campos que não precisam de debounce, validar imediatamente quando tocados
-        if (touched[field] && field === 'confirmPassword') {
-            const validationError = validators.confirmPassword(value, formData.password);
-            setErrors(prev => ({ ...prev, [field]: validationError }));
-            if (validationError) {
-                toast.error(validationError);
-            }
-        } else if (touched[field] && field === 'cpf') {
-            const valueToValidate = value.replace(/\D/g, '');
-            const validationError = validators.cpf(valueToValidate);
-            setErrors(prev => ({ ...prev, [field]: validationError }));
-            if (validationError) {
-                toast.error(validationError);
-            }
-        }
+        // Atualiza os valores para debounce para todos os campos
+        setDebouncedValues(prev => ({ ...prev, [field]: value }));
     };
 
-    // Função para marcar campo como tocado
+    // Função para marcar campo como tocado e validar apenas ao sair do campo
     const handleBlur = (field) => () => {
-        setTouched(prev => ({ ...prev, [field]: true }));
-        
-        // Para campos com debounce, apenas marcar como tocado
-        if (['email', 'username', 'password'].includes(field)) {
-            return;
+        if (!touched[field]) {
+            setTouched(prev => ({ ...prev, [field]: true }));
         }
         
-        // Para campos sem debounce, validar imediatamente
         let valueToValidate = formData[field];
         if (field === 'cpf') {
             valueToValidate = formData[field].replace(/\D/g, '');
@@ -478,19 +472,18 @@ function Register() {
             : validators[field](valueToValidate);
         
         setErrors(prev => ({ ...prev, [field]: validationError }));
-        if (validationError) {
-            toast.error(validationError);
-        }
+        
+        // Mostrar erro apenas quando o usuário sair do campo
+        showErrorOnce(field, validationError);
     };
 
-    // Validar ao mudar a senha (para atualizar a validação da confirmação)
+    // Validar confirmação de senha quando a senha mudar
     useEffect(() => {
-        if (touched.confirmPassword) {
+        if (touched.confirmPassword && formData.confirmPassword) {
             const validationError = validators.confirmPassword(formData.confirmPassword, formData.password);
             setErrors(prev => ({ ...prev, confirmPassword: validationError }));
-            if (validationError) {
-                toast.error(validationError);
-            }
+            
+            // Não mostrar toast durante digitação da senha, apenas na saída do campo
         }
     }, [formData.password, touched.confirmPassword]);
 
@@ -504,6 +497,7 @@ function Register() {
                 position="top-right"
                 reverseOrder={false}
                 toastOptions={{
+                    duration: 3500, 
                     style: {
                         borderRadius: '10px',
                         color: '#00000',
@@ -539,47 +533,51 @@ function Register() {
                         transition={{ delay: 0.2 }}
                         onSubmit={handleSubmit}
                     >
+                        <div>
+                            <label>E-mail</label>
                         <Input
-                            label="Email"
                             type="email"
                             value={formData.email}
                             onChange={handleChange('email')}
                             onBlur={handleBlur('email')}
-                            // error={errors.email}
                             placeholder="Digite seu email"
                             disabled={isLoading}
-                        />
-            
+                        /> 
+                        </div>
+                       
+                        <div>
+                             <label>CPF</label>
                         <Input
-                            label="CPF"
                             type="text"
                             value={formData.cpf}
                             onChange={handleChange('cpf')}
                             onBlur={handleBlur('cpf')}
-                            // error={errors.cpf}
                             placeholder="Digite o seu CPF"
                             disabled={isLoading}
                         />
-            
+                        </div>
+                       
+
+                        <div>
+                           <label>Usuário</label>
                         <Input
-                            label="Username"
                             type="text"
                             value={formData.username}
                             onChange={handleChange('username')}
                             onBlur={handleBlur('username')}
-                            // error={errors.username}
                             placeholder="Digite o seu nome de usuário"
                             disabled={isLoading}
-                        />
+                        /> 
+                        </div>
+                        
             
                         <div className="password-container">
+                            <label>Senha</label>
                             <Input
-                                label="Senha"
                                 type={isShow ? "text" : "password"} 
                                 value={formData.password}
                                 onChange={handleChange('password')}
                                 onBlur={handleBlur('password')}
-                                // error={errors.password}
                                 placeholder="Digite sua senha"
                                 disabled={isLoading}
                             />
@@ -589,13 +587,12 @@ function Register() {
                         </div>
             
                         <div className="password-container">
+                            <label>Confirmar senha</label>
                             <Input
-                                label="Confirmar senha"
                                 type={isShow ? "text" : "password"} 
                                 value={formData.confirmPassword}
                                 onChange={handleChange('confirmPassword')}
                                 onBlur={handleBlur('confirmPassword')}
-                                // error={errors.confirmPassword}
                                 placeholder="Confirme sua senha"
                                 disabled={isLoading}
                             />

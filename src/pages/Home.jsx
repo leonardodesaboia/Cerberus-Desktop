@@ -14,12 +14,26 @@ import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import CardPoints from "../components/CardPoints";
 
+// Welcome Popup Component
+// const WelcomePopup = ({ onClose }) => {
+//   return (
+//     <div className="welcome-popup-overlay">
+//       <div className="welcome-popup-content">
+//         <h2>Bem-vindo ao EcoPoints!</h2>
+//         <p>Recicle materiais, ganhe pontos e conquiste troféus. Juntos podemos fazer a diferença pelo meio ambiente!</p>
+//         <button onClick={onClose} className="welcome-close-btn">Entendi</button>
+//       </div>
+//     </div>
+//   );
+// };
+
 const Home = () => {
   const [points, setPoints] = useState(0);
   const [trashStats, setTrashStats] = useState({ plastic: 0, metal: 0 });
   const [unlockedAchievementIds, setUnlockedAchievementIds] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showWelcomePopup, setShowWelcomePopup] = useState(false);
   
   // Lista de conquistas
   const allAchievements = [
@@ -38,6 +52,20 @@ const Home = () => {
     if (threshold === 100) return "./public/trophys/gold_trophy.png";
     return "./public/trophys/locked_trophy.png";
   }, []);
+
+  // Check if welcome popup should be shown (only once)
+  useEffect(() => {
+    const hasSeenWelcome = localStorage.getItem('hasSeenWelcome');
+    if (!hasSeenWelcome) {
+      setShowWelcomePopup(true);
+    }
+  }, []);
+
+  // Handle closing the welcome popup
+  const handleCloseWelcomePopup = () => {
+    setShowWelcomePopup(false);
+    localStorage.setItem('hasSeenWelcome', 'true');
+  };
 
   //  dados do usuário
   useEffect(() => {
@@ -243,6 +271,7 @@ const Home = () => {
           </footer>
         </div>
       </div>
+      {showWelcomePopup && <WelcomePopup onClose={handleCloseWelcomePopup} />}
       <ToastContainer position="top-right" autoClose={5000} />
     </>
   );

@@ -165,8 +165,9 @@ function Login() {
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.2 }}
                     >
+                        <div className="mail-container">
+                        <label className='label-login'>E-mail</label>
                         <Input 
-                            label="Email" 
                             type="text" 
                             value={formData.email}
                             onChange={handleChange('email')}
@@ -175,10 +176,12 @@ function Login() {
                             placeholder="Digite seu email"
                             disabled={isLoading}
                         />
+                        </div>
+                    
                         
                         <div className="password-container">
+                            <label className='label-login'>Senha</label>
                             <Input 
-                                label="Senha" 
                                 type={isShow ? "text" : "password"} 
                                 value={formData.password}
                                 onChange={handleChange('password')}
@@ -190,7 +193,7 @@ function Login() {
                             <span className="showPass-login" onClick={handlePassword}>
                                 {isShow ? <EyeOff size={20}/> : <Eye size={20}/>}
                             </span>
-                            <div className="login-register-link">
+                            <div className="forgot-pass-link">
                              <a href="/sendEmail">Esqueceu a senha?</a>
                         </div>
                         </div>

@@ -86,8 +86,7 @@
   flex-direction: column;
 }
 
-.input-label {
-  margin-bottom: 5px;
+.label-login {
   display: block;
   font-size: 14px;
   color: #333;
@@ -174,6 +173,19 @@
   margin-top: 20px;
   font-size: 14px;
   color: #757575;
+}
+
+.forgot-pass-link a{
+  text-align: left;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #2e7d32;
+  text-decoration: none;
+  font-weight: 500;
+  
+}
+.forgot-pass-link a:hover{
+  text-decoration: underline;
 }
 
 .login-register-link a {

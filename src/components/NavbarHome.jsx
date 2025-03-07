@@ -32,7 +32,7 @@ const Navbar = (params) => {
         setCurrentEmail(userData.email || ""); 
         setOriginalEmail(userData.email || "");
         setUserId(userData.id);
-        toast.success("Bem-vindo(a) de volta, " + (userData.username));
+        // toast.success("Bem-vindo(a) de volta, " + (userData.username));
       } catch (error) {
         toast.error("Erro ao carregar dados do usuário");
         console.error(error);
@@ -74,7 +74,7 @@ const Navbar = (params) => {
     setTimeout(() => {
       navigate("/");
 
-    }, 1000);
+    }, 2000);
   };
 
   // abrir pop ups
