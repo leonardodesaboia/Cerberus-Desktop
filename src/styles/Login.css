@@ -175,9 +175,13 @@
   color: #757575;
 }
 
+.forgot-pass-link{
+  margin-top: 15px;
+
+}
+
 .forgot-pass-link a{
   text-align: left;
-  margin-top: 20px;
   font-size: 14px;
   color: #2e7d32;
   text-decoration: none;
